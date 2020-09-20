@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "room-607dd": {
+      "hosting": {
+        "youtube-room": [
+          "room-607dd"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "room-607dd"
+  }
+}

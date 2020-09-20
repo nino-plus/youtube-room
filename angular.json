@@ -121,8 +121,13 @@
               "devServerTarget": "youtube-room:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "youtube-room"
 }
