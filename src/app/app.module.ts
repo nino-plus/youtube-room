@@ -10,15 +10,14 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-
-
+import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,9 +30,12 @@ import { FormsModule } from '@angular/forms';
     AngularFireAuthModule,
     AngularFireStorageModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    { provide: REGION, useValue: 'asia-northeast1' },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
