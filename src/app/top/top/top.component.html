@@ -4,10 +4,10 @@
     type="text"
     class="search__input"
     autocomplete="off"
-    value="検索"
+    placeholder="検索"
   />
   <button class="search__button" (click)="searchRoom()"><mat-icon>search</mat-icon></button>
 </div>
 <mat-divider></mat-divider>
 
-<app-search-results-rooms></app-search-results-rooms>
+<app-search-results-rooms *ngIf="searchText"></app-search-results-rooms>
