@@ -17,10 +17,10 @@
   </div>
 </div>
 
-<app-search-results-rooms></app-search-results-rooms>
-
 <footer>
   <mat-divider></mat-divider>
   <p class="copyright">© 2020 YoutubeRoom Inc</p>
 
 </footer>
+
+<app-search-results-rooms *ngIf="searchText"></app-search-results-rooms>
