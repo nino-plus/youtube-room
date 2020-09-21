@@ -11,11 +11,10 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -26,10 +25,9 @@ import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
     AngularFireFunctionsModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    NgxYoutubePlayerModule.forRoot(),
   ],
-  providers: [
-    { provide: REGION, useValue: 'asia-northeast1' },
-  ],
-  bootstrap: [AppComponent]
+  providers: [{ provide: REGION, useValue: 'asia-northeast1' }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
