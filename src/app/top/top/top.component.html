@@ -5,9 +5,10 @@
     class="search__input"
     autocomplete="off"
     value="検索"
+    #input
   />
   <button class="search__button" (click)="searchRoom()"><mat-icon>search</mat-icon></button>
 </div>
 <mat-divider></mat-divider>
 
-<app-search-results-rooms></app-search-results-rooms>
+<app-search-results-rooms *ngIf="input.value.length >= 1"></app-search-results-rooms>

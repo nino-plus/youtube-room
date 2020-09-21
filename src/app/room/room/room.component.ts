@@ -29,7 +29,7 @@ export class RoomComponent implements OnInit {
   isLagh: boolean;
   isSuprise: boolean;
 
-  user$: Observable<UserData> = this.authService.user$;
+  users$: Observable<UserData> = this.authService.user$;
 
   commentForm = new FormControl('', [
     Validators.maxLength(140),
