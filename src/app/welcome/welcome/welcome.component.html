@@ -1,0 +1,27 @@
+<div class="wrap">
+
+  <h1>YoutubeRoom</h1>
+  <h2>アバターを選択</h2>
+
+  <img src="" alt="">
+
+  <div class="container">
+    <form [formGroup]="">
+      <mat-form-field class="name-input" appearance="outline">
+        <mat-label>ニックネーム</mat-label>
+        <input formControlName="" type="text" matInput required autocomplete="off">
+        <mat-error *ngIf="">必須入力です</mat-error>
+        <mat-error *ngIf="">最大文字数は文字です。</mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+    <button [disabled]="" mat-raised-button color="primary" routerLink="/welcome/top">
+      ログインして入室
+    </button>
+    <footer>
+      <mat-divider></mat-divider>
+      <p class="copyright">© 2020 YoutubeRoom Inc</p>
+
+    </footer>
+</div>
