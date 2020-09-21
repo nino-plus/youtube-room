@@ -8,11 +8,11 @@ const routes: Routes = [
   path: '',
   component: WelcomeComponent
  },
- {
-  path: 'top',
-  loadChildren: () =>
-    import('../top/top.module').then((m) => m.TopModule),
-},
+//  {
+//   path: 'top',
+//   loadChildren: () =>
+//     import('../top/top.module').then((m) => m.TopModule),
+// },
 ];
 
 @NgModule({

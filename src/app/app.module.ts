@@ -14,10 +14,12 @@ import {HttpClientModule} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ChatsComponent } from './chats/chats.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    ChatsComponent,
   ],
   imports: [
     BrowserModule,
