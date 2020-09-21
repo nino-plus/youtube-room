@@ -10,10 +10,10 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./search-results-rooms.component.scss']
 })
 export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
-  resultRoom: [];
-  searchText: string;
-  routePramMap = this.route.paramMap;
-  subscriptions: Subscription;
+  public resultRoom: [];
+  public searchText: string;
+  private routePramMap = this.route.paramMap;
+  private subscriptions: Subscription;
 
   constructor(
     private route: ActivatedRoute,
