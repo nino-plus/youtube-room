@@ -1,13 +1,16 @@
 import { newArray } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { User } from 'firebase';
 import { Observable } from 'rxjs';
+import { bounce, fade } from 'src/app/animations';
+import { UserData } from 'src/app/interfaces/user';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
+  animations: [fade, bounce],
 })
 export class RoomComponent implements OnInit {
   player: YT.Player;
@@ -17,15 +20,21 @@ export class RoomComponent implements OnInit {
   };
   isProcessing: boolean;
   items = newArray(4);
+  users = newArray(20);
+  isGood: boolean;
+  isBad: boolean;
+  isCry: boolean;
+  isLagh: boolean;
+  isSuprise: boolean;
 
-  user$: Observable<User>;
+  user$: Observable<UserData> = this.authService.user$;
 
   commentForm = new FormControl('', [
     Validators.maxLength(140),
     Validators.required,
   ]);
 
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {}
 
@@ -35,4 +44,24 @@ export class RoomComponent implements OnInit {
   }
 
   submit() {}
+
+  good() {
+    this.isGood = !this.isGood;
+  }
+
+  bad() {
+    this.isBad = !this.isBad;
+  }
+
+  cry() {
+    this.isCry = !this.isCry;
+  }
+
+  lagh() {
+    this.isLagh = !this.isLagh;
+  }
+
+  surprise() {
+    this.isSuprise = !this.isSuprise;
+  }
 }

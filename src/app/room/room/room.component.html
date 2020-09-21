@@ -1,57 +1,134 @@
-<div class="room">
-  <div class="container">
-    <div class="room__display" cdkDrag>
-      <youtube-player
-        width="100%"
-        height="100%"
-        [videoId]="id"
-        (ready)="savePlayer($event)"
-        [playerVars]="playerVars"
-      ></youtube-player>
+<div class="wrapper">
+  <div class="grid">
+    <div class="users">
+      <ng-container @fade *ngFor="let user of users">
+        <div class="users__user">
+          <div class="users__head">
+            <img
+              class="users__avatar"
+              src="/assets/images/char_01.jpg"
+              alt=""
+            />
+            <p class="users__name">name</p>
+          </div>
+          <div class="users__body">
+            <div class="baloon">
+              <div class="users__comment">aaa</div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
     </div>
 
-    <div class="room__next-grid">
-      <div class="room__next-item" *ngFor="let item of items"></div>
-    </div>
-
-    <div class="room__action">
-      <button mat-fab class="room__action-icon">😍</button>
-      <button mat-fab class="room__action-icon">😤</button>
-      <button mat-fab class="room__action-icon">😭</button>
-      <button mat-fab class="room__action-icon">🤣</button>
-      <button mat-fab class="room__action-icon">😲</button>
-    </div>
-
-    <div class="comment">
-      <form class="comment__form" (ngSubmit)="submit()">
-        <mat-form-field>
-          <textarea
-            matInput
-            placeholder="コメントを入力"
-            [formControl]="commentForm"
-            #body
-            autocomplete="off"
-            required
-            matTextareaAutosize
-          ></textarea>
-          <button
-            mat-icon-button
-            matSuffix
-            [disabled]="commentForm.invalid || isProcessing"
+    <div class="room">
+      <div class="container">
+        <div class="room__display" cdkDrag>
+          <youtube-player
+            width="100%"
+            height="100%"
+            [videoId]="id"
+            (ready)="savePlayer($event)"
+            [playerVars]="playerVars"
           >
-            <mat-icon>send</mat-icon>
+          </youtube-player>
+          <div class="action">
+            <p
+              class="action__icon action__icon--g"
+              @fade
+              @bounce
+              *ngIf="isGood"
+            >
+              😍
+            </p>
+            <p class="action__icon action__icon--b" @fade @bounce *ngIf="isBad">
+              😤
+            </p>
+            <p class="action__icon action__icon--c" @fade @bounce *ngIf="isCry">
+              😭
+            </p>
+            <p
+              class="action__icon action__icon--l"
+              @fade
+              @bounce
+              *ngIf="isLagh"
+            >
+              🤣
+            </p>
+            <p
+              class="action__icon action__icon--s"
+              @fade
+              @bounce
+              *ngIf="isSuprise"
+            >
+              😲
+            </p>
+          </div>
+        </div>
+
+        <div class="room__next-grid">
+          <div class="room__next-item" *ngFor="let item of items"></div>
+        </div>
+
+        <div class="room__action">
+          <button mat-fab class="room__action-icon" (click)="good()">😍</button>
+          <button mat-fab class="room__action-icon" (click)="bad()">😤</button>
+          <button mat-fab class="room__action-icon" (click)="cry()">😭</button>
+          <button mat-fab class="room__action-icon" (click)="lagh()">🤣</button>
+          <button mat-fab class="room__action-icon" (click)="surprise()">
+            😲
           </button>
-          <mat-error *ngIf="commentForm.hasError('required')"
-            >必須入力です</mat-error
-          >
-          <mat-error *ngIf="commentForm.hasError('maxlength')"
-            >最大文字数を超えています</mat-error
-          >
-          <mat-hint align="end"
-            >{{ commentForm.value.length }}/140文字まで</mat-hint
-          >
-        </mat-form-field>
-      </form>
+        </div>
+
+        <div class="comment">
+          <form class="comment__form" (ngSubmit)="submit()">
+            <mat-form-field appearance="outline">
+              <textarea
+                matInput
+                placeholder="コメントを入力"
+                [formControl]="commentForm"
+                #body
+                autocomplete="off"
+                required
+                matTextareaAutosize
+              ></textarea>
+              <button
+                mat-icon-button
+                matSuffix
+                [disabled]="commentForm.invalid || isProcessing"
+              >
+                <mat-icon>send</mat-icon>
+              </button>
+              <mat-error *ngIf="commentForm.hasError('required')"
+                >必須入力です</mat-error
+              >
+              <mat-error *ngIf="commentForm.hasError('maxlength')"
+                >最大文字数を超えています</mat-error
+              >
+              <mat-hint align="end"
+                >{{ commentForm.value.length }}/140文字まで</mat-hint
+              >
+            </mat-form-field>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="channel">
+        <div class="channel__header">
+          <figure class="channel__logo">
+            <img [src]="" alt="" />
+          </figure>
+          <h2 class="channel__name">name</h2>
+        </div>
+        <div class="channel__body">
+          <div class="channel__descriotion">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt,
+            veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
+            Sunt, veniam.
+          </div>
+        </div>
+      </div>
+      <div class="chat-line"></div>
     </div>
   </div>
 </div>
