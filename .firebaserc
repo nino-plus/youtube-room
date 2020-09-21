@@ -9,6 +9,7 @@
     }
   },
   "projects": {
-    "default": "room-607dd"
+    "default": "room-607dd",
+    "prod": "room-607dd"
   }
 }
