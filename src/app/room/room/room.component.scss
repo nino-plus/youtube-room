@@ -122,6 +122,20 @@
   height: 600px;
   background: #eceff1;
   padding: 16px;
+  &__head {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+  }
+  &__avatar {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+  }
+  &__comment {
+    padding: 8px;
+    color: #212121;
+  }
 }
 
 .action {

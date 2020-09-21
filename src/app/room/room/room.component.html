@@ -2,7 +2,7 @@
   <div class="grid">
     <div class="users">
       <ng-container @fade *ngFor="let user of users">
-        <div class="users__user">
+        <div class="users__user" cdkDrag>
           <div class="users__head">
             <img
               class="users__avatar"
@@ -80,7 +80,7 @@
         </div>
 
         <div class="comment">
-          <form class="comment__form" (ngSubmit)="submit()">
+          <form class="comment__form" (ngSubmit)="addComment()">
             <mat-form-field appearance="outline">
               <textarea
                 matInput
@@ -112,6 +112,7 @@
         </div>
       </div>
     </div>
+
     <div class="right">
       <div class="channel">
         <div class="channel__header">
@@ -128,7 +129,22 @@
           </div>
         </div>
       </div>
-      <div class="chat-line"></div>
+
+      <div class="chat-line">
+        <ng-container @fade *ngFor="let user of users">
+          <div class="chat-line__head">
+            <img
+              class="chat-line__avatar"
+              src="/assets/images/char_01.jpg"
+              alt=""
+            />
+            <p class="chat-line__name">name</p>
+          </div>
+          <div class="chat-line__body">
+            <div class="chat-line__comment">aaa</div>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 </div>

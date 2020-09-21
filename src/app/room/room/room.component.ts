@@ -5,6 +5,8 @@ import { Observable } from 'rxjs';
 import { bounce, fade } from 'src/app/animations';
 import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
+import { RoomService } from 'src/app/services/room.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-room',
@@ -34,7 +36,11 @@ export class RoomComponent implements OnInit {
     Validators.required,
   ]);
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private roomService: RoomService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -43,7 +49,7 @@ export class RoomComponent implements OnInit {
     console.log('player instance', player);
   }
 
-  submit() {}
+  addComment() {}
 
   good() {
     this.isGood = !this.isGood;
