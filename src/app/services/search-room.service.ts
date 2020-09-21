@@ -9,7 +9,7 @@ export class SearchRoomService {
 
   constructor(private http: HttpClient) { }
 
-  getChannels(q: string) {
+  getPlaylistItems(q: string) {
     return this.http
       .get('https://www.googleapis.com/youtube/v3/search', {
         params: new HttpParams({
