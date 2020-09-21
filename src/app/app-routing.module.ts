@@ -14,6 +14,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./search-room/search-room.module').then((mod) => mod.SearchRoomModule),
   },
+  {
+    path: 'top',
+    loadChildren: () =>
+      import('./top/top.module').then((mod) => mod.TopModule),
+  }
 ];
 
 @NgModule({
