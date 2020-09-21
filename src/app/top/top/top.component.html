@@ -1,0 +1,12 @@
+<div class="search">
+  <input
+    [(ngModel)]="searchText"
+    type="text"
+    class="search__input"
+    autocomplete="off"
+    value="検索"
+  />
+  <button class="search__button" (click)="searchRoom()"><mat-icon>search</mat-icon></button>
+</div>
+
+<app-search-results-rooms></app-search-results-rooms>
