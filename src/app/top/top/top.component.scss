@@ -3,21 +3,23 @@
   height: 32px;
   box-sizing: border-box;
   border-radius: 16px;
-  background: #fff;
   max-width: 400px;
   margin: 0 auto;
   display: flex;
   position: relative;
-  &__input{
+  &:hover{
+    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
+  }
+  &__input {
     appearance: none;
     border: none;
-    padding: 0 40 0 16px;
+    padding: 0px 40px 0px 16px;
     margin: 0px;
     background: none;
     outline: none;
     flex: 1;
   }
-  &__button{
+  &__button {
     appearance: none;
     border: none;
     background: none;
@@ -28,4 +30,8 @@
     right: 8px;
     height: 30px;
   }
+}
+
+mat-divider {
+  border-bottom: 8px;
 }
