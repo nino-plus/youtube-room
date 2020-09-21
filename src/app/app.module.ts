@@ -13,6 +13,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
+import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ChatsComponent } from './chats/chats.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -21,10 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    ChatsComponent,
-  ],
+  declarations: [AppComponent, ChatsComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -35,6 +33,8 @@ import { MatInputModule } from '@angular/material/input';
     AngularFireFunctionsModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    NgxYoutubePlayerModule.forRoot(),
+    MatSnackBarModule,
     HttpClientModule,
     FormsModule,
     MatSnackBarModule,
@@ -42,11 +42,9 @@ import { MatInputModule } from '@angular/material/input';
     ReactiveFormsModule,
     MatIconModule,
     MatButtonModule,
-    MatInputModule
+    MatInputModule,
   ],
-  providers: [
-    { provide: REGION, useValue: 'asia-northeast1' },
-  ],
-  bootstrap: [AppComponent]
+  providers: [{ provide: REGION, useValue: 'asia-northeast1' }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
