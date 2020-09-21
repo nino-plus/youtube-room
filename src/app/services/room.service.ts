@@ -11,9 +11,10 @@ export class RoomService {
     private db: AngularFirestore,
   ) { }
 
-  createRoom(id: string): Promise<void> {
+  createRoom(id: string, title: string): Promise<void> {
     const value: Omit<Room, 'videoCount'> = {
       id,
+      title,
       initialAction: false,
     };
     return this.db.doc(`rooms/${id}`).set(value);
