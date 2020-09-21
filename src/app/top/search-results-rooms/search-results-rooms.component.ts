@@ -1,15 +1,15 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { SearchRoomService } from 'src/app/services/search-room.service';
 import { switchMap } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-result-room',
-  templateUrl: './result-room.component.html',
-  styleUrls: ['./result-room.component.scss']
+  selector: 'app-search-results-rooms',
+  templateUrl: './search-results-rooms.component.html',
+  styleUrls: ['./search-results-rooms.component.scss']
 })
-export class ResultRoomComponent implements OnInit, OnDestroy {
+export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   resultRoom: [];
   searchText: string;
   routePramMap = this.route.paramMap;
@@ -20,7 +20,7 @@ export class ResultRoomComponent implements OnInit, OnDestroy {
     private searchRoomService: SearchRoomService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.subscriptions = this.routePramMap
       .pipe(
         switchMap(param => {
@@ -37,4 +37,5 @@ export class ResultRoomComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
+
 }
