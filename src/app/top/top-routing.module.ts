@@ -8,6 +8,10 @@ const routes: Routes = [{
   path: '',
   pathMatch: 'full',
   component: TopComponent
+},
+{
+  path: ':searchText',
+  component: TopComponent
 }];
 
 @NgModule({

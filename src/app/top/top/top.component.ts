@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-top',
@@ -7,7 +8,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TopComponent implements OnInit {
 
-  constructor() { }
+  @Input() searchText: '';
+
+  constructor(private router: Router) { }
+
+  searchRoom() {
+    this.router.navigate(['top', this.searchText]);
+  }
 
   ngOnInit(): void {
   }
