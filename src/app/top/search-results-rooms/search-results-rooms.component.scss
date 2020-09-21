@@ -1,0 +1,23 @@
+.card{
+  box-shadow: 0 0 3px #ccc;
+  &__cover {
+    padding-bottom: 52.5%;
+    background-color: #000;
+    display: block;
+  }
+  button{
+    display: block;
+    margin: 0 0 0 auto;
+  }
+}
+
+.grid{
+  display: grid;
+  padding: 16px;
+  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  @media screen and (max-width: 470px){
+    grid-template-columns: 1fr;
+  }
+}
+
