@@ -1,13 +1,26 @@
-<div class="search">
-  <input
-    [(ngModel)]="searchText"
-    type="text"
-    class="search__input"
-    autocomplete="off"
-    value="検索"
-  />
-  <button class="search__button" (click)="searchRoom()"><mat-icon>search</mat-icon></button>
+<div class="header">
+  <a href="" class="header__logo">YOUTUBEROOM</a>
 </div>
 <mat-divider></mat-divider>
 
+<div class="container">
+  <h2>
+    ようこそYouTubeRoomへ！
+    <br>
+    YouTuber、アーティスト、アイドルなどのYouTubeを視聴できて、<br>チャットでファンと共有できます！
+  </h2>
+  <div class="search">
+    <input [(ngModel)]="searchText" type="text" class="search__input" autocomplete="off" placeholder="検索" />
+    <button class="search__button" (click)="searchRoom()">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+</div>
+
 <app-search-results-rooms></app-search-results-rooms>
+
+<footer>
+  <mat-divider></mat-divider>
+  <p class="copyright">© 2020 YoutubeRoom Inc</p>
+
+</footer>
