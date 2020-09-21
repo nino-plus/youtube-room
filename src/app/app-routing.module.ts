@@ -3,16 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 
 const routes: Routes = [
   {
-  path: 'welcome',
+  path: '',
+  pathMatch: 'full',
   loadChildren: () =>
   import('./welcome/welcome.module').then((m) => m.
   WelcomeModule),
   },
   {
-    path: '',
+    path: 'search-room',
     loadChildren: () =>
       import('./search-room/search-room.module').then((mod) => mod.SearchRoomModule),
   },
+  {
+    path: 'top',
+    loadChildren: () =>
+      import('./top/top.module').then((mod) => mod.TopModule),
+  }
 ];
 
 @NgModule({
