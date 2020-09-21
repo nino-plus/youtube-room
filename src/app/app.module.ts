@@ -11,6 +11,10 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import {HttpClientModule} from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
+
 
 @NgModule({
   declarations: [
@@ -26,6 +30,8 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
     AngularFireFunctionsModule,
     AngularFireAuthModule,
     AngularFireStorageModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
