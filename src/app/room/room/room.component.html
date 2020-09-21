@@ -14,6 +14,14 @@
       <div class="room__next-item" *ngFor="let item of items"></div>
     </div>
 
+    <div class="room__action">
+      <button mat-fab class="room__action-icon">😍</button>
+      <button mat-fab class="room__action-icon">😤</button>
+      <button mat-fab class="room__action-icon">😭</button>
+      <button mat-fab class="room__action-icon">🤣</button>
+      <button mat-fab class="room__action-icon">😲</button>
+    </div>
+
     <div class="comment">
       <form class="comment__form" (ngSubmit)="submit()">
         <mat-form-field>
