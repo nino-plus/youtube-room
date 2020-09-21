@@ -12,6 +12,15 @@ export class UserService {
     private db: AngularFirestore,
   ) { }
 
+  async createUser(uid: string, userName: string, avatarId: string): Promise<void> {
+    const userData: UserData = {
+      uid,
+      userName,
+      avatarId
+    };
+    return await this.db.doc<UserData>(`users/${uid}`).set(userData, { merge: true });
+  }
+
   getUserData(uid: string): Observable<UserData> {
     return this.db.doc<UserData>(`users/${uid}`).valueChanges();
   }
