@@ -5,11 +5,11 @@ import { SearchRoomComponent } from './search-room/search-room.component';
 
 const routes: Routes = [
   {
-    path: 'search-room',
+    path: '',
     component: SearchRoomComponent
   },
   {
-    path: 'search-room/:searchText',
+    path: ':searchText',
     component: SearchRoomComponent
   },
 ];

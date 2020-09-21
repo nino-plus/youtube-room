@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { SearchRoomService } from 'src/app/services/search-room.service';
-import { switchMap, map } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-result-room',
