@@ -72,3 +72,47 @@ h4 {
   padding: 0 24px;
   margin: 0 auto;
 }
+
+.swiper-button-next,
+.swiper-button-prev {
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 50%;
+  background: rgba(21, 21, 21);
+  background-image: none !important;
+  top: 33% !important;
+}
+
+.swiper-button-next::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 2px 2px 0 0;
+  transform: translateX(-25%) rotate(45deg);
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
+
+.swiper-button-prev::after {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 2px 0 0 2px;
+  transform: translateX(25%) rotate(-45deg);
+  vertical-align: middle;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}
