@@ -23,31 +23,21 @@ export class WelcomeComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {}
-
-  // createUser() {
-  //   this.userService.createUser(
-  //     uid,
-  //     this.nameForm.value,
-  //     this.formGroup.avatarId
-  //   );
-  // }
-
   googleLogin() {
     this.authService
       .googlelogin()
-      .then(() => this.router.navigateByUrl('/top'));
+      .then(() => this.router.navigateByUrl('/top/create'));
   }
 
   twitterLogin() {
     this.authService
       .twitterlogin()
-      .then(() => this.router.navigateByUrl('/top'));
+      .then(() => this.router.navigateByUrl('/top/create'));
   }
 
   anonymouslyLogin() {
     this.authService
       .anonymouslylogin()
-      .then(() => this.router.navigateByUrl('/top'));
+      .then(() => this.router.navigateByUrl('/top/create'));
   }
 }

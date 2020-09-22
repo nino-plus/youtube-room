@@ -1,5 +1,5 @@
 export interface UserData {
   uid: string;
-  avatarId: string;
+  avatarId: number;
   userName: string;
 }

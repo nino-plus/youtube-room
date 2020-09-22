@@ -4,21 +4,24 @@ import { Observable } from 'rxjs';
 import { UserData } from '../interfaces/user';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
+  constructor(private db: AngularFirestore) {}
 
-  constructor(
-    private db: AngularFirestore,
-  ) { }
-
-  async createUser(uid: string, userName: string, avatarId: string): Promise<void> {
+  async createUser(
+    uid: string,
+    userName: string,
+    avatarId: number
+  ): Promise<void> {
     const userData: UserData = {
       uid,
       userName,
-      avatarId
+      avatarId,
     };
-    return await this.db.doc<UserData>(`users/${uid}`).set(userData, { merge: true });
+    return await this.db
+      .doc<UserData>(`users/${uid}`)
+      .set(userData, { merge: true });
   }
 
   getUserData(uid: string): Observable<UserData> {
