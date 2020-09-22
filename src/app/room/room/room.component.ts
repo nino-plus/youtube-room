@@ -70,4 +70,8 @@ export class RoomComponent implements OnInit {
   surprise() {
     this.isSuprise = !this.isSuprise;
   }
+
+  logOut() {
+    this.authService.logout();
+  }
 }
