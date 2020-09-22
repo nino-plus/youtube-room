@@ -1,6 +1,14 @@
-<!-- <form [formGroup]="form" (ngSubmit)="sendMessage()">
+<form [formGroup]="form" (ngSubmit)="sendMessage()">
   <mat-form-field appearance="legacy">
-    <input matInput autocomplete="off" autofocus>
+    <input formControlName="comments" matInput autocomplete="off" autofocus>
     <button matSuffix mat-icon-button><mat-icon>send</mat-icon></button>
   </mat-form-field>
-</form> -->
+</form>
+<button (click)="roomService.createRoom('UCUPq5dKFGnOziaqYI-ejYcg', 'メルカリ')" mat-button>ルーム作成</button>
+
+<ng-container *ngIf="user$ | async as user">
+  <p>{{user.uid}}</p>
+  <ul *ngFor="let message of messages[user.uid]">
+    <li>{{message}}</li>
+  </ul>
+</ng-container>
