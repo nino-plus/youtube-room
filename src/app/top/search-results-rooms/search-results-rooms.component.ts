@@ -2,7 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { SearchRoomService } from 'src/app/services/search-room.service';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
+import { RoomData } from 'src/app/interfaces/room-data';
+import { Room } from 'src/app/interfaces/room';
 
 @Component({
   selector: 'app-search-results-rooms',
@@ -10,7 +12,7 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./search-results-rooms.component.scss']
 })
 export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
-  public resultRoom: [];
+  public resultRoom: RoomData[];
   public searchText: string;
   private routePramMap = this.route.paramMap;
   private subscriptions: Subscription;
@@ -26,7 +28,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
         switchMap(param => {
           this.searchText = param.get('searchText');
           return this.searchRoomService.getPlayListItems(this.searchText);
-        })
+        }), take(1)
       )
       .subscribe((datas: any) => {
         this.resultRoom = datas.items.map(data => data.snippet);
