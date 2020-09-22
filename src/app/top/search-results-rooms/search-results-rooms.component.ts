@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { SearchRoomService } from 'src/app/services/search-room.service';
   styleUrls: ['./search-results-rooms.component.scss'],
 })
 export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
-  public resultRoom: RoomData[];
+  @Input() resultRoom: string;
   public searchText: string;
   private routePramMap = this.route.paramMap;
   private subscriptions: Subscription = new Subscription();
@@ -38,8 +38,8 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  createRoom() {
-    this.roomService.createRoom('UCUPq5dKFGnOziaqYI-ejYcg', 'Nino/CAMP');
-    this.roomService.addRoomMembers('UCUPq5dKFGnOziaqYI-ejYcg', this.uid);
+  createRoom(channelId: string, title: string) {
+    this.roomService.createRoom(channelId, title);
+    this.roomService.addRoomMembers(channelId, this.uid);
   }
 }

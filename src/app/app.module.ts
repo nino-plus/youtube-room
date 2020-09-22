@@ -19,9 +19,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { ShellComponent } from './shell/shell.component';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, ShellComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -42,8 +44,9 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatButtonModule,
     MatInputModule,
+    MatToolbarModule,
   ],
   providers: [{ provide: REGION, useValue: 'asia-northeast1' }],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
