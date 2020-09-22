@@ -1,31 +1,30 @@
-<!-- 検索された文字とyoutubeが一致する場合 -->
 <ng-container *ngIf="resultRoom">
+  <!-- カード 04:18 -->
+  <!-- グリッド 09:31-->
   <div class="grid">
-    <ng-container *ngIf="rooms$ | async as rooms ">
-      <ng-container *ngFor="let room of resultRoom">
-        <div class="card">
-          <figure class="card__cover">
-            <ng-container *ngIf="room.snippet.thumbnails.high.url">
-              <img onError="this.src='/assets/images/char_1.png'" [src]="room.snippet.thumbnails.high.url"
-                [alt]="room.snippet.title" />
-            </ng-container>
-          </figure>
-          <div class="card__title">{{ room.snippet.title }}</div>
-
-          <!-- もし、ルームのコレクション(createRoom)がある場合、ルームに参加にmod -->
-          <!-- APIのデータが帰ってきたときに渡ってくるZ -->
-          <div *ngFor="let rooms of rooms">
-            <ng-container *ngIf="rooms.id === room.snippet.channelId; else blank">
-              <button mat-raised-button color="primary"
-                (click)="participantRoom(room.snippet.channelId)">ルームに参加</button>
-            </ng-container>
-            <ng-template #blank>
-              <button mat-raised-button color="primary"
-                (click)="createRoom(room.snippet.channelId, room.snippet.channelTitle)">ルーム作成</button>
-            </ng-template>
-          </div>
-        </div>
-      </ng-container>
+    <ng-container *ngFor="let room of resultRoom">
+      <div class="card">
+        <!-- 画像入れる -->
+        <figure class="card__cover">
+          <ng-container *ngIf="room.snippet.thumbnails.high.url">
+            <img
+              onError="this.src='/assets/images/char_1.png'"
+              [src]="room.snippet.thumbnails.high.url"
+              [alt]="room.snippet.title"
+            />
+          </ng-container>
+        </figure>
+        <div class="card__title">{{ room.snippet.title }}</div>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="
+            createRoom(room.snippet.channelId, room.snippet.channelTitle)
+          "
+        >
+          ルームに参加する
+        </button>
+      </div>
     </ng-container>
   </div>
 </ng-container>
