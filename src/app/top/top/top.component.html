@@ -4,13 +4,14 @@
 <mat-divider></mat-divider>
 
 <div class="container">
-  <h2>
-    ようこそYouTubeRoomへ！
-    <br>
-    YouTuber、アーティスト、アイドルなどのYouTubeを視聴できて、<br>チャットでファンと共有できます！
-  </h2>
   <div class="search">
-    <input [(ngModel)]="searchText" type="text" class="search__input" autocomplete="off" placeholder="検索" />
+    <input
+      [(ngModel)]="searchText"
+      type="text"
+      class="search__input"
+      autocomplete="off"
+      placeholder="検索"
+    />
     <button class="search__button" (click)="searchRoom()">
       <mat-icon>search</mat-icon>
     </button>
@@ -19,8 +20,7 @@
 
 <footer>
   <mat-divider></mat-divider>
-  <p class="copyright">© 2020 YoutubeRoom Inc</p>
-
+  <p class="copyright">© 2020 YouTubeRoom</p>
 </footer>
 
 <app-search-results-rooms *ngIf="searchText"></app-search-results-rooms>
