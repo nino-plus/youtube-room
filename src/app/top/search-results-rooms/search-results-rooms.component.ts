@@ -44,13 +44,6 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   }
 
   createRoom(channelId: string, title: string) {
-    this.roomService.createRoom(channelId, title);
-    this.roomService.addRoomMembers(channelId, this.uid).then(() => {
-      this.router.navigateByUrl(`/room/${channelId}`);
-    });
-  }
-  participantRoom(channelId: string) {
-    this.roomService.getRooms();
-    this.router.navigateByUrl(`/room/${channelId}`);
+    if(this.)
   }
 }
