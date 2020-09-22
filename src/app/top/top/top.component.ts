@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -15,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./top.component.scss'],
 })
 export class TopComponent implements OnInit {
-  public resultRoom;
+  public resultRoom: any;
 
   avatarIds = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {

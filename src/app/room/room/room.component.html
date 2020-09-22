@@ -6,7 +6,7 @@
           <div class="users__head">
             <img
               class="users__avatar"
-              src="/assets/images/char_0{{ user.avatarId }}.png"
+              src="/assets/images/char_{{ user.avatarId }}.png"
               alt=""
             />
             <p class="users__name">{{ user.userName }}</p>
@@ -23,14 +23,16 @@
     <div class="room">
       <div class="container">
         <div class="room__display" cdkDrag>
-          <youtube-player
-            width="100%"
-            height="100%"
-            [videoId]="id"
-            (ready)="savePlayer($event)"
-            [playerVars]="playerVars"
-          >
-          </youtube-player>
+          <ng-container *ngIf="id">
+            <youtube-player
+              width="100%"
+              height="100%"
+              [videoId]="id"
+              (ready)="savePlayer($event)"
+              [playerVars]="playerVars"
+            >
+            </youtube-player>
+          </ng-container>
           <div class="action">
             <p
               class="action__icon action__icon--g"
@@ -141,20 +143,24 @@
           <div class="chat-line__head">
             <img
               class="chat-line__avatar"
-              src="/assets/images/char_0{{user.avatarId}}.png"
+              src="/assets/images/char_{{ user.avatarId }}.png"
               alt=""
             />
-            <p class="chat-line__name">{{user.userName}}</p>
+            <p class="chat-line__name">{{ user.userName }}</p>
           </div>
-          <div class="chat-line__body" *ngFor="let message of messages[user.uid]">
-            <div class="chat-line__comment">{{message}}</div>
+          <div
+            class="chat-line__body"
+            *ngFor="let message of messages[user.uid]"
+          >
+            <div class="chat-line__comment">{{ message }}</div>
           </div>
         </ng-container>
       </div>
 
-      <div class="logout" (click)="logOut()">
-        <button>退室する</button>
+      <div class="logout">
+        <button (click)="logOut()">退室する</button>
       </div>
+      <button (click)="setChannelFirstVideos()">aaa</button>
     </div>
   </div>
 </div>
