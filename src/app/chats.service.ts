@@ -22,9 +22,6 @@ export class ChatsService {
       comments,
       createdAt: firestore.Timestamp.now()
     };
-    console.log(cannelId);
-    console.log(uid);
-    console.log(comments);
     return this.db.doc<Message>(`rooms/${cannelId}/messages/${id}`).set(newValue);
   }
 

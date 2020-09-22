@@ -11,7 +11,6 @@ import { Message } from 'src/app/interfaces/message';
 import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-room',
@@ -47,7 +46,6 @@ export class RoomComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
     private roomService: RoomService,
     private chatService: ChatsService,
     private route: ActivatedRoute,
@@ -78,7 +76,6 @@ export class RoomComponent implements OnInit {
 
   savePlayer(player) {
     this.player = player;
-    console.log('player instance', player);
   }
 
   addComment() { }
@@ -104,7 +101,6 @@ export class RoomComponent implements OnInit {
   }
 
   sendMessage() {
-    console.log(this.form.value.comments);
     this.chatService.sendMessage(
       'UCUPq5dKFGnOziaqYI-ejYcg',
       this.uid,
