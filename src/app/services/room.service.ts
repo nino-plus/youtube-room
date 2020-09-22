@@ -37,9 +37,9 @@ export class RoomService {
     return this.db.doc(`rooms/${channelId}/members/${uid}`).set(value);
   }
 
-  getMembers(cannelId: string): Observable<Member[]> {
+  getMembers(channelId: string): Observable<Member[]> {
     return this.db
-      .doc(`rooms/${cannelId}`)
+      .doc(`rooms/${channelId}`)
       .collection<Member>('members').valueChanges();
   }
 
