@@ -28,7 +28,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
         switchMap(param => {
           this.searchText = param.get('searchText');
           return this.searchRoomService.getPlayListItems(this.searchText);
-        }), take(1)
+        })
       )
       .subscribe((datas: any) => {
         this.resultRoom = datas.items.map(data => data.snippet);
