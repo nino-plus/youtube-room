@@ -59,7 +59,7 @@ export class CreateComponent implements OnInit {
 
   submit() {
     const userName = this.form.value.name;
-    const avatarId = this.selectedId;
+    const avatarId = this.selectedId + 1;
     this.userService
       .createUser(this.uid, userName, avatarId)
       .then(() => this.router.navigateByUrl('/top'));

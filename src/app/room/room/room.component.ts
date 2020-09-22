@@ -1,5 +1,5 @@
 import { newArray } from '@angular/compiler/src/util';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -18,13 +18,13 @@ import { RoomService } from 'src/app/services/room.service';
   styleUrls: ['./room.component.scss'],
   animations: [fade, bounce],
 })
-export class RoomComponent implements OnInit {
-  private userName = this.authService.userName;
+export class RoomComponent implements OnInit, OnDestroy {
   private uid = this.authService.uid;
+  private userName = this.authService.userName;
+  private avatarId = this.authService.avatarId;
   private channelId = this.route.snapshot.paramMap.get('id');
   private subscriptions: Subscription = new Subscription();
   player: YT.Player;
-  id = 'ZMXYcxEhy7w';
   playerVars = {
     controls: 0,
   };
@@ -36,7 +36,6 @@ export class RoomComponent implements OnInit {
   isCry: boolean;
   isLagh: boolean;
   isSuprise: boolean;
-  user$: Observable<UserData> = this.authService.user$;
   messages = {};
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
@@ -47,6 +46,11 @@ export class RoomComponent implements OnInit {
   form = this.fb.group({
     comments: ['', Validators.required],
   });
+  user$: Observable<UserData> = this.authService.user$;
+  message$: Observable<Message[]> = this.chatsService.getLatestMessages(this.channelId);
+  firstVideos: any;
+  videoIds = [];
+  id;
 
   constructor(
     private authService: AuthService,
@@ -80,6 +84,18 @@ export class RoomComponent implements OnInit {
         this.userName = user.userName;
       })
     );
+    // this.setChannelFirstVideos().then(() => {
+    //   for (let i = this.videoIds.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random)
+    //   }
+    //   // this.videoIds.forEach((videoid) => {
+    //   //   setTimeout(this.id = videoid, 5000);
+    //   // });
+    // });
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   savePlayer(player) {
@@ -118,7 +134,16 @@ export class RoomComponent implements OnInit {
       this.form.value.comments,
       this.uid,
       this.userName,
+      this.avatarId,
     );
     this.form.reset();
+  }
+
+  async setChannelFirstVideos() {
+    const response: any = await this.roomService.getChannelVideos(this.channelId);
+    const items = response.items;
+    await items.forEach(item => {
+      this.videoIds.push(item.id.videoId);
+    });
   }
 }

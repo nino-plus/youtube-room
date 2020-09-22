@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 h2 {
   padding: 16px;
 }
@@ -19,8 +21,15 @@ h2 {
   opacity: 1;
 }
 
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 80px;
+}
+
 .search {
-  margin: 16px;
+  margin-right: 64px;
   border: 1px solid rgba(black, 0.5);
   box-sizing: border-box;
   border-radius: 50px 50px 50px 50px / 50px 50px 50px 50px;
@@ -28,8 +37,10 @@ h2 {
   display: flex;
   position: relative;
   height: 40px;
+  width: 250px;
   &:hover {
-    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
+    @include mat-elevation-transition;
+    @include mat-elevation(2);
   }
   &__input {
     appearance: none;
@@ -50,12 +61,20 @@ h2 {
     top: 0;
     right: 16px;
     height: 30px;
+    outline: 0;
+    cursor: pointer;
     mat-icon {
       outline: 0;
       font-size: 32px;
       line-height: 1.2;
     }
   }
+}
+
+h2{
+  text-align: center;
+  margin-top: 24px;
+  letter-spacing: 3px;
 }
 
 mat-divider {

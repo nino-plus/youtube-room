@@ -1,6 +1,7 @@
 <app-header></app-header>
+<h2>好きなYouTubeを検索しよう</h2>
 <div class="container">
-  <div class="search">
+  <form class="search">
     <input
       [(ngModel)]="searchText"
       [formControl]="searchTextForm"
@@ -12,6 +13,9 @@
     <button class="search__button" (click)="searchRoom()">
       <mat-icon>search</mat-icon>
     </button>
+  </form>
+  <div class="topImges">
+    <img src="/assets/images/top.svg" alt="" width="450" />
   </div>
 </div>
 

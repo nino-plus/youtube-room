@@ -7,15 +7,23 @@
         <!-- 画像入れる -->
         <figure class="card__cover">
           <ng-container *ngIf="room.snippet.thumbnails.high.url">
-          <img
-            onError="this.src='/assets/images/char_1.png'"
-            [src]="room.snippet.thumbnails.high.url"
-            [alt]="room.snippet.title"
-          />
-        </ng-container>
+            <img
+              onError="this.src='/assets/images/char_1.png'"
+              [src]="room.snippet.thumbnails.high.url"
+              [alt]="room.snippet.title"
+            />
+          </ng-container>
         </figure>
         <div class="card__title">{{ room.snippet.title }}</div>
-        <button mat-raised-button color="primary" (click)="createRoom(room.snippet.channelId, room.snippet.channelTitle)">ルーム作成</button>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="
+            createRoom(room.snippet.channelId, room.snippet.channelTitle)
+          "
+        >
+          ルームに参加する
+        </button>
       </div>
     </ng-container>
   </div>
