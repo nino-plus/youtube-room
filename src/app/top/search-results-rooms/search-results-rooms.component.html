@@ -1,21 +1,26 @@
+<!-- 検索された文字とyoutubeが一致する場合 -->
 <ng-container *ngIf="resultRoom">
-  <!-- カード 04:18 -->
-  <!-- グリッド 09:31-->
   <div class="grid">
     <ng-container *ngFor="let room of resultRoom">
       <div class="card">
-        <!-- 画像入れる -->
         <figure class="card__cover">
           <ng-container *ngIf="room.snippet.thumbnails.high.url">
-          <img
-            onError="this.src='/assets/images/char_1.png'"
-            [src]="room.snippet.thumbnails.high.url"
-            [alt]="room.snippet.title"
-          />
-        </ng-container>
+            <img onError="this.src='/assets/images/char_1.png'" [src]="room.snippet.thumbnails.high.url"
+              [alt]="room.snippet.title" />
+          </ng-container>
         </figure>
         <div class="card__title">{{ room.snippet.title }}</div>
-        <button mat-raised-button color="primary" (click)="createRoom(room.snippet.channelId, room.snippet.channelTitle)">ルーム作成</button>
+
+        <!-- もし、ルームのコレクション(createRoom)がある場合、ルームに参加にmod -->
+        <!-- APIのデータが帰ってきたときに渡ってくるZ -->
+        <ng-container *ngIf="rooms === room.snippet.channelId">
+              <button mat-raised-button color="primary"
+                (click)="participantRoom(room.snippet.channelId)">ルームに参加</button>
+        </ng-container>
+
+        <button mat-raised-button color="primary"
+          (click)="createRoom(room.snippet.channelId, room.snippet.channelTitle)">ルーム作成</button>
+
       </div>
     </ng-container>
   </div>

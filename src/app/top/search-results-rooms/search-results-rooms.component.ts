@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
+import { Room } from 'src/app/interfaces/room';
 import { RoomData } from 'src/app/interfaces/room-data';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
@@ -18,18 +19,27 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   private routePramMap = this.route.paramMap;
   private subscriptions: Subscription = new Subscription();
   private uid = this.authService.uid;
+  private rooms$: Observable<Room[]> = this.roomService.getRooms();
+  rooms: Room[];
 
   constructor(
     private route: ActivatedRoute,
     private searchRoomService: SearchRoomService,
     private roomService: RoomService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
+  // 最初からやって欲しい事　特に理由がなければ
   ngOnInit(): void {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user.uid;
+      })
+    );
+    this.subscriptions.add(
+      this.rooms$.subscribe((rooms) => {
+        this.rooms = rooms;
       })
     );
   }
@@ -40,6 +50,12 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
 
   createRoom(channelId: string, title: string) {
     this.roomService.createRoom(channelId, title);
-    this.roomService.addRoomMembers(channelId, this.uid);
+    this.roomService.addRoomMembers(channelId, this.uid).then(() => {
+      this.router.navigateByUrl(`/room/${channelId}`);
+    });
+  }
+  participantRoom(channelId: string) {
+    this.roomService.getRooms()
+    this.router.navigateByUrl(`/room/${channelId}`);
   }
 }
