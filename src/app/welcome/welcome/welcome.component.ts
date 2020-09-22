@@ -15,11 +15,7 @@ export class WelcomeComponent implements OnInit {
     Validators.maxLength(10),
   ]);
 
-  constructor(
-    private authService: AuthService,
-    private router: Router,
-    private userService: UserService
-  ) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {}
 

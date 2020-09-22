@@ -29,7 +29,13 @@ export class AuthService {
     private afAuth: AngularFireAuth,
     private userService: UserService,
     private snackBar: MatSnackBar,
-  ) { }
+  ) {
+    this.user$.subscribe((user) => {
+      this.uid = user.uid;
+      // console.log(this.uid);
+    });
+    // console.log(this.uid);
+  }
 
   async anonymouslylogin(): Promise<void> {
     return await this.afAuth.signInAnonymously().then(() => {

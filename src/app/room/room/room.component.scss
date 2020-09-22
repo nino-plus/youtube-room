@@ -22,6 +22,7 @@
   }
   &__head {
     margin-right: 16px;
+    text-align: center;
   }
 }
 
@@ -32,6 +33,8 @@
   border-radius: 20%;
   position: relative;
   padding: 20px;
+  display: grid;
+  place-items: center;
   &:before {
     content: '';
     position: absolute;
@@ -39,7 +42,7 @@
     width: 0;
     height: 0;
     left: -14px;
-    top: 20px;
+    top: 25px;
     border-right: 15px solid #eceff1;
     border-top: 15px solid transparent;
     border-bottom: 15px solid transparent;
@@ -81,7 +84,7 @@
 
 .users {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(184px, 1fr));
   gap: 16px;
 }
 

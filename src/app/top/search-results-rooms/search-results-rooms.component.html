@@ -1,6 +1,16 @@
-<div class="grid">
-  <div class="card">
-    <div class="card__cover"></div>
-    <button mat-raised-button color="primary">ルーム作成</button>
+<ng-container *ngIf="resultRoom">
+  <!-- カード 04:18 -->
+  <!-- グリッド 09:31-->
+  <div class="grid">
+    <ng-container *ngFor="let room of resultRoom">
+      <div class="card">
+        <!-- 画像入れる -->
+        <figure class="card__cover">
+          <img [src]="room.thumbnails.high.url" [alt]="room.title" />
+        </figure>
+        <div class="card__title">{{ room.title }}</div>
+        <button mat-raised-button color="primary">ルーム作成</button>
+      </div>
+    </ng-container>
   </div>
-</div>
+</ng-container>

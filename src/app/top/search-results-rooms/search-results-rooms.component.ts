@@ -1,8 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SearchRoomService } from 'src/app/services/search-room.service';
+import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { RoomData } from 'src/app/interfaces/room-data';
+import { AuthService } from 'src/app/services/auth.service';
+import { RoomService } from 'src/app/services/room.service';
+import { SearchRoomService } from 'src/app/services/search-room.service';
 
 @Component({
   selector: 'app-search-results-rooms',
@@ -10,18 +13,21 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./search-results-rooms.component.scss']
 })
 export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
-  public resultRoom: [];
+  public resultRoom: RoomData[];
   public searchText: string;
   private routePramMap = this.route.paramMap;
-  private subscriptions: Subscription;
+  private subscriptions: Subscription = new Subscription();
+  private uid = this.authService.uid;
 
   constructor(
     private route: ActivatedRoute,
-    private searchRoomService: SearchRoomService
-  ) {}
+    private searchRoomService: SearchRoomService,
+    private roomService: RoomService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit(): void {
-    this.subscriptions = this.routePramMap
+    this.subscriptions.add(this.routePramMap
       .pipe(
         switchMap(param => {
           this.searchText = param.get('searchText');
@@ -31,11 +37,22 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
       .subscribe((datas: any) => {
         this.resultRoom = datas.items.map(data => data.snippet);
         console.log(this.resultRoom);
-      });
+      })
+    );
+
+    this.subscriptions.add(
+      this.authService.user$.subscribe((user) => {
+        this.uid = user.uid;
+      })
+    );
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
   }
 
+  createRoom() {
+    this.roomService.createRoom('UCUPq5dKFGnOziaqYI-ejYcg', 'Nino/CAMP');
+    this.roomService.addRoomMembers('UCUPq5dKFGnOziaqYI-ejYcg', this.uid);
+  }
 }

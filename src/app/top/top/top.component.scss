@@ -41,6 +41,7 @@ h2 {
     padding: 0px 40px 0px 16px;
     background: none;
     flex: 1;
+    outline: 0;
   }
   &__button {
     color: rgba(black, 0.5);
@@ -54,6 +55,7 @@ h2 {
     right: 16px;
     height: 30px;
     mat-icon {
+      outline: 0;
       font-size: 32px;
       line-height: 1.2;
     }
