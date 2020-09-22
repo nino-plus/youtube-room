@@ -6,10 +6,16 @@
       <div class="card">
         <!-- 画像入れる -->
         <figure class="card__cover">
-          <img [src]="room.thumbnails.high.url" [alt]="room.title" />
+          <ng-container *ngIf="room.snippet.thumbnails.high.url">
+          <img
+            onError="this.src='/assets/images/char_1.png'"
+            [src]="room.snippet.thumbnails.high.url"
+            [alt]="room.snippet.title"
+          />
+        </ng-container>
         </figure>
-        <div class="card__title">{{ room.title }}</div>
-        <button mat-raised-button color="primary">ルーム作成</button>
+        <div class="card__title">{{ room.snippet.title }}</div>
+        <button mat-raised-button color="primary" (click)="createRoom(room.snippet.channelId, room.snippet.channelTitle)">ルーム作成</button>
       </div>
     </ng-container>
   </div>

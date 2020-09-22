@@ -34,8 +34,12 @@ export class RoomComponent implements OnInit {
   isSuprise: boolean;
   user$: Observable<UserData> = this.authService.user$;
   messages = {};
-  message$: Observable<Message[]> = this.chatService.getLatestMessages('UCUPq5dKFGnOziaqYI-ejYcg');
-  members$: Observable<Member[]> = this.roomService.getMembers('UCUPq5dKFGnOziaqYI-ejYcg');
+  message$: Observable<Message[]> = this.chatsService.getLatestMessages(
+    'UCUPq5dKFGnOziaqYI-ejYcg'
+  );
+  members$: Observable<Member[]> = this.roomService.getMembers(
+    'UCUPq5dKFGnOziaqYI-ejYcg'
+  );
   form = this.fb.group({
     comments: ['', Validators.required],
   });
@@ -47,23 +51,26 @@ export class RoomComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private roomService: RoomService,
-    private chatService: ChatsService,
+    private chatsService: ChatsService,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: FormBuilder
   ) {
-    this.chatService.getLatestMessages('UCUPq5dKFGnOziaqYI-ejYcg').pipe(skip(1)).subscribe(messages => {
-      if (!messages[0]) {
-        return;
-      }
-      const message = messages[0];
-      if (!this.messages[message.uid]) {
-        this.messages[message.uid] = [];
-      }
-      this.messages[message.uid].unshift(message.comments);
-      setTimeout(() => {
-        this.messages[message.uid].pop();
-      }, 5000);
-    });
+    this.chatsService
+      .getLatestMessages('UCUPq5dKFGnOziaqYI-ejYcg')
+      .pipe(skip(1))
+      .subscribe((messages) => {
+        if (!messages[0]) {
+          return;
+        }
+        const message = messages[0];
+        if (!this.messages[message.uid]) {
+          this.messages[message.uid] = [];
+        }
+        this.messages[message.uid].unshift(message.comments);
+        setTimeout(() => {
+          this.messages[message.uid].pop();
+        }, 5000);
+      });
   }
 
   ngOnInit(): void {
@@ -78,7 +85,7 @@ export class RoomComponent implements OnInit {
     this.player = player;
   }
 
-  addComment() { }
+  addComment() {}
 
   good() {
     this.isGood = !this.isGood;
@@ -100,8 +107,12 @@ export class RoomComponent implements OnInit {
     this.isSuprise = !this.isSuprise;
   }
 
+  logOut() {
+    this.authService.logout();
+  }
+
   sendMessage() {
-    this.chatService.sendMessage(
+    this.chatsService.sendMessage(
       'UCUPq5dKFGnOziaqYI-ejYcg',
       this.uid,
       this.form.value.comments

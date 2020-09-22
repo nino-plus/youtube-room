@@ -3,6 +3,6 @@ import { firestore } from 'firebase';
 export interface Member {
   uid: string;
   active: true;
-  lastStatsusCecked: firestore.Timestamp;
+  lastStatusChecked: firestore.Timestamp;
   lastPosted: firestore.Timestamp;
 }
