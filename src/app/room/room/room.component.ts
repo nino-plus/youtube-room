@@ -19,6 +19,10 @@ import { RoomService } from 'src/app/services/room.service';
   animations: [fade, bounce],
 })
 export class RoomComponent implements OnInit {
+  private userName = this.authService.userName;
+  private uid = this.authService.uid;
+  private channelId = this.route.snapshot.paramMap.get('id');
+  private subscriptions: Subscription = new Subscription();
   player: YT.Player;
   id = 'ZMXYcxEhy7w';
   playerVars = {
@@ -34,19 +38,15 @@ export class RoomComponent implements OnInit {
   isSuprise: boolean;
   user$: Observable<UserData> = this.authService.user$;
   messages = {};
-  message$: Observable<Message[]> = this.chatsService.getLatestMessages(
-    'UCUPq5dKFGnOziaqYI-ejYcg'
+  allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
+    this.channelId
   );
   members$: Observable<Member[]> = this.roomService.getMembers(
-    'UCUPq5dKFGnOziaqYI-ejYcg'
+    this.channelId
   );
   form = this.fb.group({
     comments: ['', Validators.required],
   });
-
-  private uid = this.authService.uid;
-  private channelId = this.route.snapshot.paramMap.get('id');
-  private subscriptions: Subscription = new Subscription();
 
   constructor(
     private authService: AuthService,
@@ -56,7 +56,7 @@ export class RoomComponent implements OnInit {
     private fb: FormBuilder
   ) {
     this.chatsService
-      .getLatestMessages('UCUPq5dKFGnOziaqYI-ejYcg')
+      .getLatestMessages(this.channelId)
       .pipe(skip(1))
       .subscribe((messages) => {
         if (!messages[0]) {
@@ -77,6 +77,7 @@ export class RoomComponent implements OnInit {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user.uid;
+        this.userName = user.userName;
       })
     );
   }
@@ -113,9 +114,10 @@ export class RoomComponent implements OnInit {
 
   sendMessage() {
     this.chatsService.sendMessage(
-      'UCUPq5dKFGnOziaqYI-ejYcg',
+      this.channelId,
+      this.form.value.comments,
       this.uid,
-      this.form.value.comments
+      this.userName,
     );
     this.form.reset();
   }

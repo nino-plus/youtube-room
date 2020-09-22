@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class AuthService {
   afUser$: Observable<User> = this.afAuth.user;
   uid: string;
+  userName: string;
   user$: Observable<UserData> = this.afAuth.authState.pipe(
     switchMap((afUser) => {
       if (afUser) {
@@ -31,7 +32,9 @@ export class AuthService {
     private snackBar: MatSnackBar,
   ) {
     this.user$.subscribe((user) => {
-      this.uid = user.uid;
+      this.uid = user?.uid;
+      this.userName = user?.userName;
+      console.log(this.uid, this.userName);
     });
   }
 

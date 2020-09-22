@@ -15,11 +15,12 @@ export class ChatsService {
     private db: AngularFirestore,
   ) { }
 
-  sendMessage(cannelId: string, uid: string, comments: string): Promise<void> {
+  sendMessage(cannelId: string, comments: string, uid: string, userName: string): Promise<void> {
     const id = this.db.createId();
     const newValue: Message = {
       uid,
       comments,
+      userName,
       createdAt: firestore.Timestamp.now()
     };
     return this.db.doc<Message>(`rooms/${cannelId}/messages/${id}`).set(newValue);
@@ -29,6 +30,12 @@ export class ChatsService {
     return this.db
       .doc(`rooms/${cannelId}`)
       .collection<Message>('messages', ref => ref.orderBy('createdAt', 'desc').limit(1))
+      .valueChanges();
+  }
+  getAllMessages(cannelId: string): Observable<Message[]> {
+    return this.db
+      .doc(`rooms/${cannelId}`)
+      .collection<Message>('messages', ref => ref.orderBy('createdAt', 'desc').limit(30))
       .valueChanges();
   }
 }

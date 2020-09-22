@@ -146,8 +146,9 @@
             />
             <p class="chat-line__name">{{user.userName}}</p>
           </div>
-          <div class="chat-line__body" *ngFor="let message of messages[user.uid]">
-            <div class="chat-line__comment">{{message}}</div>
+          <div class="chat-line__body" *ngFor="let message of allMessages$| async">
+            <div class="chat-line__name">{{message.userName}}</div>
+            <div class="chat-line__comment">{{message.comments}}</div>
           </div>
         </ng-container>
       </div>
