@@ -9,7 +9,6 @@ import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
 import { UserData } from 'src/app/interfaces/user';
-import { Video } from 'src/app/interfaces/video';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
 
@@ -21,9 +20,10 @@ import { RoomService } from 'src/app/services/room.service';
 })
 export class RoomComponent implements OnInit, OnDestroy {
   private uid = this.authService.uid;
+  private userName = this.authService.userName;
+  private avatarId = this.authService.avatarId;
   private channelId = this.route.snapshot.paramMap.get('id');
   private subscriptions: Subscription = new Subscription();
-
   player: YT.Player;
   playerVars = {
     controls: 0,
@@ -37,14 +37,19 @@ export class RoomComponent implements OnInit, OnDestroy {
   isLagh: boolean;
   isSuprise: boolean;
   messages = {};
-  members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
+  allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
+    this.channelId
+  );
+  members$: Observable<Member[]> = this.roomService.getMembers(
+    this.channelId
+  );
+  form = this.fb.group({
+    comments: ['', Validators.required],
+  });
   user$: Observable<UserData> = this.authService.user$;
   message$: Observable<Message[]> = this.chatsService.getLatestMessages(this.channelId);
   firstVideos: any;
   videoIds = [];
-  form = this.fb.group({
-    comments: ['', Validators.required],
-  });
   id;
 
   constructor(
@@ -76,6 +81,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user.uid;
+        this.userName = user.userName;
       })
     );
     // this.setChannelFirstVideos().then(() => {
@@ -125,8 +131,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   sendMessage() {
     this.chatsService.sendMessage(
       this.channelId,
+      this.form.value.comments,
       this.uid,
-      this.form.value.comments
+      this.userName,
+      this.avatarId,
     );
     this.form.reset();
   }

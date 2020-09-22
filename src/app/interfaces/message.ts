@@ -2,6 +2,8 @@ import { firestore } from 'firebase';
 
 export interface Message {
   uid: string;
-  comments: string;
+  avatarId: number;
   createdAt: firestore.Timestamp;
+  comments: string;
+  userName: string;
 }

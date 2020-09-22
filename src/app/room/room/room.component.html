@@ -140,19 +140,16 @@
 
       <div class="chat-line" *ngIf="user$ | async as user">
         <ng-container @fade *ngFor="let member of members$ | async">
-          <div class="chat-line__head">
-            <img
-              class="chat-line__avatar"
-              src="/assets/images/char_{{ user.avatarId }}.png"
-              alt=""
-            />
-            <p class="chat-line__name">{{ user.userName }}</p>
-          </div>
-          <div
-            class="chat-line__body"
-            *ngFor="let message of messages[user.uid]"
-          >
-            <div class="chat-line__comment">{{ message }}</div>
+          <div class="chat-line__body" *ngFor="let message of allMessages$| async">
+            <div class="chat-line__head">
+              <img
+                class="chat-line__avatar"
+                src="/assets/images/char_{{ message.avatarId }}.png"
+                alt=""
+              />
+            </div>
+            <div class="chat-line__name">{{message.userName}}</div>
+            <div class="chat-line__comment">{{message.comments}}</div>
           </div>
         </ng-container>
       </div>
@@ -160,7 +157,6 @@
       <div class="logout">
         <button (click)="logOut()">退室する</button>
       </div>
-      <button (click)="setChannelFirstVideos()">aaa</button>
     </div>
   </div>
 </div>
