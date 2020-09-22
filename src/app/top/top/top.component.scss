@@ -1,3 +1,5 @@
+@import '~@angular/material/theming';
+
 h2 {
   padding: 16px;
 }
@@ -29,7 +31,8 @@ h2 {
   position: relative;
   height: 40px;
   &:hover {
-    box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
+    @include mat-elevation-transition;
+    @include mat-elevation(2);
   }
   &__input {
     appearance: none;
@@ -50,6 +53,8 @@ h2 {
     top: 0;
     right: 16px;
     height: 30px;
+    outline: 0;
+    cursor: pointer;
     mat-icon {
       outline: 0;
       font-size: 32px;
