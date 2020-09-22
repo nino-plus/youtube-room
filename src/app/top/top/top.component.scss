@@ -23,8 +23,15 @@ h2 {
   opacity: 1;
 }
 
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 80px;
+}
+
 .search {
-  margin: 16px;
+  margin-right: 64px;
   border: 1px solid rgba(black, 0.5);
   box-sizing: border-box;
   border-radius: 50px 50px 50px 50px / 50px 50px 50px 50px;
@@ -32,6 +39,7 @@ h2 {
   display: flex;
   position: relative;
   height: 40px;
+  width: 250px;
   &:hover {
     box-shadow: 0 10px 25px 0 rgba(0, 0, 0, 0.1);
   }
@@ -60,6 +68,12 @@ h2 {
       line-height: 1.2;
     }
   }
+}
+
+h2{
+  text-align: center;
+  margin-top: 24px;
+  letter-spacing: 3px;
 }
 
 mat-divider {
