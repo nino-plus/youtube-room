@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, take } from 'rxjs/operators';
 import { RoomData } from 'src/app/interfaces/room-data';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
@@ -10,7 +10,7 @@ import { SearchRoomService } from 'src/app/services/search-room.service';
 @Component({
   selector: 'app-search-results-rooms',
   templateUrl: './search-results-rooms.component.html',
-  styleUrls: ['./search-results-rooms.component.scss']
+  styleUrls: ['./search-results-rooms.component.scss'],
 })
 export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   public resultRoom: RoomData[];
@@ -23,21 +23,23 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private searchRoomService: SearchRoomService,
     private roomService: RoomService,
-    private authService: AuthService,
-  ) { }
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
-    this.subscriptions.add(this.routePramMap
-      .pipe(
-        switchMap(param => {
-          this.searchText = param.get('searchText');
-          return this.searchRoomService.getPlayListItems(this.searchText);
+    this.subscriptions.add(
+      this.routePramMap
+        .pipe(
+          switchMap((param) => {
+            this.searchText = param.get('searchText');
+            return this.searchRoomService.getPlayListItems(this.searchText);
+          }),
+          take(1)
+        )
+        .subscribe((datas: any) => {
+          this.resultRoom = datas.items.map((data) => data.snippet);
+          console.log(this.resultRoom);
         })
-      )
-      .subscribe((datas: any) => {
-        this.resultRoom = datas.items.map(data => data.snippet);
-        console.log(this.resultRoom);
-      })
     );
 
     this.subscriptions.add(

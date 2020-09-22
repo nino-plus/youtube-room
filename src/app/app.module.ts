@@ -15,14 +15,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 import { NgxYoutubePlayerModule } from 'ngx-youtube-player';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { ChatsComponent } from './chats/chats.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
-  declarations: [AppComponent, ChatsComponent],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
