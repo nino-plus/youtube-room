@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -14,7 +14,7 @@ import { RoomService } from '../services/room.service';
   templateUrl: './chats.component.html',
   styleUrls: ['./chats.component.scss']
 })
-export class ChatsComponent implements OnInit {
+export class ChatsComponent implements OnInit, OnDestroy {
 
   messages = {};
   message$: Observable<Message[]> = this.chatService.getLatestMessages('UCUPq5dKFGnOziaqYI-ejYcg');
@@ -30,8 +30,8 @@ export class ChatsComponent implements OnInit {
   constructor(
     public roomService: RoomService,
     private fb: FormBuilder,
-    public authService: AuthService,
-    public chatService: ChatsService,
+    private authService: AuthService,
+    private chatService: ChatsService,
     private route: ActivatedRoute,
   ) {
     this.chatService.getLatestMessages('UCUPq5dKFGnOziaqYI-ejYcg').pipe(skip(1)).subscribe(messages => {
@@ -55,6 +55,10 @@ export class ChatsComponent implements OnInit {
         this.uid = user.uid;
       })
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 
   sendMessage() {

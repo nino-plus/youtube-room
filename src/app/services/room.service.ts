@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { firestore } from 'firebase';
+import { Observable } from 'rxjs';
+import { Member } from '../interfaces/member';
 import { Room } from '../interfaces/room';
 
 @Injectable({
@@ -19,4 +22,20 @@ export class RoomService {
     };
     return this.db.doc(`rooms/${id}`).set(value);
   }
+
+  addRoomMembers(channelId: string, uid: string) {
+    const value: Member = {
+      uid,
+      active: true,
+      lastStatsusCecked: firestore.Timestamp.now(),
+      lastPosted: firestore.Timestamp.now()
+    };
+    return this.db.doc(`rooms/${channelId}/members/${uid}`).set(value);
+  }
+
+  getMembers(cannelId: string): Observable<Member[]> {
+    return this.db
+      .doc(`rooms/${cannelId}`)
+      .collection<Member>('members').valueChanges();
+    }
 }
