@@ -15,8 +15,8 @@ export class SearchRoomService {
         params: new HttpParams({
           fromObject: {
             part: 'snippet',
-            key: 'AIzaSyAXIsSqQseq-O5cFLi-m9522BgokfvUYTU',
-            maxResults: '50',
+            key: 'AIzaSyCgijr7kpGH9zgDmuKPVa2h8G0-OLDS6cI',
+            maxResults: '20',
             type: 'channel',
             q
           },

@@ -1,10 +1,11 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SearchRoomService } from 'src/app/services/search-room.service';
+import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { RoomService } from 'src/app/services/room.service';
+import { RoomData } from 'src/app/interfaces/room-data';
 import { AuthService } from 'src/app/services/auth.service';
+import { RoomService } from 'src/app/services/room.service';
+import { SearchRoomService } from 'src/app/services/search-room.service';
 
 @Component({
   selector: 'app-search-results-rooms',
@@ -12,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./search-results-rooms.component.scss']
 })
 export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
-  public resultRoom: [];
+  public resultRoom: RoomData[];
   public searchText: string;
   private routePramMap = this.route.paramMap;
   private subscriptions: Subscription = new Subscription();

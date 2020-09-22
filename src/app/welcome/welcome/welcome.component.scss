@@ -2,6 +2,7 @@
   text-align: center;
   font-size: 14px;
   font-family: Helvetica;
+  padding: 24px;
 }
 
 .container{
@@ -29,4 +30,13 @@ p{
 
 button{
   margin-bottom: 32px;
+}
+
+mat-divider{
+  margin-left: calc(((100vw - 100%) / 2) * -1);
+  margin-right: calc(((100vw - 100%) / 2) * -1);
+}
+
+.copyright{
+  padding: 16px;
 }
