@@ -166,3 +166,9 @@
     }
   }
 }
+.actions-btn {
+  display: flex;
+  &__logout {
+    margin-right: 8px;
+  }
+}
