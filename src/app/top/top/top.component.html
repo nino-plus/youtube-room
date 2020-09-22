@@ -1,10 +1,5 @@
-<div class="header">
-  <a href="" class="header__logo">YOUTUBEROOM</a>
-</div>
-<mat-divider></mat-divider>
-
+<app-header></app-header>
 <h2>好きなYouTubeを検索しよう</h2>
-
 <div class="container">
   <div class="search">
     <input
@@ -24,7 +19,7 @@
   </div>
 </div>
 
-<app-search-results-rooms></app-search-results-rooms>
+<app-search-results-rooms [resultRoom]="resultRoom"></app-search-results-rooms>
 
 <footer>
   <mat-divider></mat-divider>

@@ -1,5 +1,4 @@
-import { ClassGetter } from '@angular/compiler/src/output/output_ast';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
@@ -7,10 +6,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
-import { Subscription } from 'rxjs';
 import { SearchRoomService } from 'src/app/services/search-room.service';
-import { RoomData } from 'src/app/interfaces/room-data';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-top',
@@ -18,8 +15,7 @@ import { RoomData } from 'src/app/interfaces/room-data';
   styleUrls: ['./top.component.scss'],
 })
 export class TopComponent implements OnInit {
-  private subscriptions: Subscription = new Subscription();
-  public resultRoom: RoomData[];
+  public resultRoom;
 
   avatarIds = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
@@ -50,7 +46,6 @@ export class TopComponent implements OnInit {
   @Input() searchText: '';
 
   constructor(
-    private router: Router,
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService,
@@ -58,15 +53,10 @@ export class TopComponent implements OnInit {
   ) {}
 
   async searchRoom() {
-    const channelItems = await this.searchRoomService.getChannelItems(
+    const channelItems: any = await this.searchRoomService.getChannelItems(
       this.searchTextForm.value
     );
-
-    const channelDatas = Object.values(channelItems);
-
-    console.log(channelDatas);
-
-    channelDatas[5].items.map((data) => {});
+    this.resultRoom = channelItems.items;
   }
 
   ngOnInit(): void {
@@ -85,8 +75,5 @@ export class TopComponent implements OnInit {
     const userName = this.form.value;
     const avatarId = this.selectedId;
     this.userService.createUser(this.uid, userName, avatarId);
-    console.log(this.uid);
-    console.log(userName);
-    console.log(avatarId);
   }
 }

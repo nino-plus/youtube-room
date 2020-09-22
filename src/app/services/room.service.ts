@@ -27,7 +27,7 @@ export class RoomService {
     const value: Member = {
       uid,
       active: true,
-      lastStatsusCecked: firestore.Timestamp.now(),
+      lastStatusChecked: firestore.Timestamp.now(),
       lastPosted: firestore.Timestamp.now()
     };
     return this.db.doc(`rooms/${channelId}/members/${uid}`).set(value);

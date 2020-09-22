@@ -32,9 +32,7 @@ export class AuthService {
   ) {
     this.user$.subscribe((user) => {
       this.uid = user.uid;
-      // console.log(this.uid);
     });
-    // console.log(this.uid);
   }
 
   async anonymouslylogin(): Promise<void> {

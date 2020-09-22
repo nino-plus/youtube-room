@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SearchRoomService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getChannelItems(q: string) {
     return this.http
@@ -17,6 +17,7 @@ export class SearchRoomService {
             key: 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY',
             maxResults: '20',
             type: 'channel',
+            order: 'viewCount',
             q,
           },
         }),

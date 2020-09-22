@@ -43,7 +43,7 @@ export class CreateComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user$
@@ -63,8 +63,5 @@ export class CreateComponent implements OnInit {
     this.userService
       .createUser(this.uid, userName, avatarId)
       .then(() => this.router.navigateByUrl('/top'));
-    console.log(this.uid);
-    console.log(userName);
-    console.log(avatarId);
   }
 }
