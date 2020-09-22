@@ -41,6 +41,10 @@ export class RoomService {
     return this.db
       .doc(`rooms/${channelId}`)
       .collection<Member>('members').valueChanges();
+    }
+
+  getRooms(): Observable<Room[]>{
+    return this.db.collection<Room>('rooms').valueChanges();
   }
 
   getChannelVideos(channelId: string) {

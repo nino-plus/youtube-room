@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { Room } from 'src/app/interfaces/room';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
 
@@ -15,17 +16,25 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   public searchText: string;
   private subscriptions: Subscription = new Subscription();
   private uid = this.authService.uid;
+  private rooms$: Observable<Room[]> = this.roomService.getRooms();
+  rooms: Room[];
 
   constructor(
     private roomService: RoomService,
     private authService: AuthService,
-    private router: Router,
-  ) {}
+    private router: Router
+  ) { }
+
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user.uid;
+      })
+    );
+    this.subscriptions.add(
+      this.rooms$.subscribe((rooms) => {
+        this.rooms = rooms;
       })
     );
   }
@@ -35,9 +44,16 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   }
 
   createRoom(channelId: string, title: string) {
-    this.roomService.createRoom(channelId, title);
-    this.roomService.addRoomMembers(channelId, this.uid).then(() => {
+    const roomId = this.rooms.find((room) => channelId === room.id);
+    if (roomId) {
       this.router.navigateByUrl(`/room/${channelId}`);
-    });
+      console.log('if');
+    } else {
+      this.roomService.createRoom(channelId, title);
+      this.roomService.addRoomMembers(channelId, this.uid).then(() => {
+        this.router.navigateByUrl(`/room/${channelId}`);
+        console.log('else');
+      });
+    }
   }
 }
