@@ -102,12 +102,3 @@ export class RoomComponent implements OnInit {
 
   logOut() {
     this.authService.logout();
-
-  sendMessage() {
-    this.chatService.sendMessage(
-      'UCUPq5dKFGnOziaqYI-ejYcg',
-      this.uid,
-      this.form.value.comments
-    );
-    this.form.reset();
-  }
