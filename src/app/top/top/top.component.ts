@@ -8,6 +8,9 @@ import { map } from 'rxjs/operators';
 import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
+import { Subscription } from 'rxjs';
+import { SearchRoomService } from 'src/app/services/search-room.service';
+import { RoomData } from 'src/app/interfaces/room-data';
 
 @Component({
   selector: 'app-top',
@@ -15,6 +18,9 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./top.component.scss'],
 })
 export class TopComponent implements OnInit {
+  private subscriptions: Subscription = new Subscription();
+  public resultRoom: RoomData[];
+
   avatarIds = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
     loop: true,
@@ -35,6 +41,8 @@ export class TopComponent implements OnInit {
     name: ['', [Validators.required, Validators.maxLength(40)]],
   });
 
+  searchTextForm = new FormControl('');
+
   get nameControl() {
     return this.form.get('name') as FormControl;
   }
@@ -45,11 +53,20 @@ export class TopComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private searchRoomService: SearchRoomService
   ) {}
 
-  searchRoom() {
-    this.router.navigate(['top', this.searchText]);
+  async searchRoom() {
+    const channelItems = await this.searchRoomService.getChannelItems(
+      this.searchTextForm.value
+    );
+
+    const channelDatas = Object.values(channelItems);
+
+    console.log(channelDatas);
+
+    channelDatas[5].items.map((data) => {});
   }
 
   ngOnInit(): void {

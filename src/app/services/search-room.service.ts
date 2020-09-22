@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -7,17 +8,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 export class SearchRoomService {
   constructor(private http: HttpClient) {}
 
-  getPlayListItems(q: string) {
-    return this.http.get('https://www.googleapis.com/youtube/v3/search', {
-      params: new HttpParams({
-        fromObject: {
-          part: 'snippet',
-          key: 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY',
-          maxResults: '20',
-          type: 'channel',
-          q,
-        },
-      }),
-    });
+  getChannelItems(q: string) {
+    return this.http
+      .get('https://www.googleapis.com/youtube/v3/search', {
+        params: new HttpParams({
+          fromObject: {
+            part: 'snippet',
+            key: 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY',
+            maxResults: '20',
+            type: 'channel',
+            q,
+          },
+        }),
+      })
+      .pipe(take(1))
+      .toPromise();
   }
 }

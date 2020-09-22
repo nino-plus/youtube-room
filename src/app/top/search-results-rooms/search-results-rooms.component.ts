@@ -28,21 +28,6 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.routePramMap
-        .pipe(
-          switchMap((param) => {
-            this.searchText = param.get('searchText');
-            return this.searchRoomService.getPlayListItems(this.searchText);
-          }),
-          take(1)
-        )
-        .subscribe((datas: any) => {
-          this.resultRoom = datas.items.map((data) => data.snippet);
-          console.log(this.resultRoom);
-        })
-    );
-
-    this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user.uid;
       })
