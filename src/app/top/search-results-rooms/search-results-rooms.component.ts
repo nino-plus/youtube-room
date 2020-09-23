@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { Room } from 'src/app/interfaces/room';
@@ -23,14 +24,14 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   constructor(
     private roomService: RoomService,
     private authService: AuthService,
-    private router: Router
-  ) { }
-
+    private router: Router,
+    private snackber: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
-        this.uid = user.uid;
+        this.uid = user?.uid;
       })
     );
     this.subscriptions.add(
@@ -47,12 +48,23 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   createRoom(channelId: string, title: string) {
     const roomId = this.rooms.find((room) => channelId === room.id);
     if (roomId) {
-      this.router.navigateByUrl(`/room/${channelId}`);
+      this.roomService
+        .addRoomMembers(channelId, this.uid, this.avatarId)
+        .then(() => {
+          this.router.navigateByUrl(`/room/${channelId}`);
+        })
+        .then(() => {
+          this.snackber.open('入室しました！');
+        });
     } else {
       this.roomService.createRoom(channelId, title);
-      this.roomService.addRoomMembers(channelId, this.uid, this.avatarId).then(() => {
-        this.router.navigateByUrl(`/room/${channelId}`);
-      });
+      this.roomService
+        .addRoomMembers(channelId, this.uid, this.avatarId)
+        .then(() => {
+          this.router.navigateByUrl(`/room/${channelId}`).then(() => {
+            this.snackber.open('ルームを作成しました！');
+          });
+        });
     }
   }
 }

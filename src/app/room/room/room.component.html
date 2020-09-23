@@ -9,7 +9,7 @@
               src="/assets/images/char_{{ member.avatarId }}.png"
               alt=""
             />
-            <p class="users__name">{{ user.userName }}</p>
+            <p class="users__name">{{ member.name }}</p>
           </div>
           <div class="users__body">
             <div class="baloon" *ngFor="let message of messages[user.uid]">
@@ -72,11 +72,44 @@
         </div>
 
         <div class="room__action">
-          <button mat-fab class="room__action-icon" (click)="good()">😍</button>
-          <button mat-fab class="room__action-icon" (click)="bad()">😤</button>
-          <button mat-fab class="room__action-icon" (click)="cry()">😭</button>
-          <button mat-fab class="room__action-icon" (click)="lagh()">🤣</button>
-          <button mat-fab class="room__action-icon" (click)="surprise()">
+          <button
+            mat-fab
+            class="room__action-icon"
+            type="button"
+            (click)="good()"
+          >
+            😍
+          </button>
+          <button
+            mat-fab
+            class="room__action-icon"
+            type="button"
+            (click)="bad()"
+          >
+            😤
+          </button>
+          <button
+            mat-fab
+            class="room__action-icon"
+            type="button"
+            (click)="cry()"
+          >
+            😭
+          </button>
+          <button
+            mat-fab
+            class="room__action-icon"
+            type="button"
+            (click)="lagh()"
+          >
+            🤣
+          </button>
+          <button
+            mat-fab
+            class="room__action-icon"
+            type="button"
+            (click)="surprise()"
+          >
             😲
           </button>
         </div>
@@ -140,22 +173,35 @@
 
       <div class="chat-line" *ngIf="user$ | async as user">
         <ng-container @fade *ngFor="let member of members$ | async">
-          <div class="chat-line__body" *ngFor="let message of allMessages$| async">
+          <div
+            class="chat-line__body"
+            *ngFor="let message of allMessages$ | async"
+          >
             <div class="chat-line__head">
               <img
                 class="chat-line__avatar"
                 src="/assets/images/char_{{ message.avatarId }}.png"
                 alt=""
               />
+              <div class="chat-line__name">{{ message.userName }}</div>
+              <div class="chat-line__date">
+                {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
+              </div>
             </div>
-            <div class="chat-line__name">{{message.userName}}</div>
-            <div class="chat-line__comment">{{message.comments}}</div>
+            <div class="chat-line__comment">{{ message.comments }}</div>
           </div>
         </ng-container>
       </div>
 
       <div class="actions-btn">
-        <button class="actions-btn__logout" mat-raised-button color="primary" (click)="logOut()">退室する</button>
+        <button
+          class="actions-btn__logout"
+          mat-raised-button
+          color="primary"
+          (click)="logOut()"
+        >
+          退室する
+        </button>
         <a mat-raised-button color="primary" routerLink="/top">トップへ</a>
       </div>
     </div>
