@@ -9,7 +9,7 @@
   width: 80%;
   height: 40%;
   padding: 120px 24px;
-  margin: 48px auto 80px;
+  margin: 48px 20% 80px 20%;
   color: #fff;
   &__title {
     letter-spacing: 3px;
@@ -28,7 +28,7 @@
 .login-nav {
   width: 80%;
   height: 40%;
-  margin: 48px auto;
+  margin: 48px 20% 0 20%;
   &__btn {
     display: block;
     margin: 0 auto 48px;
@@ -54,13 +54,14 @@
 
 .seek {
   display: block;
-  width: 98%;
+  width: 97%;
   height: 6px;
   border-radius: 10px;
   background: #eee;
   opacity: 0.8;
   position: absolute;
   bottom: 8%;
+  margin: 0 auto 16px;
   &:before {
     content: '';
     display: block;
