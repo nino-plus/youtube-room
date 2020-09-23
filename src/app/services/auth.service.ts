@@ -8,7 +8,7 @@ import { UserService } from './user.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   afUser$: Observable<User> = this.afAuth.user;
@@ -30,7 +30,7 @@ export class AuthService {
   constructor(
     private afAuth: AngularFireAuth,
     private userService: UserService,
-    private snackBar: MatSnackBar,
+    private snackBar: MatSnackBar
   ) {
     this.user$.subscribe((user) => {
       this.uid = user?.uid;
@@ -40,9 +40,11 @@ export class AuthService {
   }
 
   async anonymouslylogin(): Promise<void> {
-    return await this.afAuth.signInAnonymously().then(() => {
-      this.snackBar.open('ログインしました。', '閉じる');
-    })
+    return await this.afAuth
+      .signInAnonymously()
+      .then(() => {
+        this.snackBar.open('ログインしました。', '閉じる');
+      })
       .catch((error) => {
         console.error(error.message);
         this.snackBar.open(
@@ -55,9 +57,11 @@ export class AuthService {
   async twitterlogin(): Promise<void> {
     const provider = new auth.TwitterAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-    return await this.afAuth.signInWithPopup(provider).then(() => {
-      this.snackBar.open('ログインしました。', '閉じる');
-    })
+    return await this.afAuth
+      .signInWithPopup(provider)
+      .then(() => {
+        this.snackBar.open('ログインしました。', '閉じる');
+      })
       .catch((error) => {
         console.error(error.message);
         this.snackBar.open(
@@ -70,9 +74,11 @@ export class AuthService {
   async googlelogin(): Promise<void> {
     const provider = new auth.GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-    return await this.afAuth.signInWithPopup(provider).then(() => {
-      this.snackBar.open('ログインしました。', '閉じる');
-    })
+    return await this.afAuth
+      .signInWithPopup(provider)
+      .then(() => {
+        this.snackBar.open('ログインしました。', '閉じる');
+      })
       .catch((error) => {
         console.error(error.message);
         this.snackBar.open(
