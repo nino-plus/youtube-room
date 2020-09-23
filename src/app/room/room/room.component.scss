@@ -16,6 +16,11 @@
   &__avatar {
     width: 40px;
     height: 40px;
+    animation: shake 0.8s linear 0s infinite;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
   }
   &__comment {
     color: #212121;
@@ -23,6 +28,27 @@
   &__head {
     margin-right: 16px;
     text-align: center;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  20% {
+    transform: scale(1, 1.02) translate(-5%, -4%) skew(4deg, 0deg);
+  }
+  50% {
+    transform: scale(1, 0.96) translate(5%, 4%) skew(-4deg, 0deg);
+  }
+  65% {
+    transform: scale(1, 1.01) translate(2%, -2%) skew(-2deg, 0deg);
+  }
+  80% {
+    transform: scale(1, 0.98) translate(-2%, 2%) skew(2deg, 0deg);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
   }
 }
 
@@ -132,13 +158,22 @@
     margin-right: 16px;
   }
   &__avatar {
-    width: 40px;
-    height: 40px;
+    width: 32px;
+    height: 32px;
     margin-right: 8px;
   }
   &__comment {
+    font-size: 14px;
     padding: 8px;
     color: #212121;
+  }
+  &__name {
+    font-size: 14px;
+    margin-right: 8px;
+  }
+  &__date {
+    font-size: 12px;
+    opacity: 0.6;
   }
 }
 
