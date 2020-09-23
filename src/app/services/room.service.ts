@@ -27,9 +27,10 @@ export class RoomService {
     return this.db.doc(`rooms/${id}`).set(value);
   }
 
-  addRoomMembers(channelId: string, uid: string) {
+  addRoomMembers(channelId: string, uid: string, avatarId: number) {
     const value: Member = {
       uid,
+      avatarId,
       active: true,
       lastStatusChecked: firestore.Timestamp.now(),
       lastPosted: firestore.Timestamp.now()

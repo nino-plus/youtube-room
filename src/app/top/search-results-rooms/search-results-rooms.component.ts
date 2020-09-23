@@ -17,6 +17,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private uid = this.authService.uid;
   private rooms$: Observable<Room[]> = this.roomService.getRooms();
+  private avatarId = this.authService.avatarId;
   rooms: Room[];
 
   constructor(
@@ -49,7 +50,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/room/${channelId}`);
     } else {
       this.roomService.createRoom(channelId, title);
-      this.roomService.addRoomMembers(channelId, this.uid).then(() => {
+      this.roomService.addRoomMembers(channelId, this.uid, this.avatarId).then(() => {
         this.router.navigateByUrl(`/room/${channelId}`);
       });
     }
