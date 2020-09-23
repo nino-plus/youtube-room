@@ -7,4 +7,5 @@ export interface Member {
   active: true;
   lastStatusChecked: firestore.Timestamp;
   lastPosted: firestore.Timestamp;
+  name: string;
 }
