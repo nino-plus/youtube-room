@@ -1,40 +1,90 @@
 .wrap {
   text-align: center;
   padding: 24px;
+  height: 100vh;
+  background: url(../../../assets/images/bg.png) no-repeat center/cover;
 }
 
-.description {
-  margin-bottom: 80px;
+.head {
+  width: 80%;
+  height: 40%;
+  padding: 120px 24px;
+  margin: 48px auto 80px;
+  color: #fff;
+  &__title {
+    letter-spacing: 3px;
+  }
+  &__description {
+    margin-bottom: 80px;
+  }
 }
 
 .intro {
-  font-size: 24px;
-  margin-bottom: 56px;
+  font-size: 48px;
+  letter-spacing: 8px;
+  text-indent: 48px;
 }
 
-.login {
-  max-width: 50%;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr;
+.login-nav {
+  width: 80%;
+  height: 40%;
+  margin: 48px auto;
   &__btn {
-    padding: 24px;
-    margin: 32px;
-    &:nth-of-type(3) {
-      margin-bottom: 80px;
+    display: block;
+    margin: 0 auto 48px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 48px;
+    width: 300px;
+    height: 48px;
+    border-radius: 24px;
+    border: 2px solid #fff;
+    transition: ease-in-out 0.3s;
+    background: rgba(#fff, 0);
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    &:hover {
+      background: #fff;
+      color: #303030;
     }
   }
 }
 
-.name-input {
-  width: 50%;
-}
-
-mat-divider {
-  margin-left: calc(((100vw - 100%) / 2) * -1);
-  margin-right: calc(((100vw - 100%) / 2) * -1);
+.seek {
+  display: block;
+  width: 98%;
+  height: 6px;
+  border-radius: 10px;
+  background: #eee;
+  opacity: 0.8;
+  position: absolute;
+  bottom: 8%;
+  &:before {
+    content: '';
+    display: block;
+    width: 40%;
+    height: 6px;
+    border-radius: 10px;
+    background: red;
+    opacity: 0.8;
+  }
+  &:after {
+    content: '';
+    display: block;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    background: red;
+    opacity: 0.8;
+    position: absolute;
+    top: 50%;
+    left: 40%;
+    transform: translateX(-50%) translateY(-50%);
+  }
 }
 
 .copyright {
-  padding: 16px;
+  color: #fff;
 }

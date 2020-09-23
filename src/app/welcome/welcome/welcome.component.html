@@ -1,44 +1,26 @@
 <div class="wrap">
-  <h1>YouTube Room</h1>
-  <div class="description">
-    <p>誰かと見るYouTube</p>
+  <div class="head">
+    <h1 class="head__title">YouTube Room</h1>
+    <div class="head__description">
+      <p>誰かと見るYouTube</p>
+    </div>
+    <p class="intro">面白いことは共有しよう。</p>
   </div>
 
-  <p class="intro">チャットでファンと思いを共有しましょう</p>
-
-  <div class="login">
-    <button
-      class="login__btn"
-      [disabled]=""
-      mat-raised-button
-      color="primary"
-      (click)="anonymouslyLogin()"
-    >
-      匿名でログイン
-    </button>
-
-    <button
-      class="login__btn"
-      [disabled]=""
-      mat-raised-button
-      color="primary"
-      (click)="googleLogin()"
-    >
+  <div class="login-nav">
+    <button class="login-nav__btn" (click)="googleLogin()">
       googleアカウントでログイン
     </button>
-    <button
-      class="login__btn"
-      [disabled]=""
-      mat-raised-button
-      color="primary"
-      (click)="twitterLogin()"
-    >
+    <button class="login-nav__btn" (click)="twitterLogin()">
       twitterアカウントでログイン
+    </button>
+    <button class="login-nav__btn" (click)="openSignUpDialog()">
+      アカウントをお持ちでない方
     </button>
   </div>
 
   <footer>
-    <mat-divider></mat-divider>
     <p class="copyright">&copy; 2020 YoutubeRoom Inc</p>
   </footer>
+  <span class="seek"></span>
 </div>

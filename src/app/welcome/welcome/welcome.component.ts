@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { UserService } from 'src/app/services/user.service';
+import { SignUpDialogComponent } from '../sign-up-dialog/sign-up-dialog.component';
 
 @Component({
   selector: 'app-welcome',
@@ -15,25 +16,31 @@ export class WelcomeComponent implements OnInit {
     Validators.maxLength(10),
   ]);
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {}
 
   googleLogin() {
     this.authService
       .googlelogin()
-      .then(() => this.router.navigateByUrl('/top/create'));
+      .then(() => this.router.navigateByUrl('/top'));
   }
 
   twitterLogin() {
     this.authService
       .twitterlogin()
-      .then(() => this.router.navigateByUrl('/top/create'));
+      .then(() => this.router.navigateByUrl('/top'));
   }
 
-  anonymouslyLogin() {
-    this.authService
-      .anonymouslylogin()
-      .then(() => this.router.navigateByUrl('/top/create'));
+  openSignUpDialog() {
+    this.matDialog.open(SignUpDialogComponent, {
+      width: '640px',
+      autoFocus: false,
+      restoreFocus: false,
+    });
   }
 }
