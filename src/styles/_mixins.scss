@@ -9,3 +9,9 @@
     @content;
   }
 }
+
+@mixin sp-s {
+  @media (max-width: 360px) {
+    @content;
+  }
+}

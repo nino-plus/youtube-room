@@ -37,10 +37,12 @@ $youtube-room-theme: mat-light-theme(
 
 html,
 body {
+  margin: 0;
+  padding: 0;
   height: 100%;
 }
+
 body {
-  margin: 0;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
@@ -49,24 +51,18 @@ a {
   text-decoration: none;
 }
 
-p {
-  margin: 0;
-  padding: 0;
-}
-
-figure {
-  margin: 0;
-  padding: 0;
-}
-
 img {
   max-width: 100%;
 }
 
+a,
+p,
 h1,
 h2,
 h3,
-h4 {
+h4,
+footer,
+figure {
   padding: 0;
   margin: 0;
 }
