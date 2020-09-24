@@ -1,38 +1,41 @@
-<div class="container">
-  <h1 class="title">アバターとニックネームを決めましょう</h1>
+<app-header></app-header>
 
-  <div class="swiper">
-    <swiper [config]="config" [(index)]="selectedId">
-      <div *ngFor="let avatarId of avatarIds">
-        <img src="/assets/images/char_{{ avatarId }}.png" alt="" />
-      </div>
-    </swiper>
-    <div class="pager"></div>
-  </div>
+<div class="wrap">
+  <div class="container">
+    <h2 class="heading">1.アバターを選択しましょう</h2>
 
-  <form class="name-form" [formGroup]="form" (ngSubmit)="submit()">
-    <mat-form-field appearance="outline">
-      <mat-label>ニックネーム</mat-label>
-      <input
-        formControlName="name"
-        placeholder="ニックネーム"
-        type="text"
-        autocomplete="off"
-        matInput
-        required
-      />
-      <mat-error *ngIf="nameControl.hasError('required')"
-        >必須入力です</mat-error
-      >
-      <mat-error *ngIf="nameControl.hasError('maxlength')"
-        >長すぎます</mat-error
-      >
-    </mat-form-field>
-
-    <div class="form-footer">
-      <button [disabled]="form.invalid" mat-raised-button color="primary">
-        はじめる
-      </button>
+    <div class="swiper">
+      <swiper [config]="config" [(index)]="selectedId">
+        <div *ngFor="let avatarId of avatarIds">
+          <img src="/assets/images/char_{{ avatarId }}.png" alt="" />
+        </div>
+      </swiper>
+      <div class="pager"></div>
     </div>
-  </form>
+
+    <h2 class="heading">2.ニックネームを入力しましょう</h2>
+    <form class="name-form" [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline">
+        <mat-label>ニックネーム</mat-label>
+        <input
+          formControlName="name"
+          placeholder="ニックネーム"
+          type="text"
+          autocomplete="off"
+          matInput
+          required
+        />
+        <mat-error *ngIf="nameControl.hasError('required')"
+          >必須入力です</mat-error
+        >
+        <mat-error *ngIf="nameControl.hasError('maxlength')"
+          >長すぎます</mat-error
+        >
+      </mat-form-field>
+    </form>
+
+    <button [disabled]="form.invalid" mat-raised-button color="primary">
+      はじめる
+    </button>
+  </div>
 </div>
