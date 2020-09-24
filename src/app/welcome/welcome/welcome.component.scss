@@ -1,3 +1,5 @@
+@import 'mixins';
+
 .wrap {
   text-align: center;
   padding: 24px;
@@ -8,11 +10,19 @@
 .head {
   width: 80%;
   height: 40%;
-  padding: 120px 24px;
-  margin: 48px 20% 80px 20%;
+  padding: 80px 24px;
+  margin: 48px 20% 80px;
   color: #fff;
+  @include sp {
+    width: 100%;
+    padding: 80px 24px;
+    margin: 24px auto;
+  }
   &__title {
     letter-spacing: 3px;
+    @include sp {
+      font-size: 24px;
+    }
   }
   &__description {
     margin-bottom: 80px;
@@ -23,15 +33,24 @@
   font-size: 48px;
   letter-spacing: 8px;
   text-indent: 48px;
+  @include sp {
+    width: 100%;
+    font-size: 32px;
+    text-indent: -16px;
+    white-space: nowrap;
+  }
 }
 
 .login-nav {
   width: 80%;
   height: 40%;
-  margin: 48px 20% 0 20%;
+  margin: 0 20% 1%;
+  @include sp {
+    margin: 72px auto 8px;
+  }
   &__btn {
     display: block;
-    margin: 0 auto 48px;
+    margin: 0 auto 40px;
     text-align: center;
     font-size: 16px;
     font-weight: 500;
@@ -45,6 +64,15 @@
     color: #fff;
     cursor: pointer;
     outline: none;
+    @include sp {
+      width: 240px;
+      height: 40px;
+      border-radius: 20px;
+      line-height: 40px;
+      font-size: 14px;
+      background: #fff;
+      color: #303030;
+    }
     &:hover {
       background: #fff;
       color: #303030;
@@ -60,8 +88,12 @@
   background: #eee;
   opacity: 0.8;
   position: absolute;
-  bottom: 8%;
+  bottom: 5%;
   margin: 0 auto 16px;
+  @include sp {
+    width: 90%;
+    height: 4px;
+  }
   &:before {
     content: '';
     display: block;
