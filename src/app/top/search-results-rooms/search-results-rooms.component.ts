@@ -18,7 +18,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
   private subscriptions: Subscription = new Subscription();
   private uid = this.authService.uid;
   private rooms$: Observable<Room[]> = this.roomService.getRooms();
-  private avatarId = this.authService.avatarId;
+  private avatarId: number;
   rooms: Room[];
 
   constructor(
@@ -32,6 +32,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user?.uid;
+        this.avatarId = user?.avatarId;
       })
     );
     this.subscriptions.add(
