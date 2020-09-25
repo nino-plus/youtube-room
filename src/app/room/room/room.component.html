@@ -12,7 +12,7 @@
             <p class="users__name">{{ member.name }}</p>
           </div>
           <div class="users__body">
-            <div class="baloon" *ngFor="let message of messages[user.uid]">
+            <div class="baloon" *ngFor="let message of messages[member.uid]">
               <div class="users__comment">{{ message }}</div>
             </div>
           </div>

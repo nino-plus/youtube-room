@@ -1,0 +1,17 @@
+@mixin sp {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
+@mixin tab {
+  @media (max-width: 960px) {
+    @content;
+  }
+}
+
+@mixin sp-s {
+  @media (max-width: 360px) {
+    @content;
+  }
+}

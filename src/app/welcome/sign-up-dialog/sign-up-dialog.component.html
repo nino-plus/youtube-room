@@ -1,0 +1,19 @@
+<h1 matDialogTitle align="center">新規登録</h1>
+
+<mat-dialog-content>
+  <div class="sign-up">
+    <button class="sign-up__btn" (click)="googleSignUp()">
+      googleアカウントで登録
+    </button>
+    <button class="sign-up__btn" (click)="twitterSignUp()">
+      twitterアカウントで登録
+    </button>
+    <button class="sign-up__btn" (click)="anonymouslyLogin()">
+      匿名でログイン
+    </button>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-stroked-button matDialogClose>戻る</button>
+</mat-dialog-actions>
