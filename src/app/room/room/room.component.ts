@@ -4,7 +4,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { skip } from 'rxjs/operators';
-import { bounce, fade } from 'src/app/animations';
+import { bounce, fade, float } from 'src/app/animations';
 import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
@@ -16,12 +16,12 @@ import { RoomService } from 'src/app/services/room.service';
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
-  animations: [fade, bounce],
+  animations: [fade, bounce, float],
 })
 export class RoomComponent implements OnInit, OnDestroy {
   private uid = this.authService.uid;
   private userName = this.authService.userName;
-  private avatarId = this.authService.avatarId;
+  private avatarId: number;
   private channelId = this.route.snapshot.paramMap.get('id');
   private subscriptions: Subscription = new Subscription();
   player: YT.Player;
@@ -40,14 +40,14 @@ export class RoomComponent implements OnInit, OnDestroy {
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
   );
-  members$: Observable<Member[]> = this.roomService.getMembers(
-    this.channelId
-  );
+  members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
   form = this.fb.group({
     comments: ['', Validators.required],
   });
   user$: Observable<UserData> = this.authService.user$;
-  message$: Observable<Message[]> = this.chatsService.getLatestMessages(this.channelId);
+  message$: Observable<Message[]> = this.chatsService.getLatestMessages(
+    this.channelId
+  );
   firstVideos: any;
   videoIds = [];
   id;
@@ -80,8 +80,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
-        this.uid = user.uid;
-        this.userName = user.userName;
+        this.uid = user?.uid;
+        this.userName = user?.userName;
+        this.avatarId = user?.avatarId;
       })
     );
     // this.setChannelFirstVideos().then(() => {
@@ -102,7 +103,7 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.player = player;
   }
 
-  addComment() { }
+  addComment() {}
 
   good() {
     this.isGood = !this.isGood;
@@ -134,15 +135,17 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.form.value.comments,
       this.uid,
       this.userName,
-      this.avatarId,
+      this.avatarId
     );
     this.form.reset();
   }
 
   async setChannelFirstVideos() {
-    const response: any = await this.roomService.getChannelVideos(this.channelId);
+    const response: any = await this.roomService.getChannelVideos(
+      this.channelId
+    );
     const items = response.items;
-    await items.forEach(item => {
+    await items.forEach((item) => {
       this.videoIds.push(item.id.videoId);
     });
   }
