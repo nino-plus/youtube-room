@@ -2,13 +2,13 @@
   text-align: center;
   padding: 24px;
   height: 100vh;
-  background: url(../../../assets/images/bg2_1.jpg) no-repeat center/cover;
+  background: url(../../../assets/images/bg2.jpg) no-repeat center/cover;
 }
 
 .heading {
   text-align: center;
   margin: 32px auto;
-  color: #303030;
+  color: rgba(#fff, 0.8);
 }
 
 .pager {
@@ -16,11 +16,11 @@
   place-content: center;
   gap: 8px;
   text-align: center;
-  margin-bottom: 80px;
+  margin: 40px 0 80px;
 }
 
 .swiper-slide {
-  opacity: 0.3;
+  opacity: 0.4;
 }
 
 .swiper-slide-active {
@@ -35,7 +35,7 @@
   grid-template-columns: 1fr;
   gap: 24px;
   input {
-    color: #303030;
+    color: rgba(#fff, 0.8);
   }
 }
 mat-form-field {
