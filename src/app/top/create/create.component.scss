@@ -31,10 +31,19 @@
   width: 80%;
   text-align: center;
   margin: 48px auto 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
   input {
     color: #303030;
   }
 }
 mat-form-field {
   width: 80%;
+  margin: 0 auto;
+}
+
+.submit {
+  width: 80%;
+  margin: 0 auto;
 }

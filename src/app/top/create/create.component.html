@@ -6,7 +6,7 @@
 
     <div class="swiper">
       <swiper [config]="config" [(index)]="selectedId">
-        <div *ngFor="let avatarId of avatarIds">
+        <div *ngFor="let avatarId of avatarIds" class="swiper-slide">
           <img src="/assets/images/char_{{ avatarId }}.png" alt="" />
         </div>
       </swiper>
@@ -32,10 +32,14 @@
           >長すぎます</mat-error
         >
       </mat-form-field>
+      <button
+        class="submit"
+        [disabled]="form.invalid"
+        mat-raised-button
+        color="primary"
+      >
+        はじめる
+      </button>
     </form>
-
-    <button [disabled]="form.invalid" mat-raised-button color="primary">
-      はじめる
-    </button>
   </div>
 </div>
