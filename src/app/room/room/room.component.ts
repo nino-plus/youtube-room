@@ -2,8 +2,9 @@ import { newArray } from '@angular/compiler/src/util';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { parse, toSeconds } from 'iso8601-duration';
 import { Observable, Subscription } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { map, skip } from 'rxjs/operators';
 import { bounce, fade } from 'src/app/animations';
 import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
@@ -50,7 +51,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   message$: Observable<Message[]> = this.chatsService.getLatestMessages(this.channelId);
   firstVideos: any;
   videoIds = [];
-  id;
+  id: string;
+  videoTime: number;
+  videoCount: number;
 
   constructor(
     private authService: AuthService,
@@ -77,32 +80,82 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user.uid;
         this.userName = user.userName;
       })
     );
-    // this.setChannelFirstVideos().then(() => {
-    //   for (let i = this.videoIds.length - 1; i > 0; i--) {
-    //     const j = Math.floor(Math.random)
+
+    await this.setFirstVideo();
+
+    // setInterval(async () => {
+    //   const seekTime = Math.round(this.player.getCurrentTime());
+    //   console.log(seekTime);
+    //   if (this.videoTime - seekTime <= 10) {
+    //     const randomNumber = Math.floor(Math.random() * this.videoCount);
+    //     this.roomService.setNextVideo(this.channelId, randomNumber).subscribe(async (video) => {
+    //       this.id = video.videoId;
+    //       console.log(video.videoId);
+    //       console.log(this.id);
+    //       await this.roomService.getVideoItem(video.videoId).then((id) => {
+    //         this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
+    //       });
+    //     });
     //   }
-    //   // this.videoIds.forEach((videoid) => {
-    //   //   setTimeout(this.id = videoid, 5000);
-    //   // });
-    // });
+    // }, 100000000000);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
+  setVideo() {
+    this.subscriptions.add(
+      this.roomService.getRoom(this.channelId).subscribe((count) => {
+        this.videoCount = count.videoCount;
+      })
+    );
+  }
+
+  async setFirstVideo() {
+    this.subscriptions.add(
+      this.roomService.getRoom(this.channelId).subscribe((count) => {
+        this.videoCount = count.videoCount;
+        const randomNumber = Math.floor(Math.random() * this.videoCount);
+        this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
+          console.log(video);
+          this.id = video.videoId;
+          await this.roomService.getVideoItem(video.videoId).then((id) => {
+            this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
+            console.log(this.videoTime);
+          });
+        });
+      })
+    );
+  }
+
+  test() {
+    const seekTime = Math.round(this.player.getCurrentTime());
+    console.log(seekTime);
+    if (this.videoTime - seekTime <= 10) {
+      const randomNumber = Math.floor(Math.random() * this.videoCount);
+      this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
+        this.id = null;
+        this.id = video.videoId;
+        console.log(video.videoId);
+        console.log(this.id);
+        await this.roomService.getVideoItem(video.videoId).then((id) => {
+          this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
+        });
+      });
+    }
+  }
+
   savePlayer(player) {
     this.player = player;
   }
-
-  addComment() { }
 
   good() {
     this.isGood = !this.isGood;
@@ -142,8 +195,15 @@ export class RoomComponent implements OnInit, OnDestroy {
   async setChannelFirstVideos() {
     const response: any = await this.roomService.getChannelVideos(this.channelId);
     const items = response.items;
+    console.log(response);
     await items.forEach(item => {
       this.videoIds.push(item.id.videoId);
     });
+    const id = await this.roomService.getVideoItem('ygVnnLZ9qy8');
+    console.log(toSeconds(parse(Object.values(id)[2][0].contentDetails.duration)));
+  }
+  getCurrentTime() {
+    const time = Math.round(this.player.getCurrentTime());
+    console.log(time.toString());
   }
 }

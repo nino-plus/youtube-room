@@ -78,13 +78,13 @@
 .room {
   padding: 24px;
   &__display {
-    width: 100%;
+    width: 1000px;
     height: 600px;
-    background: #212121;
-    position: relative;
-    youtube-player {
-      pointer-events: none;
-    }
+  //   background: #212121;
+  //   position: relative;
+  //   youtube-player {
+  //     pointer-events: none;
+  //   }
   }
   &__next-grid {
     display: grid;

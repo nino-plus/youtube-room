@@ -4,7 +4,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
-import { shareReplay, switchMap, take } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Member } from '../interfaces/member';
 import { Room } from '../interfaces/room';
 import { UserData } from '../interfaces/user';
@@ -18,6 +18,7 @@ import { UserService } from './user.service';
 export class RoomService {
   uid: string;
   userName: string;
+  apiKey = 'AIzaSyBtWhLoGLzn925LSaqQSZ2JOzYOf0uAT18';
 
   user$: Observable<UserData> = this.afAuth.authState.pipe(
     switchMap((afUser) => {
@@ -75,13 +76,17 @@ export class RoomService {
     return this.db.collection<Room>('rooms').valueChanges();
   }
 
+  getRoom(channelId: string): Observable<Room> {
+    return this.db.doc<Room>(`rooms/${channelId}`).valueChanges();
+  }
+
   getChannelVideos(channelId: string) {
     return this.http
       .get('https://www.googleapis.com/youtube/v3/search', {
         params: new HttpParams({
           fromObject: {
             part: 'snippet',
-            key: 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY',
+            key: this.apiKey,
             maxResults: '10',
             type: 'video',
             order: 'viewCount',
@@ -92,6 +97,58 @@ export class RoomService {
       .pipe(take(1))
       .toPromise();
   }
+
+  getVideoItem(id: string): Promise<object> {
+    return this.http
+      .get('https://www.googleapis.com/youtube/v3/videos', {
+        params: new HttpParams({
+          fromObject: {
+            part: 'contentDetails',
+            key: this.apiKey,
+            id,
+          },
+        }),
+      })
+      .pipe(take(1))
+      .toPromise();
+  }
+
+  getRandomVideoId(channelId: string, randomNumber: number): Observable<Video> {
+    return this.db.collection<Video>(`rooms/${channelId}/videos`, (ref) => ref
+    .where('random', '>=', randomNumber)
+      .limit(1)).valueChanges().pipe(
+        map((videos) => {
+          if (videos.length) {
+            return videos[0];
+          } else {
+            return null;
+          }
+        })
+      );
+  }
+
+  getVideoId(channelId: string, videoId: string): Observable<Video> {
+    return this.db.doc<Video>(`rooms/${channelId}/videos/${videoId}`).valueChanges();
+  }
+
+//   return this.db
+//       .collection<UserData>(‘users’, (ref) =>
+//         ref.where(‘screenName’, ‘==’, screenName)
+//       )
+//       .valueChanges()
+//       .pipe(
+//         map((users) => {
+//           if (users.length) {
+//             return users[0];
+//           } else {
+//             return null;
+//           }
+//         })
+//       );
+// let postsRef = db.collection(“posts”)
+// queryRef = postsRef.whereField(“random”, isGreaterThanOrEqualTo: lowValue)
+//                    .order(by: “random”)
+//                    .limit(to: 1)
 
   setChannelFirstVideos(channelId: string, video: Video): Promise<void> {
     return this.db.doc(`rooms/${channelId}/videos/${video.videoId}`).set(video);
