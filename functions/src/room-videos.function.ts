@@ -29,58 +29,78 @@ google.options({
 const apiKey = functions.config().youtube.api_key;
 const youtube = google.youtube({ version: 'v3', auth: apiKey });
 
-function getMoviesByChannelId(channelId: string) {
+function getMoviesByChannelId(channelId: string, nextPageToken?: string) {
   youtube.search.list({
     part: 'snippet',
     channelId,
-    maxResults: 49,
-    order: `title`,
+    maxResults: 50,
+    order: `viewCount`,
     type: `video`,
-    safeSearch: 'none',
-    videoCaption: 'any',
-    videoDefinition: 'any',
-    videoEmbeddable: 'any',
-    videoLicense: 'any',
-    videoSyndicated: 'any',
-    videoType: 'any',
-  }, (err: any, response: any) => {
-    if (err) {
-      functions.logger.info(err);
+    pageToken: nextPageToken ? nextPageToken : '',
+  })
+    .then(async (response: any) => {
+      const resData: {
+        "nextPageToken": string,
+        "pageInfo": {
+          "totalResults": number,
+        },
+        "items": []
+      } = response.data;
+      functions.logger.info(resData);
+      const videos: [] = resData.items;
+      const allVideosCount: number = resData.pageInfo.totalResults;
+      await createVideos(videos, channelId, allVideosCount);
+      const nextToken = response.data?.nextPageToken;
+      functions.logger.info(nextToken);
+      if (nextToken) {
+        getMoviesByChannelId(channelId, nextToken);
+      }
       return;
-    }
-    const resData: {
-      "nextPageToken": string,
-      "prevPageToken": string,
-      "pageInfo": {
-        "totalResults": number,
-        "resultsPerPage": number
-      },
-      "items": []
-    } = response.data;
-    functions.logger.info(response.data);
-    const items: any = resData.items;
-    return createVideos(items, channelId);
-  });
+    })
+    .catch((error: any) => {
+      functions.logger.warn(error);
+      return;
+    });
 }
 
-function createVideos(items: [], roomId: any) {
+function createVideos(videos: [], roomId: string, allVideosCount: number) {
+  const randomVideos = shuffleVideos(videos);
   const batch = db.batch();
-  const notUsedNumbers: number[] = [...Array(items.length).keys()]
-  items.forEach((item: any) => {
-    const ramdomNumber = Math.floor(Math.random() * notUsedNumbers.length);
-    notUsedNumbers.splice(ramdomNumber, 1);
-    const randomId = ramdomNumber;
+  randomVideos.forEach(async (item: {
+    "id": {
+      "videoId": string,
+    },
+    "snippet": {
+      "title": string,
+      "thumbnails": {
+        "high": {
+          "url": string,
+        }
+      },
+    },
+  }) => {
     const videoId = item.id.videoId;
     const snippet = item.snippet;
     const title = snippet.title;
-    const img_url = snippet.thumbnails.high.url;
-    const videoRef = db.doc(`rooms/${roomId}/videos/${randomId}`);
+    const thumbnailURL = snippet.thumbnails.high.url;
+    const random = Math.floor(Math.random() * allVideosCount);
+    const videoRef = db.doc(`rooms/${roomId}/videos/${videoId}`);
     batch.set(videoRef, {
       videoId,
       title,
-      img_url,
-      randomId,
+      thumbnailURL,
+      random,
+      isNowPlaying: false,
+      allVideosCount
     });
   });
   return batch.commit();
+}
+
+function shuffleVideos(videos: []) {
+  for (let i = videos.length - 1; i > 0; i--) {
+    const rand = Math.floor(Math.random() * (i + 1));
+    [videos[i], videos[rand]] = [videos[rand], videos[i]];
+  }
+  return videos;
 }
