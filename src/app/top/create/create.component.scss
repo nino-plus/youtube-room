@@ -1,11 +1,22 @@
-.title {
+.wrap {
+  text-align: center;
+  padding: 24px;
+  height: 100vh;
+  background: url(../../../assets/images/bg2_1.jpg) no-repeat center/cover;
+}
+
+.heading {
   text-align: center;
   margin: 32px auto;
+  color: #303030;
 }
 
 .pager {
+  display: flex;
+  place-content: center;
+  gap: 8px;
   text-align: center;
-  margin-bottom: 48px;
+  margin-bottom: 80px;
 }
 
 .swiper-slide {
@@ -17,6 +28,22 @@
 }
 
 .name-form {
+  width: 80%;
   text-align: center;
-  margin-bottom: 48px;
+  margin: 48px auto 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  input {
+    color: #303030;
+  }
+}
+mat-form-field {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.submit {
+  width: 80%;
+  margin: 0 auto;
 }

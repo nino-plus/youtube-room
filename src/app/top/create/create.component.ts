@@ -17,6 +17,7 @@ export class CreateComponent implements OnInit {
   avatarIds = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
     loop: true,
+    observer: true,
     navigation: true,
     pagination: {
       el: '.pager',
@@ -43,7 +44,7 @@ export class CreateComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.user$
@@ -60,6 +61,11 @@ export class CreateComponent implements OnInit {
   submit() {
     const userName = this.form.value.name;
     const avatarId = this.selectedId + 1;
+    console.log('check');
+    console.log(this.selectedId);
+    console.log(this.uid);
+    console.log(userName);
+
     this.userService
       .createUser(this.uid, userName, avatarId)
       .then(() => this.router.navigateByUrl('/top'));
