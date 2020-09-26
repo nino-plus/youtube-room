@@ -32,7 +32,6 @@ export class TopComponent implements OnInit {
   };
   selectedId = 1;
 
-
   form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(40)]],
   });
@@ -43,13 +42,12 @@ export class TopComponent implements OnInit {
     return this.form.get('name') as FormControl;
   }
 
-
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService,
     private searchRoomService: SearchRoomService
-  ) { }
+  ) {}
 
   async searchRoom() {
     const channelItems: any = await this.searchRoomService.getChannelItems(
@@ -65,7 +63,6 @@ export class TopComponent implements OnInit {
       this.userName = user?.userName;
       this.avatarId = user?.avatarId;
     });
-    console.log(this.avatarId);
   }
 
   submit() {
