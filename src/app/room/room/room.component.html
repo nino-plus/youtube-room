@@ -2,9 +2,11 @@
 
   <a routerLink="/top" class="header__logo" mat-button>YOUTUBEROOM</a>
   <span class="spacer"></span>
-  <button color="accent" mat-raised-button (click)="setVideo()">
-    みんなで再生を始める
-  </button>
+  <div class="actions-btn" *ngIf="room$ | async as room">
+    <button color="accent" [disabled]="room.isCreating === true" mat-raised-button (click)="setVideo()">
+      みんなで再生を始める
+    </button>
+  </div>
   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
     <mat-icon>exit_to_app</mat-icon>
   </button>
@@ -26,7 +28,7 @@
   <div class="grid">
     <div class="users">
       <div @fade @bounce *ngFor="let member of members$ | async" class="users__user" cdkDrag>
-        <div class="users__head" *ngIf="member || member.isActive">
+        <div class="users__head" *ngIf="member.isActive">
           <img class="users__avatar" src="/assets/images/char_{{ member.avatarId }}.png" alt="" />
           <p class="users__name">{{ member.name }}</p>
         </div>
@@ -44,7 +46,7 @@
     </ng-template>
 
     <ng-container *ngIf="room$ | async as room">
-      <div *ngIf="!room.isCreating === false; else nowLoading">
+      <div *ngIf="!room.isCreating; else nowLoading">
         <div class="youtube">
           <div class="youtube__display">
             <youtube-player width="100%" hight="100%" [videoId]="id" (ready)="savePlayer($event)"
@@ -87,28 +89,30 @@
           </div>
         </div>
       </div>
+      <ng-template #nowLoading>
+        <mat-spinner *ngIf="loadingService.loading" class="loading" diameter="56" strokeWidth="2"></mat-spinner>
+        <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+      </ng-template>
     </ng-container>
 
     <div class="right">
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
           <figure class="channel__logo">
-            <img [src]="" alt="" />
+            <img [src]="room.thumbnailURL" alt="" />
           </figure>
           <h2 class="channel__name">{{ room.title }}</h2>
         </div>
         <div class="channel__body">
           <div class="channel__description">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt,
-            veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Sunt, veniam. Lorem ipsum dolor, sit amet consectetur adipisicing
-            elit. Sunt, veniam.Lorem ipsum dolor, sit amet consectetur
-            adipisicing elit. Sunt, veniam.
+            <p *ngIf="room.description.length !== 0; else blank">
+              {{ room.description }}
+            </p>
+            <p #blank>このチャンネルの概要はありません。</p>
           </div>
         </div>
       </div>
       <div class="chat">
-        <!-- コメント開始 -->
         <div class="comment">
           <form class="comment__form" *ngIf="user$ | async as user" [formGroup]="form" (ngSubmit)="sendMessage()">
             <mat-form-field>
@@ -139,5 +143,6 @@
         </div>
       </div>
     </div>
+
   </div>
 </div>
