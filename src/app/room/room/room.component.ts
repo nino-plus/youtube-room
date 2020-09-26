@@ -95,7 +95,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       })
     );
 
-    await this.setVideo();
+    // await this.setVideo();
 
     // setInterval(async () => {
     //   const seekTime = Math.round(this.player.getCurrentTime());
@@ -120,14 +120,7 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   setVideoLoop() {
     this.videoId$.subscribe(doc => {
-      if (doc.videoId) {
-        console.log(doc?.videoId);
-        console.log('if');
         this.player.loadVideoById(doc?.videoId);
-      } else {
-        console.log('else');
-        return this.setVideoLoop();
-      }
     });
   }
 
@@ -138,10 +131,13 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.videoCount = count.allVideosCount;
         const randomNumber = Math.floor(Math.random() * this.videoCount);
         this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
-          this.roomService.setPlayVideo(this.channelId, video.videoId);
+          await this.roomService.setPlayVideo(this.channelId, video.videoId);
         });
       })
     );
+    this.videoId$.subscribe((doc) => {
+      this.player.loadVideoById(doc?.videoId);
+    });
   }
 
   savePlayer(player) {
