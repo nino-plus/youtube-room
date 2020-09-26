@@ -2,6 +2,15 @@
   flex: 1;
 }
 
+.logout{
+  display: block;
+  color: rgba(#fff, 0.8);
+}
+.room{
+  color: rgba(#fff, 0.8);
+}
+
+
 .wrapper {
   padding: 0 24px 80px;
 }
@@ -259,12 +268,7 @@
     }
   }
 }
-.actions-btn {
-  text-align: right;
-  &__logout {
-    margin-right: 8px;
-  }
-}
+
 @keyframes fluffy {
   0% {
     transform: scale(1, 1) translate(0%, 0%);

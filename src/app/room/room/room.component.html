@@ -1,7 +1,26 @@
 <mat-toolbar>
+
   <a routerLink="/top" class="header__logo" mat-button>YOUTUBEROOM</a>
   <span class="spacer"></span>
-  <button class="logout" mat-button (click)="logout()">ログアウト</button>
+  <button color="accent" mat-raised-button (click)="setVideo()">
+    みんなで再生を始める
+  </button>
+<!-- メニュー開始 -->
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
+  <!-- メニューの中身 -->
+  <mat-menu #menu="matMenu">
+    <button class="logout" mat-button (click)="logout()">
+      <mat-icon>delete_outline</mat-icon>
+      ログアウト
+    </button>
+    <button class="room" mat-button routerLink="/top">
+      <mat-icon>check</mat-icon>
+      他の部屋を探す
+    </button>
+  </mat-menu>
+
 </mat-toolbar>
 
 <div class="wrapper">
@@ -198,13 +217,6 @@
           </form>
         </div>
       </div>
-    </div>
-
-    <div class="actions-btn">
-      <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
-      <button color="accent" mat-raised-button (click)="setVideo()">
-        みんなで再生を始める
-      </button>
     </div>
   </div>
 </div>
