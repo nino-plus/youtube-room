@@ -23,13 +23,12 @@
     <div class="room">
       <div class="container">
         <div class="room__display" cdkDrag>
-          <ng-container *ngIf="id">
+          <ng-container>
             <youtube-player
               width="100%"
               height="100%"
               [videoId]="id"
               (ready)="savePlayer($event)"
-              (change)="setVideo()"
             >
             </youtube-player>
           </ng-container>
@@ -202,9 +201,7 @@
         >
           退室する
         </button>
-        <button mat-raised-button (click)="getCurrentTime()">時間</button>
-        <button mat-raised-button (click)="test()">差し替え</button>
-        <button mat-raised-button (click)="setChannelFirstVideos()">items</button>
+        <button mat-raised-button (click)="setVideo()">items</button>
         <a mat-raised-button color="primary" routerLink="/top">トップへ</a>
       </div>
     </div>

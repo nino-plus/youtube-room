@@ -9,7 +9,6 @@ import { Member } from '../interfaces/member';
 import { Room } from '../interfaces/room';
 import { UserData } from '../interfaces/user';
 import { Video } from '../interfaces/video';
-import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -45,7 +44,7 @@ export class RoomService {
   }
 
   createRoom(id: string, title: string): Promise<void> {
-    const value: Omit<Room, 'videoCount'> = {
+    const value: Omit<Room, 'allVideosCount'> = {
       id,
       title,
       initialAction: false,
@@ -115,7 +114,7 @@ export class RoomService {
 
   getRandomVideoId(channelId: string, randomNumber: number): Observable<Video> {
     return this.db.collection<Video>(`rooms/${channelId}/videos`, (ref) => ref
-    .where('random', '>=', randomNumber)
+      .where('random', '>=', randomNumber)
       .limit(1)).valueChanges().pipe(
         map((videos) => {
           if (videos.length) {
@@ -127,30 +126,17 @@ export class RoomService {
       );
   }
 
-  getVideoId(channelId: string, videoId: string): Observable<Video> {
-    return this.db.doc<Video>(`rooms/${channelId}/videos/${videoId}`).valueChanges();
+  collectionVideos(channelId: string) {
+    this.db.collection(`rooms/${channelId}/videos`)
+      .valueChanges();
   }
 
-//   return this.db
-//       .collection<UserData>(‘users’, (ref) =>
-//         ref.where(‘screenName’, ‘==’, screenName)
-//       )
-//       .valueChanges()
-//       .pipe(
-//         map((users) => {
-//           if (users.length) {
-//             return users[0];
-//           } else {
-//             return null;
-//           }
-//         })
-//       );
-// let postsRef = db.collection(“posts”)
-// queryRef = postsRef.whereField(“random”, isGreaterThanOrEqualTo: lowValue)
-//                    .order(by: “random”)
-//                    .limit(to: 1)
 
-  setChannelFirstVideos(channelId: string, video: Video): Promise<void> {
-    return this.db.doc(`rooms/${channelId}/videos/${video.videoId}`).set(video);
+  setPlayVideo(channelId: string, videoId: string): Promise<void> {
+    return this.db.doc(`rooms/${channelId}/playVideo/video`).set({ videoId });
+  }
+
+  getPlayVideo(channelId: string): Observable<Video> {
+    return this.db.doc<Video>(`rooms/${channelId}/playVideo/video`).valueChanges();
   }
 }

@@ -10,6 +10,7 @@ import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
 import { UserData } from 'src/app/interfaces/user';
+import { Video } from 'src/app/interfaces/video';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
 
@@ -54,6 +55,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   id: string;
   videoTime: number;
   videoCount: number;
+  videoId$: Observable<Video> = this.roomService.getPlayVideo(this.channelId);
+
+  aaa$: any = this.roomService.collectionVideos(this.channelId);
+
 
   constructor(
     private authService: AuthService,
@@ -87,8 +92,10 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.userName = user.userName;
       })
     );
-
-    await this.setFirstVideo();
+    // this.roomService.setPlayVideo(this.channelId, 'ygVnnLZ9qy8');
+    console.log(this.aaa$);
+    this.setVideoLoop();
+    await this.setVideo();
 
     // setInterval(async () => {
     //   const seekTime = Math.round(this.player.getCurrentTime());
@@ -111,50 +118,36 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  setVideo() {
-    this.subscriptions.add(
-      this.roomService.getRoom(this.channelId).subscribe((count) => {
-        this.videoCount = count.videoCount;
-      })
-    );
+  setVideoLoop() {
+    this.videoId$.subscribe(doc => {
+      if (doc.videoId) {
+        console.log(doc?.videoId);
+        console.log('if');
+        this.player.loadVideoById(doc?.videoId);
+      } else {
+        console.log('else');
+        return this.setVideoLoop();
+      }
+    });
   }
 
-  async setFirstVideo() {
+  async setVideo() {
     this.subscriptions.add(
       this.roomService.getRoom(this.channelId).subscribe((count) => {
-        this.videoCount = count.videoCount;
+        console.log(count);
+        this.videoCount = count.allVideosCount;
         const randomNumber = Math.floor(Math.random() * this.videoCount);
         this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
-          console.log(video);
-          this.id = video.videoId;
-          await this.roomService.getVideoItem(video.videoId).then((id) => {
-            this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
-            console.log(this.videoTime);
-          });
+          this.roomService.setPlayVideo(this.channelId, video.videoId);
         });
       })
     );
-  }
-
-  test() {
-    const seekTime = Math.round(this.player.getCurrentTime());
-    console.log(seekTime);
-    if (this.videoTime - seekTime <= 10) {
-      const randomNumber = Math.floor(Math.random() * this.videoCount);
-      this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
-        this.id = null;
-        this.id = video.videoId;
-        console.log(video.videoId);
-        console.log(this.id);
-        await this.roomService.getVideoItem(video.videoId).then((id) => {
-          this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
-        });
-      });
-    }
   }
 
   savePlayer(player) {
     this.player = player;
+    this.player.playVideo();
+    this.player.mute();
   }
 
   good() {
@@ -190,20 +183,5 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.avatarId,
     );
     this.form.reset();
-  }
-
-  async setChannelFirstVideos() {
-    const response: any = await this.roomService.getChannelVideos(this.channelId);
-    const items = response.items;
-    console.log(response);
-    await items.forEach(item => {
-      this.videoIds.push(item.id.videoId);
-    });
-    const id = await this.roomService.getVideoItem('ygVnnLZ9qy8');
-    console.log(toSeconds(parse(Object.values(id)[2][0].contentDetails.duration)));
-  }
-  getCurrentTime() {
-    const time = Math.round(this.player.getCurrentTime());
-    console.log(time.toString());
   }
 }
