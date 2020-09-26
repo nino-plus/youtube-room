@@ -11,7 +11,9 @@ export const roomVideos = functions.region('asia-northeast1')
     const eventId = context.eventId;
     return shouldEventRun(eventId).then(async (should: boolean) => {
       if (should) {
-        getMoviesByChannelId(channelId);
+        // tslint:disable-next-line: prefer-const
+        let allVideosCount = 0;
+        await getMoviesByChannelId(channelId, allVideosCount);
         return markEventTried(eventId);
       } else {
         return;
@@ -29,31 +31,33 @@ google.options({
 const apiKey = functions.config().youtube.api_key;
 const youtube = google.youtube({ version: 'v3', auth: apiKey });
 
-function getMoviesByChannelId(channelId: string, nextPageToken?: string) {
+async function getMoviesByChannelId(channelId: string, allVideosCount: number, nextPageToken?: string) {
   youtube.search.list({
     part: 'snippet',
     channelId,
     maxResults: 50,
     order: `viewCount`,
     type: `video`,
+    videoEmbeddable: true,
+    videoSyndicated: true,
     pageToken: nextPageToken ? nextPageToken : '',
   })
     .then(async (response: any) => {
       const resData: {
         "nextPageToken": string,
-        "pageInfo": {
-          "totalResults": number,
-        },
         "items": []
       } = response.data;
       functions.logger.info(resData);
       const videos: [] = resData.items;
-      const allVideosCount: number = resData.pageInfo.totalResults;
+      // tslint:disable-next-line: no-parameter-reassignment
+      allVideosCount += videos.length;
       await createVideos(videos, channelId, allVideosCount);
+      await db.doc(`rooms/${channelId}`).update({ allVideosCount });
+      await db.doc(`rooms/${channelId}`).update({ isCreating: false });
       const nextToken = response.data?.nextPageToken;
       functions.logger.info(nextToken);
       if (nextToken) {
-        getMoviesByChannelId(channelId, nextToken);
+        await getMoviesByChannelId(channelId, allVideosCount, nextToken);
       }
       return;
     })
@@ -63,7 +67,7 @@ function getMoviesByChannelId(channelId: string, nextPageToken?: string) {
     });
 }
 
-function createVideos(videos: [], roomId: string, allVideosCount: number) {
+async function createVideos(videos: [], roomId: string, allVideosCount: number) {
   const randomVideos = shuffleVideos(videos);
   const batch = db.batch();
   randomVideos.forEach(async (item: {
@@ -91,7 +95,6 @@ function createVideos(videos: [], roomId: string, allVideosCount: number) {
       thumbnailURL,
       random,
       isNowPlaying: false,
-      allVideosCount
     });
   });
   return batch.commit();
