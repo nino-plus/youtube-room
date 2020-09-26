@@ -48,3 +48,33 @@ export const bounce = trigger('bounce', [
     ),
   ]),
 ]);
+
+export const float = trigger('float', [
+  transition('void => *', [
+    animate(
+      '9s ease-in-out',
+      keyframes([
+        style({
+          transform: 'translate3d(0, 0, 0)',
+          offset: 0,
+          opacity: 0.6,
+        }),
+        style({
+          transform: 'translate3d(0, -10vw, 0)',
+          offset: 0.3,
+          opacity: 0.9,
+        }),
+        style({
+          transform: 'translate3d(0, -20vw, 0)',
+          offset: 0.75,
+          opacity: 0.6,
+        }),
+        style({
+          transform: 'translate3d(0, -30vw, 0)',
+          offset: 1,
+          opacity: 0,
+        }),
+      ])
+    ),
+  ]),
+]);

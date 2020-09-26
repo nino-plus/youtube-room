@@ -23,9 +23,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { HeaderComponent } from './header/header.component';
+import { ShellComponent } from './shell/shell.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, HeaderComponent, ShellComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
