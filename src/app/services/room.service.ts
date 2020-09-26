@@ -75,6 +75,10 @@ export class RoomService {
     return this.db.collection<Room>('rooms').valueChanges();
   }
 
+  getRoom(channelId: string): Observable<Room> {
+    return this.db.doc<Room>(`rooms/${channelId}`).valueChanges();
+  }
+
   getChannelVideos(channelId: string) {
     return this.http
       .get('https://www.googleapis.com/youtube/v3/search', {

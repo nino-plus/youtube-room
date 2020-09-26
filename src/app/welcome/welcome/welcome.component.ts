@@ -38,7 +38,6 @@ export class WelcomeComponent implements OnInit {
 
   openSignUpDialog() {
     this.matDialog.open(SignUpDialogComponent, {
-      width: '640px',
       autoFocus: false,
       restoreFocus: false,
     });

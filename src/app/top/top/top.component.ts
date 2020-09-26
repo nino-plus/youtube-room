@@ -14,7 +14,12 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./top.component.scss'],
 })
 export class TopComponent implements OnInit {
-  public resultRoom: any;
+  resultRoom: any;
+  userName: string;
+
+  user$: Observable<UserData> = this.authService.user$;
+  uid: string;
+  avatarId = this.authService.avatarId;
 
   avatarIds = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
@@ -29,8 +34,6 @@ export class TopComponent implements OnInit {
   };
   selectedId = 1;
 
-  user$: Observable<UserData> = this.authService.user$;
-  uid: string;
 
   form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(40)]],
@@ -49,7 +52,7 @@ export class TopComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private searchRoomService: SearchRoomService
-  ) {}
+  ) { }
 
   async searchRoom() {
     const channelItems: any = await this.searchRoomService.getChannelItems(
@@ -59,15 +62,12 @@ export class TopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.user$
-      .pipe(
-        map((user) => {
-          return user?.uid;
-        })
-      )
-      .subscribe((uid) => {
-        this.uid = uid;
-      });
+    this.user$.subscribe((user) => {
+      this.uid = user?.uid;
+      this.userName = user?.userName;
+      this.avatarId = user?.avatarId;
+    });
+    console.log(this.avatarId);
   }
 
   submit() {

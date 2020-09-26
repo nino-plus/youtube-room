@@ -8,26 +8,28 @@
 }
 
 .users {
-  padding: 24px;
-  &__user {
-    display: flex;
-    align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  padding-top: 24px;
+  &__head {
+    text-align: center;
   }
   &__avatar {
     width: 40px;
     height: 40px;
-    animation: shake 0.8s linear 0s infinite;
+    animation: shake 1s linear 0s infinite;
     cursor: grab;
     &:active {
       cursor: grabbing;
     }
   }
-  &__comment {
-    color: #212121;
+  &__name {
+    width: 100%;
+    margin: 0 auto;
+    color: rgba(#fff, 0.8);
   }
-  &__head {
-    margin-right: 16px;
-    text-align: center;
+  &__message {
+    position: relative;
   }
 }
 
@@ -36,55 +38,84 @@
     transform: scale(1, 1) translate(0%, 0%);
   }
   20% {
-    transform: scale(1, 1.02) translate(-5%, -4%) skew(4deg, 0deg);
+    transform: scale(1, 1.01) translate(-2%, -1%);
   }
   50% {
-    transform: scale(1, 0.96) translate(5%, 4%) skew(-4deg, 0deg);
+    transform: scale(1, 0.99) translate(2%, 1%);
   }
   65% {
-    transform: scale(1, 1.01) translate(2%, -2%) skew(-2deg, 0deg);
+    transform: scale(1, 1.01) translate(2%, -1%);
   }
   80% {
-    transform: scale(1, 0.98) translate(-2%, 2%) skew(2deg, 0deg);
+    transform: scale(1, 0.99) translate(-2%, 1%);
   }
   100% {
     transform: scale(1, 1) translate(0%, 0%);
   }
 }
 
-.baloon {
-  width: 64px;
-  height: 40px;
-  background: #eceff1;
-  border-radius: 20%;
+.balloon {
   position: relative;
-  padding: 20px;
-  display: grid;
-  place-items: center;
-  &:before {
+  width: 90%;
+  min-height: 24px;
+  margin: 0 auto;
+  padding: 8px;
+  box-shadow: 0px 0px 10px 0px rgba(#212121, 0.38);
+  border-radius: 0.5em;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &::before {
     content: '';
+    z-index: 1;
     position: absolute;
-    display: block;
-    width: 0;
-    height: 0;
-    left: -14px;
-    top: 25px;
-    border-right: 15px solid #eceff1;
-    border-top: 15px solid transparent;
-    border-bottom: 15px solid transparent;
+    box-shadow: 0px 0px 10px 0px rgba(#212121, 0.38);
+    left: 8px;
+    top: -6px;
+    transform: rotate(-45deg) skew(20deg, 20deg);
+    width: 16px;
+    height: 16px;
+  }
+  &::after {
+    content: '';
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5em;
+  }
+  &__inner {
+    z-index: 3;
+    position: relative;
   }
 }
 
-.room {
+.balloon,
+.balloon::before,
+.balloon::after,
+.balloon__inner {
+  background: #eceff1;
+  color: #212121;
+}
+
+.youtube {
   padding: 24px;
   &__display {
     width: 100%;
-    height: 600px;
     background: #212121;
     position: relative;
-    youtube-player {
-      pointer-events: none;
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
     }
+  }
+  youtube-player {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
   }
   &__next-grid {
     display: grid;
@@ -94,8 +125,12 @@
   }
   &__next-item {
     width: 100%;
-    height: 100px;
     background: #212121;
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
+    }
   }
   &__action {
     display: flex;
@@ -108,17 +143,12 @@
   }
 }
 
-.users {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(184px, 1fr));
-  gap: 16px;
-}
-
 .comment {
   width: 100%;
   height: 40px;
   mat-form-field {
     width: 100%;
+    color: #fff;
   }
 }
 
@@ -128,7 +158,6 @@
   background: #212121;
   margin: 24px 24px 24px 0;
   padding: 16px;
-  color: #fff;
   &__header {
     display: flex;
     align-items: center;
@@ -138,24 +167,42 @@
     height: 40px;
     border-radius: 50%;
     background: #424242;
-    margin: 0 8px 16px 0;
+    margin: 0 8px 8px 0;
   }
   &__name {
+    color: rgba(#fff, 0.8);
     font-size: 16px;
     line-height: 16px;
+  }
+  &__body {
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+  }
+  &__description {
+    color: rgba(#fff, 0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
   }
 }
 
 .chat-line {
   width: 100%;
   height: 600px;
-  background: #eceff1;
+  background: #424242;
   overflow: scroll;
   padding: 16px;
+  margin-bottom: 24px;
+  &__body {
+    word-break: break-all;
+  }
   &__head {
     display: flex;
     align-items: center;
-    margin-right: 16px;
   }
   &__avatar {
     width: 32px;
@@ -164,16 +211,17 @@
   }
   &__comment {
     font-size: 14px;
-    padding: 8px;
-    color: #212121;
+    color: rgba(#fff, 0.8);
+    white-space: pre-wrap;
   }
   &__name {
     font-size: 14px;
     margin-right: 8px;
+    color: rgba(#fff, 0.8);
   }
   &__date {
     font-size: 12px;
-    opacity: 0.6;
+    color: rgba(#fff, 0.6);
   }
 }
 
@@ -184,6 +232,7 @@
     width: 32px;
     height: 32px;
     font-size: 32px;
+    animation: fluffy 1s linear 0s infinite;
     &--g {
       bottom: 16px;
     }
@@ -202,8 +251,29 @@
   }
 }
 .actions-btn {
-  display: flex;
+  text-align: right;
   &__logout {
     margin-right: 8px;
+  }
+}
+
+@keyframes fluffy {
+  0% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  20% {
+    transform: scale(1, 1.02) translate(-5%, -3%);
+  }
+  50% {
+    transform: scale(1, 0.98) translate(5%, 3%);
+  }
+  65% {
+    transform: scale(1, 1.02) translate(5%, -2%);
+  }
+  80% {
+    transform: scale(1, 0.98) translate(-5%, 1%);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
   }
 }

@@ -1,11 +1,11 @@
-@import '~@angular/material/theming';
+@import "~@angular/material/theming";
 
-
-h2{
+h2 {
   text-align: center;
   margin-top: 24px;
   letter-spacing: 3px;
   padding: 16px;
+  color: rgba(#fff, 0.8);
 }
 
 .title {
@@ -25,7 +25,7 @@ h2{
   opacity: 1;
 }
 
-.container{
+.container {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@ h2{
 
 .search {
   margin-right: 64px;
-  border: 1px solid rgba(black, 0.5);
+  border: 1px solid rgba(#fff, 0.8);
   box-sizing: border-box;
   border-radius: 50px 50px 50px 50px / 50px 50px 50px 50px;
   max-width: 320px;
@@ -53,9 +53,10 @@ h2{
     background: none;
     flex: 1;
     outline: 0;
+    color: rgba(#fff, 0.8);
   }
   &__button {
-    color: rgba(black, 0.5);
+    color: rgba(#fff, 0.8);
     appearance: none;
     border: none;
     background: none;
@@ -74,6 +75,37 @@ h2{
     }
   }
 }
+.top-images{
+border: 1px solid white;
+border-radius: 4px;
+padding: 72px 24px;
+}
+.img {
+  animation: shake 2.5s linear 0s infinite;
+  cursor: grab;
+  width: 300px;
+}
+
+@keyframes shake {
+  0% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  20% {
+    transform: scale(1, 1.01) translate(0%, -0.3%);
+  }
+  50% {
+    transform: scale(1, 0.99) translate(0%, 0.3%);
+  }
+  65% {
+    transform: scale(1, 1.01) translate(0%, -0.3%);
+  }
+  80% {
+    transform: scale(1, 0.99) translate(0%, 0.3%);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+}
 
 mat-divider {
   border-bottom: 8px;
@@ -82,5 +114,5 @@ mat-divider {
 .copyright {
   padding: 16px;
   text-align: center;
-  color: rgba(black, 0.6);
+  color: rgba(#fff, 0.8);
 }
