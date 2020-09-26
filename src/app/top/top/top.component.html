@@ -1,4 +1,5 @@
-<h2>好きなYouTubeを検索しよう</h2>
+<h2>3.好きなYouTubeを検索しましょう</h2>
+
 <div class="container">
   <form class="search">
     <input
@@ -13,9 +14,20 @@
       <mat-icon>search</mat-icon>
     </button>
   </form>
-  <div class="topImges">
-    <img src="/assets/images/top.svg" alt="" width="450" />
-  </div>
+
+  <ng-container *ngIf="!resultRoom">
+    <div class="avatar">
+      <div>
+        <img
+          src="/assets/images/char_{{ avatarId }}.png"
+          alt=""
+          width="200px"
+        />
+        <p class="letter">{{ userName }}</p>
+      </div>
+    </div>
+  </ng-container>
+</div>
 
 <app-search-results-rooms [resultRoom]="resultRoom"></app-search-results-rooms>
 
