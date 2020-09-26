@@ -77,12 +77,16 @@
 
     <div class="center">
       <ng-template #nowLoading>
-        <mat-spinner
-          class="loading"
-          diameter="56"
-          strokeWidth="2"
-        ></mat-spinner>
-        <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+        <div class="spinner">
+            <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+            <div class="spinner-inner">
+                <mat-spinner
+                class="loading"
+                diameter="56"
+                strokeWidth="2"
+              ></mat-spinner>
+            </div>
+        </div>
       </ng-template>
 
       <ng-container *ngIf="room$ | async as room">
