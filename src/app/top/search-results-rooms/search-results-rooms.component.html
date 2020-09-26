@@ -17,12 +17,17 @@
             mat-raised-button
             color="primary"
             (click)="
-              createRoom(room.snippet.channelId, room.snippet.channelTitle)
+              createRoom(
+                room.snippet.channelId,
+                room.snippet.channelTitle,
+                room.snippet.description,
+                room.snippet.thumbnails.high.url
+              )
             "
           >
             ルームに参加する
           </button>
-       </div>
+        </div>
       </div>
     </ng-container>
   </div>

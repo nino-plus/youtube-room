@@ -1,22 +1,31 @@
-<h2>3.好きなYouTubeを検索しましょう
-</h2>
+<h2>3.好きなYouTubeを検索しましょう</h2>
 
 <div class="container">
   <form class="search">
-    <input [(ngModel)]="searchText" [formControl]="searchTextForm" type="text" class="search__input" autocomplete="off"
-      placeholder="検索" />
+    <input
+      [(ngModel)]="searchText"
+      [formControl]="searchTextForm"
+      type="text"
+      class="search__input"
+      autocomplete="off"
+      placeholder="検索"
+    />
     <button class="search__button" (click)="searchRoom()">
       <mat-icon>search</mat-icon>
     </button>
   </form>
 
   <ng-container *ngIf="!resultRoom">
-        <div class="avatar">
-          <div>
-            <img src="/assets/images/char_{{ avatarId }}.png" alt="" width="200px" />
-            <p class="letter">{{ userName }}</p>
-          </div>
-        </div>
+    <div class="avatar">
+      <div>
+        <img
+          src="/assets/images/char_{{ avatarId }}.png"
+          alt=""
+          width="200px"
+        />
+        <p class="letter">{{ userName }}</p>
+      </div>
+    </div>
   </ng-container>
 </div>
 

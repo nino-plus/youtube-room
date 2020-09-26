@@ -16,7 +16,7 @@ img {
   display: grid;
   padding: 32px;
   gap: 16px;
-  grid-template-columns: repeat(5, minmax(120px, 1fr));
+  grid-template-columns: repeat(5, minmax(160px, 1fr));
   @media screen and (max-width: 470px) {
     grid-template-columns: 1fr;
   }
@@ -39,8 +39,5 @@ img {
   &__title {
     color: rgba(#fff, 0.8);
     margin-bottom: 16px;
-  }
-  &__cover {
-    background-color: rgba(#fff, 0.8);
   }
 }
