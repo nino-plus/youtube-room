@@ -62,9 +62,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   videoCount: number;
   videoId$: Observable<Video> = this.roomService.getPlayVideo(this.channelId);
 
-  aaa$: any = this.roomService.collectionVideos(this.channelId);
-
-
   constructor(
     private authService: AuthService,
     private roomService: RoomService,
@@ -98,9 +95,7 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.avatarId = user?.avatarId;
       })
     );
-    // this.roomService.setPlayVideo(this.channelId, 'ygVnnLZ9qy8');
-    console.log(this.aaa$);
-    this.setVideoLoop();
+
     await this.setVideo();
 
     // setInterval(async () => {
