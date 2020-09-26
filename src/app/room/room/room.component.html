@@ -1,25 +1,35 @@
 <mat-toolbar>
+
   <a routerLink="/top" class="header__logo" mat-button>YOUTUBEROOM</a>
   <span class="spacer"></span>
-  <button class="logout" mat-button (click)="logout()">ログアウト</button>
+  <div class="actions-btn" *ngIf="room$ | async as room">
+    <button color="accent" [disabled]="room.isCreating === true" mat-raised-button (click)="setVideo()">
+      みんなで再生を始める
+    </button>
+  </div>
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+    <mat-icon>exit_to_app</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button class="logout" mat-button (click)="logout()">
+      <mat-icon>delete_outline</mat-icon>
+      ログアウト
+    </button>
+    <button class="room" mat-button routerLink="/top">
+      <mat-icon>check</mat-icon>
+      他の部屋を探す
+    </button>
+  </mat-menu>
+
 </mat-toolbar>
+
 
 <div class="wrapper">
   <div class="grid">
     <div class="users">
-      <div
-        @fade
-        @bounce
-        *ngFor="let member of members$ | async"
-        class="users__user"
-        cdkDrag
-      >
+      <div @fade @bounce *ngFor="let member of members$ | async" class="users__user" cdkDrag>
         <div class="users__head" *ngIf="member.isActive">
-          <img
-            class="users__avatar"
-            src="/assets/images/char_{{ member.avatarId }}.png"
-            alt=""
-          />
+          <img class="users__avatar" src="/assets/images/char_{{ member.avatarId }}.png" alt="" />
           <p class="users__name">{{ member.name }}</p>
         </div>
         <div class="users__message" *ngIf="messages">
@@ -29,18 +39,18 @@
         </div>
       </div>
     </div>
+
+    <ng-template #nowLoading>
+      <mat-spinner class="loading" diameter="56" strokeWidth="2"></mat-spinner>
+      <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+    </ng-template>
+
     <ng-container *ngIf="room$ | async as room">
       <div *ngIf="!room.isCreating; else nowLoading">
         <div class="youtube">
           <div class="youtube__display">
-            <youtube-player
-              width="100%"
-              hight="100%"
-              [videoId]="id"
-              (ready)="savePlayer($event)"
-              [playerVars]="playerVars"
-              allowfullscreen
-            >
+            <youtube-player width="100%" hight="100%" [videoId]="id" (ready)="savePlayer($event)"
+              [playerVars]="playerVars" allowfullscreen>
             </youtube-player>
           </div>
           <div class="action">
@@ -56,68 +66,33 @@
             <p class="action__icon action__icon--l" @fade @float *ngIf="isLagh">
               🤣
             </p>
-            <p
-              class="action__icon action__icon--s"
-              @fade
-              @float
-              *ngIf="isSuprise"
-            >
+            <p class="action__icon action__icon--s" @fade @float *ngIf="isSuprise">
               😲
             </p>
+            <div class="youtube__action">
+              <button mat-fab class="youtube__action-icon" type="button" (click)="good()">
+                😍
+              </button>
+              <button mat-fab class="youtube__action-icon" type="button" (click)="bad()">
+                😤
+              </button>
+              <button mat-fab class="youtube__action-icon" type="button" (click)="cry()">
+                😭
+              </button>
+              <button mat-fab class="youtube__action-icon" type="button" (click)="lagh()">
+                🤣
+              </button>
+              <button mat-fab class="youtube__action-icon" type="button" (click)="surprise()">
+                😲
+              </button>
+            </div>
           </div>
         </div>
       </div>
       <ng-template #nowLoading>
-        <mat-spinner
-          *ngIf="loadingService.loading"
-          class="loading"
-          diameter="56"
-          strokeWidth="2"
-        ></mat-spinner>
+        <mat-spinner *ngIf="loadingService.loading" class="loading" diameter="56" strokeWidth="2"></mat-spinner>
         <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
       </ng-template>
-      <div class="youtube__action">
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="good()"
-        >
-          😍
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="bad()"
-        >
-          😤
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="cry()"
-        >
-          😭
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="lagh()"
-        >
-          🤣
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="surprise()"
-        >
-          😲
-        </button>
-      </div>
     </ng-container>
 
     <div class="right">
@@ -137,20 +112,26 @@
           </div>
         </div>
       </div>
-
       <div class="chat">
+        <div class="comment">
+          <form class="comment__form" *ngIf="user$ | async as user" [formGroup]="form" (ngSubmit)="sendMessage()">
+            <mat-form-field>
+              <mat-label>チャット</mat-label>
+              <input type="text" formControlName="comments" matInput autofocus autocomplete="off" required #body />
+              <button matSuffix mat-icon-button [disabled]="form.invalid || form.pristine">
+                <mat-icon>send</mat-icon>
+              </button>
+              <mat-error *ngIf="form.hasError('required')">必須入力です</mat-error>
+              <mat-error *ngIf="form.hasError('maxlength')">最大文字数を超えています</mat-error>
+              <mat-hint align="end">{{ body.value.length }}/140文字まで</mat-hint>
+            </mat-form-field>
+          </form>
+        </div>
         <div class="chat-line" *ngIf="user$ | async as user">
           <ng-container @fade *ngFor="let member of members$ | async">
-            <div
-              class="chat-line__body"
-              *ngFor="let message of allMessages$ | async"
-            >
+            <div class="chat-line__body" *ngFor="let message of allMessages$ | async">
               <div class="chat-line__head">
-                <img
-                  class="chat-line__avatar"
-                  src="/assets/images/char_{{ message.avatarId }}.png"
-                  alt=""
-                />
+                <img class="chat-line__avatar" src="/assets/images/char_{{ message.avatarId }}.png" alt="" />
                 <div class="chat-line__name">{{ message.userName }}</div>
                 <div class="chat-line__date">
                   {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
@@ -160,57 +141,8 @@
             </div>
           </ng-container>
         </div>
-        <div class="actions-btn">
-        </div>
-        <div class="comment">
-          <form
-            class="comment__form"
-            *ngIf="user$ | async as user"
-            [formGroup]="form"
-            (ngSubmit)="sendMessage()"
-          >
-            <mat-form-field>
-              <mat-label>チャット</mat-label>
-              <input
-                type="text"
-                formControlName="comments"
-                matInput
-                autofocus
-                autocomplete="off"
-                required
-                #body
-              />
-              <button
-                matSuffix
-                mat-icon-button
-                [disabled]="form.invalid || form.pristine"
-              >
-                <mat-icon>send</mat-icon>
-              </button>
-              <mat-error *ngIf="form.hasError('required')"
-                >必須入力です</mat-error
-              >
-              <mat-error *ngIf="form.hasError('maxlength')"
-                >最大文字数を超えています</mat-error
-              >
-              <mat-hint align="end"
-                >{{ body.value.length }}/140文字まで</mat-hint
-              >
-            </mat-form-field>
-          </form>
-        </div>
       </div>
     </div>
-    <div class="actions-btn" *ngIf="room$ | async as room">
-      <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
-      <button
-        color="accent"
-        [disabled]="room.isCreating === true"
-        mat-raised-button
-        (click)="setVideo()"
-      >
-        みんなで再生を始める
-      </button>
-    </div>
+
   </div>
 </div>
