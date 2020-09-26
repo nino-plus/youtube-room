@@ -268,3 +268,9 @@
     transform: scale(1, 1) translate(0%, 0%);
   }
 }
+
+.loading {
+  &__text {
+    color: rgba(#ffffff, 0.8);
+  }
+}

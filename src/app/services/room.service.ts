@@ -43,11 +43,14 @@ export class RoomService {
     });
   }
 
-  createRoom(id: string, title: string): Promise<void> {
+  createRoom(id: string, title: string, description: string, thumbnailURL: string): Promise<void> {
     const value: Omit<Room, 'allVideosCount'> = {
       id,
       title,
+      description,
+      thumbnailURL,
       initialAction: false,
+      isCreating: false,
     };
     return this.db.doc(`rooms/${id}`).set(value);
   }
