@@ -30,7 +30,7 @@
       </div>
     </div>
     <ng-container *ngIf="room$ | async as room">
-      <div *ngIf="room.isCreating === false; else nowLoading">
+      <div *ngIf="!room.isCreating; else nowLoading">
         <div class="youtube">
           <div class="youtube__display">
             <youtube-player
@@ -161,16 +161,6 @@
           </ng-container>
         </div>
         <div class="actions-btn">
-          <a
-            mat-raised-button
-            color="primary"
-            routerLink="/top"
-            (click)="exitRoom()"
-            >他の部屋を探す</a
-          >
-          <button color="accent" mat-raised-button (click)="setVideo()">
-            みんなで再生を始める
-          </button>
         </div>
         <div class="comment">
           <form
@@ -211,9 +201,14 @@
         </div>
       </div>
     </div>
-    <div class="actions-btn">
+    <div class="actions-btn" *ngIf="room$ | async as room">
       <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
-      <button color="accent" mat-raised-button (click)="setVideo()">
+      <button
+        color="accent"
+        [disabled]="room.isCreating === true"
+        mat-raised-button
+        (click)="setVideo()"
+      >
         みんなで再生を始める
       </button>
     </div>
