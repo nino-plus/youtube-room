@@ -2,7 +2,6 @@ import { newArray } from '@angular/compiler/src/util';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { parse, toSeconds } from 'iso8601-duration';
 import { Observable, Subscription } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { bounce, fade, float } from 'src/app/animations';
