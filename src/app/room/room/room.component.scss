@@ -16,12 +16,12 @@
 .grid {
   display: grid;
   gap: 10px;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 4fr 1fr;
 }
 .users {
   height: 100px;
   display: grid;
-  grid-template-columns: 1fr 1fr ;
+  grid-template-columns: 1fr 1fr;
   padding-top: 24px;
   &__head {
     text-align: center;
@@ -75,7 +75,7 @@
   top: 0;
   left: 20px;
   &::before {
-    content: "";
+    content: '';
     z-index: 1;
     position: absolute;
     box-shadow: 0px 0px 10px 0px rgba(#212121, 0.38);
@@ -86,7 +86,7 @@
     height: 8px;
   }
   &::after {
-    content: "";
+    content: '';
     z-index: 2;
     position: absolute;
     top: 0;
@@ -117,14 +117,13 @@
   }
 }
 .youtube {
-  min-width: 900px;
   padding: 24px;
   &__display {
     width: 100%;
     background: #212121;
     position: relative;
     &:before {
-      content: "";
+      content: '';
       display: block;
       padding-top: 56.25%;
     }
@@ -144,7 +143,7 @@
     width: 100%;
     background: #212121;
     &:before {
-      content: "";
+      content: '';
       display: block;
       padding-top: 56.25%;
     }
@@ -163,7 +162,7 @@
 .channel {
   overflow: scroll;
   width: 100%;
-  height: 140px;
+  min-height: 200px;
   background: #212121;
   margin: 24px 24px 24px 0;
   padding: 16px;
@@ -201,8 +200,6 @@
 }
 
 .chat {
-  border: 1px solid rgba(#fff, 0.8);
-
   .chat-line {
     width: 100%;
     height: 600px;
@@ -292,4 +289,8 @@
 
 .right {
   float: left;
+  padding-top: 24px;
+}
+.center {
+  min-width: 240px;
 }
