@@ -17,7 +17,7 @@ import { UserService } from './user.service';
 export class RoomService {
   uid: string;
   userName: string;
-  apiKey = 'AIzaSyBtWhLoGLzn925LSaqQSZ2JOzYOf0uAT18';
+  apiKey = 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY';
 
   user$: Observable<UserData> = this.afAuth.authState.pipe(
     switchMap((afUser) => {
@@ -119,9 +119,12 @@ export class RoomService {
   }
 
   getRandomVideoId(channelId: string, randomNumber: number): Observable<Video> {
-    return this.db.collection<Video>(`rooms/${channelId}/videos`, (ref) => ref
-      .where('random', '>=', randomNumber)
-      .limit(1)).valueChanges().pipe(
+    return this.db
+      .collection<Video>(`rooms/${channelId}/videos`, (ref) =>
+        ref.where('random', '>=', randomNumber).limit(1)
+      )
+      .valueChanges()
+      .pipe(
         map((videos) => {
           if (videos.length) {
             return videos[0];
@@ -133,16 +136,16 @@ export class RoomService {
   }
 
   collectionVideos(channelId: string) {
-    this.db.collection(`rooms/${channelId}/videos`)
-      .valueChanges();
+    this.db.collection(`rooms/${channelId}/videos`).valueChanges();
   }
-
 
   setPlayVideo(channelId: string, videoId: string): Promise<void> {
     return this.db.doc(`rooms/${channelId}/playVideo/video`).set({ videoId });
   }
 
   getPlayVideo(channelId: string): Observable<Video> {
-    return this.db.doc<Video>(`rooms/${channelId}/playVideo/video`).valueChanges();
+    return this.db
+      .doc<Video>(`rooms/${channelId}/playVideo/video`)
+      .valueChanges();
   }
 }

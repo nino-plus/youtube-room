@@ -26,9 +26,12 @@
     <div class="youtube">
       <div class="youtube__display">
         <youtube-player
+          width="100%"
+          hight="100%"
           [videoId]="id"
           (ready)="savePlayer($event)"
           [playerVars]="playerVars"
+          allowfullscreen="allowfullscreen"
         >
         </youtube-player>
         <div class="action">
