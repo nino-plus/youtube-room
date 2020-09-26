@@ -24,13 +24,16 @@
       </div>
     </div>
     <ng-container *ngIf="room$ | async as room">
-      <div *ngIf="room.isCreating === true; else nowLoading">
+      <div *ngIf="room.isCreating === false; else nowLoading">
         <div class="youtube">
           <div class="youtube__display">
             <youtube-player
+              width="100%"
+              hight="100%"
               [videoId]="id"
               (ready)="savePlayer($event)"
               [playerVars]="playerVars"
+              allowfullscreen
             >
             </youtube-player>
           </div>
@@ -184,7 +187,6 @@
         </ng-container>
       </div>
       <div class="actions-btn">
-        <<<<<<< HEAD
         <a
           mat-raised-button
           color="primary"
@@ -192,15 +194,9 @@
           (click)="exitRoom()"
           >他の部屋を探す</a
         >
-        <button (click)="setVideoLoop()">テスト</button>
-        =======
-        <a mat-raised-button color="primary" routerLink="/top"
-          >他の部屋を探す
-        </a>
         <button color="accent" mat-raised-button (click)="setVideo()">
           みんなで再生を始める
         </button>
-        >>>>>>> origin
       </div>
     </div>
   </div>
