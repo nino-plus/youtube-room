@@ -32,128 +32,7 @@
 
 <div class="wrapper">
   <div class="grid">
-    <div class="users">
-      <div
-        @fade
-        @bounce
-        *ngFor="let member of members$ | async"
-        class="users__user"
-        cdkDrag
-      >
-        <div class="users__head" *ngIf="member.isActive">
-          <img
-            class="users__avatar"
-            src="/assets/images/char_{{ member.avatarId }}.png"
-            alt=""
-          />
-          <p class="users__name">{{ member.name }}</p>
-        </div>
-        <div class="users__message" *ngIf="messages">
-          <div class="balloon" *ngFor="let message of messages[member.uid]">
-            <div class="balloon__inner">{{ message }}</div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <ng-template #nowLoading>
-      <mat-spinner class="loading" diameter="56" strokeWidth="2"></mat-spinner>
-      <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
-    </ng-template>
-
-    <ng-container *ngIf="room$ | async as room">
-      <div *ngIf="!room.isCreating; else nowLoading">
-        <div class="youtube">
-          <div class="youtube__display">
-            <youtube-player
-              width="100%"
-              hight="100%"
-              [videoId]="id"
-              (ready)="savePlayer($event)"
-              [playerVars]="playerVars"
-              allowfullscreen
-            >
-            </youtube-player>
-          </div>
-          <div class="action">
-            <p class="action__icon action__icon--g" @fade @float *ngIf="isGood">
-              😍
-            </p>
-            <p class="action__icon action__icon--b" @fade @float *ngIf="isBad">
-              😤
-            </p>
-            <p class="action__icon action__icon--c" @fade @float *ngIf="isCry">
-              😭
-            </p>
-            <p class="action__icon action__icon--l" @fade @float *ngIf="isLagh">
-              🤣
-            </p>
-            <p
-              class="action__icon action__icon--s"
-              @fade
-              @float
-              *ngIf="isSuprise"
-            >
-              😲
-            </p>
-            <div class="youtube__action">
-              <button
-                mat-fab
-                class="youtube__action-icon"
-                type="button"
-                (click)="good()"
-              >
-                😍
-              </button>
-              <button
-                mat-fab
-                class="youtube__action-icon"
-                type="button"
-                (click)="bad()"
-              >
-                😤
-              </button>
-              <button
-                mat-fab
-                class="youtube__action-icon"
-                type="button"
-                (click)="cry()"
-              >
-                😭
-              </button>
-              <button
-                mat-fab
-                class="youtube__action-icon"
-                type="button"
-                (click)="lagh()"
-              >
-                🤣
-              </button>
-              <button
-                mat-fab
-                class="youtube__action-icon"
-                type="button"
-                (click)="surprise()"
-              >
-                😲
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <ng-template #nowLoading>
-        <mat-spinner
-          *ngIf="loadingService.loading"
-          class="loading"
-          diameter="56"
-          strokeWidth="2"
-        ></mat-spinner>
-        <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
-      </ng-template>
-    </ng-container>
-
-    <div class="right">
+    <div class="left">
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
           <figure class="channel__logo">
@@ -170,6 +49,146 @@
           </div>
         </div>
       </div>
+
+      <div class="users">
+        <div
+          @fade
+          @bounce
+          *ngFor="let member of members$ | async"
+          class="users__user"
+          cdkDrag
+        >
+          <div class="users__head" *ngIf="member.isActive">
+            <img
+              class="users__avatar"
+              src="/assets/images/char_{{ member.avatarId }}.png"
+              alt=""
+            />
+            <p class="users__name">{{ member.name }}</p>
+          </div>
+          <div class="users__message" *ngIf="messages">
+            <div class="balloon" *ngFor="let message of messages[member.uid]">
+              <div class="balloon__inner">{{ message }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="center">
+      <ng-template #nowLoading>
+        <mat-spinner
+          class="loading"
+          diameter="56"
+          strokeWidth="2"
+        ></mat-spinner>
+        <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+      </ng-template>
+
+      <ng-container *ngIf="room$ | async as room">
+        <div *ngIf="!room.isCreating; else nowLoading">
+          <div class="youtube">
+            <div class="youtube__display">
+              <youtube-player
+                width="100%"
+                hight="100%"
+                [videoId]="id"
+                (ready)="savePlayer($event)"
+                [playerVars]="playerVars"
+                allowfullscreen
+              >
+              </youtube-player>
+            </div>
+            <div class="action">
+              <p
+                class="action__icon action__icon--g"
+                @fade
+                @float
+                *ngIf="isGood"
+              >
+                😍
+              </p>
+              <p
+                class="action__icon action__icon--b"
+                @fade
+                @float
+                *ngIf="isBad"
+              >
+                😤
+              </p>
+              <p
+                class="action__icon action__icon--c"
+                @fade
+                @float
+                *ngIf="isCry"
+              >
+                😭
+              </p>
+              <p
+                class="action__icon action__icon--l"
+                @fade
+                @float
+                *ngIf="isLagh"
+              >
+                🤣
+              </p>
+              <p
+                class="action__icon action__icon--s"
+                @fade
+                @float
+                *ngIf="isSuprise"
+              >
+                😲
+              </p>
+              <div class="youtube__action">
+                <button
+                  mat-fab
+                  class="youtube__action-icon"
+                  type="button"
+                  (click)="good()"
+                >
+                  😍
+                </button>
+                <button
+                  mat-fab
+                  class="youtube__action-icon"
+                  type="button"
+                  (click)="bad()"
+                >
+                  😤
+                </button>
+                <button
+                  mat-fab
+                  class="youtube__action-icon"
+                  type="button"
+                  (click)="cry()"
+                >
+                  😭
+                </button>
+                <button
+                  mat-fab
+                  class="youtube__action-icon"
+                  type="button"
+                  (click)="lagh()"
+                >
+                  🤣
+                </button>
+                <button
+                  mat-fab
+                  class="youtube__action-icon"
+                  type="button"
+                  (click)="surprise()"
+                >
+                  😲
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="right">
       <div class="chat">
         <div class="chat-line" *ngIf="allMessages$">
           <div
@@ -190,43 +209,42 @@
             <div class="chat-line__comment">{{ message.comments }}</div>
           </div>
         </div>
-        <div class="comment">
-          <form
-            class="comment__form"
-            *ngIf="user$ | async as user"
-            [formGroup]="form"
-            (ngSubmit)="sendMessage()"
-          >
-            <mat-form-field>
-              <mat-label>チャット</mat-label>
-              <input
-                type="text"
-                formControlName="comments"
-                matInput
-                autofocus
-                autocomplete="off"
-                required
-                #body
-              />
-              <button
-                matSuffix
-                mat-icon-button
-                [disabled]="form.invalid || form.pristine"
-              >
-                <mat-icon>send</mat-icon>
-              </button>
-              <mat-error *ngIf="form.hasError('required')"
-                >必須入力です</mat-error
-              >
-              <mat-error *ngIf="form.hasError('maxlength')"
-                >最大文字数を超えています</mat-error
-              >
-              <mat-hint align="end"
-                >{{ body.value.length }}/140文字まで</mat-hint
-              >
-            </mat-form-field>
-          </form>
-        </div>
+      </div>
+
+      <div class="comment">
+        <form
+          class="comment__form"
+          *ngIf="user$ | async as user"
+          [formGroup]="form"
+          (ngSubmit)="sendMessage()"
+        >
+          <mat-form-field>
+            <mat-label>チャット</mat-label>
+            <input
+              type="text"
+              formControlName="comments"
+              matInput
+              autofocus
+              autocomplete="off"
+              required
+              #body
+            />
+            <button
+              matSuffix
+              mat-icon-button
+              [disabled]="form.invalid || form.pristine"
+            >
+              <mat-icon>send</mat-icon>
+            </button>
+            <mat-error *ngIf="form.hasError('required')"
+              >必須入力です</mat-error
+            >
+            <mat-error *ngIf="form.hasError('maxlength')"
+              >最大文字数を超えています</mat-error
+            >
+            <mat-hint align="end">{{ body.value.length }}/140文字まで</mat-hint>
+          </mat-form-field>
+        </form>
       </div>
     </div>
   </div>
