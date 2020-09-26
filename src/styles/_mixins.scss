@@ -1,3 +1,9 @@
+@mixin PC {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
 @mixin sp {
   @media (max-width: 640px) {
     @content;

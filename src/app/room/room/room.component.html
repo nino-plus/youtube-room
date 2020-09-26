@@ -151,49 +151,6 @@
         ></mat-spinner>
         <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
       </ng-template>
-
-      <div class="youtube__action">
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="good()"
-        >
-          😍
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="bad()"
-        >
-          😤
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="cry()"
-        >
-          😭
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="lagh()"
-        >
-          🤣
-        </button>
-        <button
-          mat-fab
-          class="youtube__action-icon"
-          type="button"
-          (click)="surprise()"
-        >
-          😲
-        </button>
-      </div>
     </ng-container>
 
     <div class="right">
@@ -214,66 +171,25 @@
         </div>
       </div>
       <div class="chat">
-        <div class="comment">
-          <form
-            class="comment__form"
-            *ngIf="user$ | async as user"
-            [formGroup]="form"
-            (ngSubmit)="sendMessage()"
+        <div class="chat-line" *ngIf="allMessages$">
+          <div
+            class="chat-line__body"
+            *ngFor="let message of allMessages$ | async"
           >
-            <mat-form-field>
-              <mat-label>チャット</mat-label>
-              <input
-                type="text"
-                formControlName="comments"
-                matInput
-                autofocus
-                autocomplete="off"
-                required
-                #body
+            <div class="chat-line__head">
+              <img
+                class="chat-line__avatar"
+                src="/assets/images/char_{{ message.avatarId }}.png"
+                alt=""
               />
-              <button
-                matSuffix
-                mat-icon-button
-                [disabled]="form.invalid || form.pristine"
-              >
-                <mat-icon>send</mat-icon>
-              </button>
-              <mat-error *ngIf="form.hasError('required')"
-                >必須入力です</mat-error
-              >
-              <mat-error *ngIf="form.hasError('maxlength')"
-                >最大文字数を超えています</mat-error
-              >
-              <mat-hint align="end"
-                >{{ body.value.length }}/140文字まで</mat-hint
-              >
-            </mat-form-field>
-          </form>
-        </div>
-        <div class="chat-line" *ngIf="user$ | async as user">
-          <ng-container @fade *ngFor="let member of members$ | async">
-            <div
-              class="chat-line__body"
-              *ngFor="let message of allMessages$ | async"
-            >
-              <div class="chat-line__head">
-                <img
-                  class="chat-line__avatar"
-                  src="/assets/images/char_{{ message.avatarId }}.png"
-                  alt=""
-                />
-                <div class="chat-line__name">{{ message.userName }}</div>
-                <div class="chat-line__date">
-                  {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
-                </div>
+              <div class="chat-line__name">{{ message.userName }}</div>
+              <div class="chat-line__date">
+                {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
               </div>
-              <div class="chat-line__comment">{{ message.comments }}</div>
             </div>
-          </ng-container>
+            <div class="chat-line__comment">{{ message.comments }}</div>
+          </div>
         </div>
-
-        <div class="actions-btn"></div>
         <div class="comment">
           <form
             class="comment__form"
@@ -312,18 +228,6 @@
           </form>
         </div>
       </div>
-    </div>
-
-    <div class="actions-btn" *ngIf="room$ | async as room">
-      <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
-      <button
-        color="accent"
-        [disabled]="room.isCreating === true"
-        mat-raised-button
-        (click)="setVideo()"
-      >
-        みんなで再生を始める
-      </button>
     </div>
   </div>
 </div>
