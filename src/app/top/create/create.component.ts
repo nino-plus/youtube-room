@@ -14,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-  avatarIds = [...Array(12)].map((_, i) => i + 1);
+  avatarIds = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
     loop: true,
     observer: true,
