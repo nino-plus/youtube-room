@@ -4,11 +4,12 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { parse, toSeconds } from 'iso8601-duration';
 import { Observable, Subscription } from 'rxjs';
-import { map, skip } from 'rxjs/operators';
-import { bounce, fade } from 'src/app/animations';
+import { skip } from 'rxjs/operators';
+import { bounce, fade, float } from 'src/app/animations';
 import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
+import { Room } from 'src/app/interfaces/room';
 import { UserData } from 'src/app/interfaces/user';
 import { Video } from 'src/app/interfaces/video';
 import { AuthService } from 'src/app/services/auth.service';
@@ -18,14 +19,15 @@ import { RoomService } from 'src/app/services/room.service';
   selector: 'app-room',
   templateUrl: './room.component.html',
   styleUrls: ['./room.component.scss'],
-  animations: [fade, bounce],
+  animations: [fade, bounce, float],
 })
 export class RoomComponent implements OnInit, OnDestroy {
   private uid = this.authService.uid;
   private userName = this.authService.userName;
-  private avatarId = this.authService.avatarId;
+  private avatarId: number;
   private channelId = this.route.snapshot.paramMap.get('id');
   private subscriptions: Subscription = new Subscription();
+
   player: YT.Player;
   playerVars = {
     controls: 0,
@@ -39,17 +41,20 @@ export class RoomComponent implements OnInit, OnDestroy {
   isLagh: boolean;
   isSuprise: boolean;
   messages = {};
+
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
   );
-  members$: Observable<Member[]> = this.roomService.getMembers(
-    this.channelId
-  );
+  members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
   form = this.fb.group({
     comments: ['', Validators.required],
   });
   user$: Observable<UserData> = this.authService.user$;
-  message$: Observable<Message[]> = this.chatsService.getLatestMessages(this.channelId);
+  message$: Observable<Message[]> = this.chatsService.getLatestMessages(
+    this.channelId
+  );
+  room$: Observable<Room> = this.roomService.getRoom(this.channelId);
+
   firstVideos: any;
   videoIds = [];
   id: string;
@@ -88,8 +93,9 @@ export class RoomComponent implements OnInit, OnDestroy {
   async ngOnInit(): Promise<void> {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
-        this.uid = user.uid;
-        this.userName = user.userName;
+        this.uid = user?.uid;
+        this.userName = user?.userName;
+        this.avatarId = user?.avatarId;
       })
     );
     // this.roomService.setPlayVideo(this.channelId, 'ygVnnLZ9qy8');
@@ -180,7 +186,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.form.value.comments,
       this.uid,
       this.userName,
-      this.avatarId,
+      this.avatarId
     );
     this.form.reset();
   }

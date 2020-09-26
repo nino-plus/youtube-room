@@ -12,11 +12,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { CreateComponent } from './create/create.component';
-import { HeaderComponent } from './header/header.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
-  declarations: [TopComponent, SearchResultsRoomsComponent, CreateComponent, HeaderComponent],
+  declarations: [TopComponent, SearchResultsRoomsComponent, CreateComponent],
   imports: [
     CommonModule,
     TopRoutingModule,
