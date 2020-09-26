@@ -200,7 +200,7 @@
       </div>
     </div>
 
-    <div class="actions-btn">
+    <div class="actions-btn" *ngIf="user$ | async as user">
       <a
         mat-raised-button
         color="primary"

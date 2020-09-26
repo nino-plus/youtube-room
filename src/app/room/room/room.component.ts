@@ -136,8 +136,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   }
 
   setVideoLoop() {
-    this.videoId$.subscribe(doc => {
-        this.player.loadVideoById(doc?.videoId);
+    this.videoId$.subscribe((doc) => {
+      this.player.loadVideoById(doc?.videoId);
     });
   }
 
@@ -147,9 +147,11 @@ export class RoomComponent implements OnInit, OnDestroy {
         console.log(count);
         this.videoCount = count.allVideosCount;
         const randomNumber = Math.floor(Math.random() * this.videoCount);
-        this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
-          await this.roomService.setPlayVideo(this.channelId, video.videoId);
-        });
+        this.roomService
+          .getRandomVideoId(this.channelId, randomNumber)
+          .subscribe(async (video) => {
+            await this.roomService.setPlayVideo(this.channelId, video.videoId);
+          });
       })
     );
     this.videoId$.subscribe((doc) => {
@@ -187,10 +189,11 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.authService.logout().then(() => {
       this.router.navigateByUrl('/welcome');
     });
+    this.roomService.updateRoomMemberIsActive(this.channelId);
   }
 
   exitRoom() {
-    this.member.isActive = false;
+    this.roomService.updateRoomMemberIsActive(this.channelId);
   }
 
   sendMessage() {

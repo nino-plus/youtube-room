@@ -17,7 +17,7 @@ import { UserService } from './user.service';
 export class RoomService {
   uid: string;
   userName: string;
-  apiKey = 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY';
+  apiKey = 'AIzaSyAXIsSqQseq-O5cFLi-m9522BgokfvUYTU';
 
   user$: Observable<UserData> = this.afAuth.authState.pipe(
     switchMap((afUser) => {
@@ -43,7 +43,12 @@ export class RoomService {
     });
   }
 
-  createRoom(id: string, title: string, description: string, thumbnailURL: string): Promise<void> {
+  createRoom(
+    id: string,
+    title: string,
+    description: string,
+    thumbnailURL: string
+  ): Promise<void> {
     const value: Omit<Room, 'allVideosCount'> = {
       id,
       title,
@@ -53,6 +58,19 @@ export class RoomService {
       isCreating: false,
     };
     return this.db.doc(`rooms/${id}`).set(value);
+  }
+
+  updateRoomMemberIsActive(channelId: string): Promise<void> {
+    const value: Omit<
+      Member,
+      'avatarId' | 'lastStatusChecked' | 'lastPosted' | 'name'
+    > = {
+      uid: this.uid,
+      isActive: false,
+    };
+    return this.db
+      .doc<Member>(`rooms/${channelId}/members/${this.uid}`)
+      .update(value);
   }
 
   addRoomMembers(channelId: string, uid: string, avatarId: number) {
@@ -76,7 +94,7 @@ export class RoomService {
 
   getMember(channelId: string, uid: string): Observable<Member> {
     return this.db
-      .doc<Member>(`rooms/${channelId}/member/${uid}`)
+      .doc<Member>(`rooms/${channelId}/members/${uid}`)
       .valueChanges();
   }
 
