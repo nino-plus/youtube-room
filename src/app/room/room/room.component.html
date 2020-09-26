@@ -4,8 +4,12 @@
   <button class="logout" mat-button (click)="logout()">ログアウト</button>
 </mat-toolbar>
 
+
+
 <div class="wrapper">
   <div class="grid">
+
+
     <div class="users">
       <div
         @fade
@@ -29,8 +33,12 @@
         </div>
       </div>
     </div>
+
+
     <ng-container *ngIf="room$ | async as room">
       <div *ngIf="!room.isCreating; else nowLoading">
+
+
         <div class="youtube">
           <div class="youtube__display">
             <youtube-player
@@ -67,6 +75,8 @@
           </div>
         </div>
       </div>
+
+
       <ng-template #nowLoading>
         <mat-spinner
           *ngIf="loadingService.loading"
@@ -76,51 +86,45 @@
         ></mat-spinner>
         <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
       </ng-template>
+
+
       <div class="youtube__action">
         <button
           mat-fab
           class="youtube__action-icon"
           type="button"
           (click)="good()"
-        >
-          😍
-        </button>
+        >😍</button>
         <button
           mat-fab
           class="youtube__action-icon"
           type="button"
           (click)="bad()"
-        >
-          😤
-        </button>
+        >😤</button>
         <button
           mat-fab
           class="youtube__action-icon"
           type="button"
           (click)="cry()"
-        >
-          😭
-        </button>
+        >😭</button>
         <button
           mat-fab
           class="youtube__action-icon"
           type="button"
           (click)="lagh()"
-        >
-          🤣
-        </button>
+        >🤣</button>
         <button
           mat-fab
           class="youtube__action-icon"
           type="button"
           (click)="surprise()"
-        >
-          😲
-        </button>
+        >😲</button>
       </div>
     </ng-container>
 
+
     <div class="right">
+
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
           <figure class="channel__logo">
@@ -160,6 +164,8 @@
             </div>
           </ng-container>
         </div>
+
+
         <div class="actions-btn">
         </div>
         <div class="comment">
@@ -201,6 +207,8 @@
         </div>
       </div>
     </div>
+
+
     <div class="actions-btn" *ngIf="room$ | async as room">
       <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
       <button
@@ -212,5 +220,7 @@
         みんなで再生を始める
       </button>
     </div>
+
+
   </div>
 </div>
