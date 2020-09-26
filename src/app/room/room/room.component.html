@@ -30,7 +30,7 @@
       </div>
     </div>
     <ng-container *ngIf="room$ | async as room">
-      <div *ngIf="room.isCreating === false; else nowLoading">
+      <div *ngIf="room.isCreating === true; else nowLoading">
         <div class="youtube">
           <div class="youtube__display">
             <youtube-player
@@ -139,8 +139,7 @@
       </div>
 
       <div class="chat">
-        <div class="chat-line" *ngIf="user$ | async as user">
-          <ng-container @fade *ngFor="let member of members$ | async">
+        <div class="chat-line" *ngIf="allMessages$">
             <div
               class="chat-line__body"
               *ngFor="let message of allMessages$ | async"
@@ -158,7 +157,6 @@
               </div>
               <div class="chat-line__comment">{{ message.comments }}</div>
             </div>
-          </ng-container>
         </div>
         <div class="comment">
           <form
