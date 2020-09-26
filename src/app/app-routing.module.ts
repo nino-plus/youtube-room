@@ -5,25 +5,25 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: 'welcome',
+    path: '',
     loadChildren: () =>
       import('./welcome/welcome.module').then((m) => m.WelcomeModule),
   },
   {
-    path: '',
+    path: 'room',
+    loadChildren: () =>
+      import('./room/room.module').then((m) => m.RoomModule),
+    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'top',
     component: ShellComponent,
     children: [
       {
-        path: 'top',
+        path: '',
         loadChildren: () =>
           import('./top/top.module').then((mod) => mod.TopModule),
-        canLoad: [AuthGuard],
-        canActivate: [AuthGuard],
-      },
-      {
-        path: 'room',
-        loadChildren: () =>
-          import('./room/room.module').then((m) => m.RoomModule),
         canLoad: [AuthGuard],
         canActivate: [AuthGuard],
       },

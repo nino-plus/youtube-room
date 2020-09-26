@@ -1,37 +1,41 @@
-<h2>3.好きなYouTubeを検索しましょう</h2>
+<div class="wrap">
+  <h2>3.好きなYouTubeを検索しましょう</h2>
 
-<div class="container">
-  <form class="search">
-    <input
-      [(ngModel)]="searchText"
-      [formControl]="searchTextForm"
-      type="text"
-      class="search__input"
-      autocomplete="off"
-      placeholder="検索"
-    />
-    <button class="search__button" (click)="searchRoom()">
-      <mat-icon>search</mat-icon>
-    </button>
-  </form>
+  <div class="container">
+    <form class="search">
+      <input
+        [(ngModel)]="searchText"
+        [formControl]="searchTextForm"
+        type="text"
+        class="search__input"
+        autocomplete="off"
+        placeholder="検索"
+      />
+      <button class="search__button" (click)="searchRoom()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </form>
 
-  <ng-container *ngIf="!resultRoom">
-    <div class="avatar">
-      <div>
-        <img
-          src="/assets/images/char_{{ avatarId }}.png"
-          alt=""
-          width="200px"
-        />
-        <p class="letter">{{ userName }}</p>
+    <ng-container *ngIf="!resultRoom">
+      <div class="avatar">
+        <div>
+          <img
+            src="/assets/images/char_{{ avatarId }}.png"
+            alt=""
+            width="200px"
+          />
+          <p class="letter">{{ userName }}</p>
+        </div>
       </div>
-    </div>
-  </ng-container>
+    </ng-container>
+  </div>
+
+  <app-search-results-rooms
+    [resultRoom]="resultRoom"
+  ></app-search-results-rooms>
+
+  <footer>
+    <mat-divider></mat-divider>
+    <p class="copyright">© 2020 YouTubeRoom</p>
+  </footer>
 </div>
-
-<app-search-results-rooms [resultRoom]="resultRoom"></app-search-results-rooms>
-
-<footer>
-  <mat-divider></mat-divider>
-  <p class="copyright">© 2020 YouTubeRoom</p>
-</footer>

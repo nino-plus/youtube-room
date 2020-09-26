@@ -1,4 +1,3 @@
-import { NumberValueAccessor } from '@angular/forms';
 import { firestore } from 'firebase';
 
 export interface Member {
