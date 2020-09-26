@@ -75,15 +75,23 @@ h2 {
     }
   }
 }
-.top-images{
-border: 1px solid white;
-border-radius: 4px;
-padding: 72px 24px;
+.avatar {
+  @include mat-elevation-transition;
+  @include mat-elevation(2);
+  background-color: rgba(white, 0.04);
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 50%;
+  padding: 48px 64px;
+  margin: 40px;
 }
-.img {
+img {
   animation: shake 2.5s linear 0s infinite;
-  cursor: grab;
-  width: 300px;
+}
+.letter {
+  color: rgba(#fff, 0.7);
+  font-size: 16px;
+  letter-spacing: 1px;
 }
 
 @keyframes shake {
@@ -112,7 +120,7 @@ mat-divider {
 }
 
 .copyright {
-  padding: 16px;
+  padding: 24px;
   text-align: center;
   color: rgba(#fff, 0.8);
 }

@@ -2,7 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { SearchRoomService } from 'src/app/services/search-room.service';
@@ -14,14 +13,13 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./top.component.scss'],
 })
 export class TopComponent implements OnInit {
+  @Input() searchText: '';
   resultRoom: any;
   userName: string;
-
   user$: Observable<UserData> = this.authService.user$;
   uid: string;
   avatarId = this.authService.avatarId;
-
-  avatarIds = [...Array(10)].map((_, i) => i + 1);
+  avatarIdArray = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
     loop: true,
     navigation: true,
@@ -45,7 +43,6 @@ export class TopComponent implements OnInit {
     return this.form.get('name') as FormControl;
   }
 
-  @Input() searchText: '';
 
   constructor(
     private fb: FormBuilder,

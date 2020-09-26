@@ -1,3 +1,4 @@
+@import "~@angular/material/theming";
 
 figure {
   margin: 0;
@@ -11,26 +12,35 @@ img {
   outline: none;
 }
 
-.grid{
+.grid {
   display: grid;
   padding: 32px;
   gap: 16px;
-  grid-template-columns: repeat(auto-fill, minmax(208px, 1fr));
-  @media screen and (max-width: 470px){
+  grid-template-columns: repeat(5, minmax(120px, 1fr));
+  @media screen and (max-width: 470px) {
     grid-template-columns: 1fr;
   }
 }
 
-.card{
-  box-shadow: 0 0 3px rgba(0, 0, 0, 0.4);
-  padding: 8px;
+.card {
+  @include mat-elevation-transition;
+  @include mat-elevation(2);
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  &:hover {
+    @include mat-elevation-transition;
+    @include mat-elevation(10);
+    background-color: rgba(#fff, 0.04);
+  }
+  &__items{
+    padding: 16px;
+  }
   &__title {
-    margin: 8px;
+    color: rgba(#fff, 0.8);
+    margin-bottom: 16px;
   }
   &__cover {
-    background-color: #000;
-  }
-  button{
-    margin: 8px;
+    background-color: rgba(#fff, 0.8);
   }
 }

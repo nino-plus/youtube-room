@@ -11,8 +11,11 @@
   </form>
 
   <ng-container *ngIf="!resultRoom">
-        <div class="top-images">
-          <img src="/assets/images/char_{{ avatarId }}.png" alt=""  />
+        <div class="avatar">
+          <div>
+            <img src="/assets/images/char_{{ avatarId }}.png" alt="" width="200px" />
+            <p class="letter">{{ userName }}</p>
+          </div>
         </div>
   </ng-container>
 </div>

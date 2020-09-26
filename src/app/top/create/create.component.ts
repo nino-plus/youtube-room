@@ -14,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-  avatarIds = [...Array(10)].map((_, i) => i + 1);
+  avatarIdArray = [...Array(10)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
     loop: true,
     observer: true,
@@ -32,7 +32,7 @@ export class CreateComponent implements OnInit {
   uid: string;
 
   form = this.fb.group({
-    name: ['', [Validators.required, Validators.maxLength(40)]],
+    name: ['', [Validators.required, Validators.maxLength(8)]],
   });
 
   get nameControl() {
@@ -44,7 +44,7 @@ export class CreateComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.user$
