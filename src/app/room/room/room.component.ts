@@ -124,13 +124,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
     // setInterval(async () => {
     //   const seekTime = Math.round(this.player.getCurrentTime());
-    //   console.log(seekTime);
     //   if (this.videoTime - seekTime <= 10) {
     //     const randomNumber = Math.floor(Math.random() * this.videoCount);
     //     this.roomService.setNextVideo(this.channelId, randomNumber).subscribe(async (video) => {
     //       this.id = video.videoId;
-    //       console.log(video.videoId);
-    //       console.log(this.id);
     //       await this.roomService.getVideoItem(video.videoId).then((id) => {
     //         this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
     //       });
@@ -164,7 +161,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   async setVideo() {
     this.subscriptions.add(
       this.roomService.getRoom(this.channelId).subscribe((count) => {
-        console.log(count);
         this.videoCount = count.allVideosCount;
         const randomNumber = Math.floor(Math.random() * this.videoCount);
         this.roomService

@@ -54,7 +54,6 @@ export class TopComponent implements OnInit {
       this.searchTextForm.value
     );
     this.resultRoom = channelItems.items;
-    console.log(this.resultRoom);
   }
 
   ngOnInit(): void {
