@@ -14,7 +14,7 @@
         class="users__user"
         cdkDrag
       >
-        <div class="users__head">
+        <div class="users__head" *ngIf="member || member.isActive">
           <img
             class="users__avatar"
             src="/assets/images/char_{{ member.avatarId }}.png"
