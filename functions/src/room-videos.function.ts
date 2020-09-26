@@ -51,8 +51,8 @@ async function getMoviesByChannelId(channelId: string, allVideosCount: number, n
       const videos: [] = resData.items;
       // tslint:disable-next-line: no-parameter-reassignment
       allVideosCount += videos.length;
-      await db.doc(`rooms/${channelId}`).update({ allVideosCount });
       await createVideos(videos, channelId, allVideosCount);
+      await db.doc(`rooms/${channelId}`).update({ allVideosCount });
       await db.doc(`rooms/${channelId}`).update({ isCreating: false });
       const nextToken = response.data?.nextPageToken;
       functions.logger.info(nextToken);
