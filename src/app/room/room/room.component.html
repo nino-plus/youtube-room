@@ -23,17 +23,14 @@
         </div>
       </div>
     </div>
-
     <div class="youtube">
       <div class="youtube__display">
-        <ng-container *ngIf="id">
-          <youtube-player
-            [videoId]="id"
-            (ready)="savePlayer($event)"
-            [playerVars]="playerVars"
-          >
-          </youtube-player>
-        </ng-container>
+        <youtube-player
+          [videoId]="id"
+          (ready)="savePlayer($event)"
+          [playerVars]="playerVars"
+        >
+        </youtube-player>
         <div class="action">
           <p class="action__icon action__icon--g" @fade @float *ngIf="isGood">
             😍
@@ -57,11 +54,9 @@
           </p>
         </div>
       </div>
-
       <div class="youtube__next-grid">
         <div class="youtube__next-item" *ngFor="let item of items"></div>
       </div>
-
       <div class="youtube__action">
         <button
           mat-fab
@@ -104,7 +99,6 @@
           😲
         </button>
       </div>
-
       <div class="comment">
         <form
           class="comment__form"
@@ -141,7 +135,6 @@
         </form>
       </div>
     </div>
-
     <div class="right">
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
@@ -160,7 +153,6 @@
           </div>
         </div>
       </div>
-
       <div class="chat-line" *ngIf="user$ | async as user">
         <ng-container @fade *ngFor="let member of members$ | async">
           <div
@@ -182,7 +174,6 @@
           </div>
         </ng-container>
       </div>
-
       <div class="actions-btn">
         <a
           mat-raised-button
@@ -191,6 +182,7 @@
           (click)="exitRoom()"
           >他の部屋を探す</a
         >
+        <button (click)="setVideoLoop()">テスト</button>
       </div>
     </div>
   </div>
