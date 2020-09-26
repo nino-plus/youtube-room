@@ -1,6 +1,10 @@
 @import '~@angular/material/theming';
 
-h2 {
+
+h2{
+  text-align: center;
+  margin-top: 24px;
+  letter-spacing: 3px;
   padding: 16px;
 }
 
@@ -69,12 +73,6 @@ h2 {
       line-height: 1.2;
     }
   }
-}
-
-h2{
-  text-align: center;
-  margin-top: 24px;
-  letter-spacing: 3px;
 }
 
 mat-divider {

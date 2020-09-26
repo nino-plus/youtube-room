@@ -1,22 +1,21 @@
 <app-header></app-header>
-<h2>好きなYouTubeを検索しよう</h2>
+<h2>3.好きなYouTubeを検索しましょう
+</h2>
+
 <div class="container">
   <form class="search">
-    <input
-      [(ngModel)]="searchText"
-      [formControl]="searchTextForm"
-      type="text"
-      class="search__input"
-      autocomplete="off"
-      placeholder="検索"
-    />
+    <input [(ngModel)]="searchText" [formControl]="searchTextForm" type="text" class="search__input" autocomplete="off"
+      placeholder="検索" />
     <button class="search__button" (click)="searchRoom()">
       <mat-icon>search</mat-icon>
     </button>
   </form>
-  <div class="topImges">
-    <img src="/assets/images/top.svg" alt="" width="450" />
-  </div>
+
+  <ng-container *ngIf="!resultRoom">
+      <div class="topImges">
+        <img src="/assets/images/top.svg" alt="" width="450" />
+      </div>
+  </ng-container>
 </div>
 
 <app-search-results-rooms [resultRoom]="resultRoom"></app-search-results-rooms>
