@@ -143,18 +143,20 @@
     </div>
 
     <div class="right">
-      <div class="channel">
+      <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
           <figure class="channel__logo">
             <img [src]="" alt="" />
           </figure>
-          <h2 class="channel__name">name</h2>
+          <h2 class="channel__name">{{ room.title }}</h2>
         </div>
         <div class="channel__body">
-          <div class="channel__descriotion">
+          <div class="channel__description">
             Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt,
             veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Sunt, veniam.
+            Sunt, veniam. Lorem ipsum dolor, sit amet consectetur adipisicing
+            elit. Sunt, veniam.Lorem ipsum dolor, sit amet consectetur
+            adipisicing elit. Sunt, veniam.
           </div>
         </div>
       </div>
@@ -182,15 +184,9 @@
       </div>
 
       <div class="actions-btn">
-        <button
-          class="actions-btn__logout"
-          mat-raised-button
-          color="primary"
-          (click)="logOut()"
+        <a mat-raised-button color="primary" routerLink="/top"
+          >他の部屋を探す</a
         >
-          ログアウト
-        </button>
-        <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す</a>
       </div>
     </div>
   </div>

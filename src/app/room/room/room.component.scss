@@ -158,7 +158,6 @@
   background: #212121;
   margin: 24px 24px 24px 0;
   padding: 16px;
-  color: rgbba(#fff, 0.8);
   &__header {
     display: flex;
     align-items: center;
@@ -168,11 +167,26 @@
     height: 40px;
     border-radius: 50%;
     background: #424242;
-    margin: 0 8px 16px 0;
+    margin: 0 8px 8px 0;
   }
   &__name {
+    color: rgba(#fff, 0.8);
     font-size: 16px;
     line-height: 16px;
+  }
+  &__body {
+    width: 100%;
+    height: 80px;
+    overflow: hidden;
+  }
+  &__description {
+    color: rgba(#fff, 0.8);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: wrap;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    display: -webkit-box;
   }
 }
 
@@ -182,6 +196,7 @@
   background: #424242;
   overflow: scroll;
   padding: 16px;
+  margin-bottom: 24px;
   &__body {
     word-break: break-all;
   }
@@ -236,7 +251,7 @@
   }
 }
 .actions-btn {
-  display: flex;
+  text-align: right;
   &__logout {
     margin-right: 8px;
   }

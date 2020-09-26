@@ -8,6 +8,7 @@ import { bounce, fade, float } from 'src/app/animations';
 import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
+import { Room } from 'src/app/interfaces/room';
 import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
@@ -24,6 +25,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   private avatarId: number;
   private channelId = this.route.snapshot.paramMap.get('id');
   private subscriptions: Subscription = new Subscription();
+
   player: YT.Player;
   playerVars = {
     controls: 0,
@@ -37,6 +39,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   isLagh: boolean;
   isSuprise: boolean;
   messages = {};
+
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
   );
@@ -48,6 +51,8 @@ export class RoomComponent implements OnInit, OnDestroy {
   message$: Observable<Message[]> = this.chatsService.getLatestMessages(
     this.channelId
   );
+  room$: Observable<Room> = this.roomService.getRoom(this.channelId);
+
   firstVideos: any;
   videoIds = [];
   id;
