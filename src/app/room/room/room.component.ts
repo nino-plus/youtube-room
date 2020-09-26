@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { map, skip } from 'rxjs/operators';
 import { bounce, fade, float } from 'src/app/animations';
 import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
@@ -12,6 +12,7 @@ import { Room } from 'src/app/interfaces/room';
 import { UserData } from 'src/app/interfaces/user';
 import { Video } from 'src/app/interfaces/video';
 import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
 import { RoomService } from 'src/app/services/room.service';
 
 @Component({
@@ -42,6 +43,7 @@ export class RoomComponent implements OnInit, OnDestroy {
   messages = {};
   member: Member;
   isActive: boolean;
+  interval;
 
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
@@ -78,7 +80,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     private roomService: RoomService,
     private chatsService: ChatsService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    public loadingService: LoadingService,
   ) {
     this.chatsService
       .getLatestMessages(this.channelId)
@@ -97,6 +100,8 @@ export class RoomComponent implements OnInit, OnDestroy {
         }, 5000);
       });
 
+    this.loadingService.loading = true;
+
     this.member$.subscribe((member) => {
       this.member = member;
     });
@@ -110,6 +115,10 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.avatarId = user?.avatarId;
       })
     );
+
+    this.interval = this.isCreatingRoom();
+    clearInterval(this.interval);
+
 
     // await this.setVideo();
 
@@ -136,8 +145,20 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   setVideoLoop() {
     this.videoId$.subscribe(doc => {
-        this.player.loadVideoById(doc?.videoId);
+      this.player.loadVideoById(doc?.videoId);
     });
+  }
+
+  isCreatingRoom() {
+    setInterval(() => {
+      this.room$.pipe(
+        map((create) => {
+          if (create.isCreating === false) {
+            this.setVideo();
+          }
+        })
+      );
+    }, 10000);
   }
 
   async setVideo() {
@@ -159,7 +180,6 @@ export class RoomComponent implements OnInit, OnDestroy {
   savePlayer(player) {
     this.player = player;
     this.player.playVideo();
-    this.player.mute();
   }
 
   good() {
