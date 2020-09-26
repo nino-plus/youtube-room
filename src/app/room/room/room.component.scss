@@ -1,3 +1,7 @@
+.spacer {
+  flex: 1;
+}
+
 .wrapper {
   padding: 0 24px 80px;
 }
@@ -103,6 +107,49 @@
     color: #fff;
   }
 }
+.youtube {
+  padding: 24px;
+  &__display {
+    width: 100%;
+    background: #212121;
+    position: relative;
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
+    }
+  }
+  youtube-player {
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+  &__next-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  &__next-item {
+    width: 100%;
+    background: #212121;
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
+    }
+  }
+  &__action {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  &__action-icon {
+    font-size: 24px;
+  }
+}
+
 .channel {
   width: 100%;
   height: 160px;
@@ -139,39 +186,52 @@
     -webkit-line-clamp: 4;
     display: -webkit-box;
   }
+  .comment {
+    width: 100%;
+    height: 40px;
+    mat-form-field {
+      width: 100%;
+      color: #fff;
+    }
+  }
 }
-.chat-line {
-  width: 100%;
-  height: 600px;
-  background: #424242;
-  overflow: scroll;
-  padding: 16px;
-  margin-bottom: 24px;
-  &__body {
-    word-break: break-all;
-  }
-  &__head {
-    display: flex;
-    align-items: center;
-  }
-  &__avatar {
-    width: 32px;
-    height: 32px;
-    margin-right: 8px;
-  }
-  &__comment {
-    font-size: 14px;
-    color: rgba(#fff, 0.8);
-    white-space: pre-wrap;
-  }
-  &__name {
-    font-size: 14px;
-    margin-right: 8px;
-    color: rgba(#fff, 0.8);
-  }
-  &__date {
-    font-size: 12px;
-    color: rgba(#fff, 0.6);
+
+.chat {
+  border: 1px solid rgba(#fff, 0.8);
+
+  .chat-line {
+    width: 100%;
+    height: 600px;
+    background: #424242;
+    overflow: scroll;
+    padding: 16px;
+    margin-bottom: 24px;
+    &__body {
+      word-break: break-all;
+    }
+    &__head {
+      display: flex;
+      align-items: center;
+    }
+    &__avatar {
+      width: 32px;
+      height: 32px;
+      margin-right: 8px;
+    }
+    &__comment {
+      font-size: 14px;
+      color: rgba(#fff, 0.8);
+      white-space: pre-wrap;
+    }
+    &__name {
+      font-size: 14px;
+      margin-right: 8px;
+      color: rgba(#fff, 0.8);
+    }
+    &__date {
+      font-size: 12px;
+      color: rgba(#fff, 0.6);
+    }
   }
 }
 .action {

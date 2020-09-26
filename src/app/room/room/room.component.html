@@ -1,3 +1,9 @@
+<mat-toolbar>
+  <a routerLink="/top" class="header__logo" mat-button>YOUTUBEROOM</a>
+  <span class="spacer"></span>
+  <button class="logout" mat-button (click)="logout()">ログアウト</button>
+</mat-toolbar>
+
 <div class="wrapper">
   <div class="grid">
     <div class="users">
@@ -8,7 +14,7 @@
         class="users__user"
         cdkDrag
       >
-        <div class="users__head" *ngIf="member && member.isActive">
+        <div class="users__head">
           <img
             class="users__avatar"
             src="/assets/images/char_{{ member.avatarId }}.png"
@@ -111,42 +117,8 @@
           😲
         </button>
       </div>
-      <div class="comment">
-        <form
-          class="comment__form"
-          *ngIf="user$ | async as user"
-          [formGroup]="form"
-          (ngSubmit)="sendMessage()"
-        >
-          <mat-form-field>
-            <mat-label>チャット</mat-label>
-            <input
-              type="text"
-              formControlName="comments"
-              matInput
-              autofocus
-              autocomplete="off"
-              required
-              #body
-            />
-            <button
-              matSuffix
-              mat-icon-button
-              [disabled]="form.invalid || form.pristine"
-            >
-              <mat-icon>send</mat-icon>
-            </button>
-            <mat-error *ngIf="form.hasError('required')"
-              >必須入力です</mat-error
-            >
-            <mat-error *ngIf="form.hasError('maxlength')"
-              >最大文字数を超えています</mat-error
-            >
-            <mat-hint align="end">{{ body.value.length }}/140文字まで</mat-hint>
-          </mat-form-field>
-        </form>
-      </div>
     </ng-container>
+
     <div class="right">
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
@@ -165,39 +137,74 @@
           </div>
         </div>
       </div>
-      <div class="chat-line" *ngIf="user$ | async as user">
-        <ng-container @fade *ngFor="let member of members$ | async">
-          <div
-            class="chat-line__body"
-            *ngFor="let message of allMessages$ | async"
-          >
-            <div class="chat-line__head">
-              <img
-                class="chat-line__avatar"
-                src="/assets/images/char_{{ message.avatarId }}.png"
-                alt=""
-              />
-              <div class="chat-line__name">{{ message.userName }}</div>
-              <div class="chat-line__date">
-                {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
+
+      <div class="chat">
+        <div class="chat-line" *ngIf="user$ | async as user">
+          <ng-container @fade *ngFor="let member of members$ | async">
+            <div
+              class="chat-line__body"
+              *ngFor="let message of allMessages$ | async"
+            >
+              <div class="chat-line__head">
+                <img
+                  class="chat-line__avatar"
+                  src="/assets/images/char_{{ message.avatarId }}.png"
+                  alt=""
+                />
+                <div class="chat-line__name">{{ message.userName }}</div>
+                <div class="chat-line__date">
+                  {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
+                </div>
               </div>
+              <div class="chat-line__comment">{{ message.comments }}</div>
             </div>
-            <div class="chat-line__comment">{{ message.comments }}</div>
-          </div>
-        </ng-container>
+          </ng-container>
+        </div>
+        <div class="comment">
+          <form
+            class="comment__form"
+            *ngIf="user$ | async as user"
+            [formGroup]="form"
+            (ngSubmit)="sendMessage()"
+          >
+            <mat-form-field>
+              <mat-label>チャット</mat-label>
+              <input
+                type="text"
+                formControlName="comments"
+                matInput
+                autofocus
+                autocomplete="off"
+                required
+                #body
+              />
+              <button
+                matSuffix
+                mat-icon-button
+                [disabled]="form.invalid || form.pristine"
+              >
+                <mat-icon>send</mat-icon>
+              </button>
+              <mat-error *ngIf="form.hasError('required')"
+                >必須入力です</mat-error
+              >
+              <mat-error *ngIf="form.hasError('maxlength')"
+                >最大文字数を超えています</mat-error
+              >
+              <mat-hint align="end"
+                >{{ body.value.length }}/140文字まで</mat-hint
+              >
+            </mat-form-field>
+          </form>
+        </div>
       </div>
-      <div class="actions-btn">
-        <a
-          mat-raised-button
-          color="primary"
-          routerLink="/top"
-          (click)="exitRoom()"
-          >他の部屋を探す</a
-        >
-        <button color="accent" mat-raised-button (click)="setVideo()">
-          みんなで再生を始める
-        </button>
-      </div>
+    </div>
+
+    <div class="actions-btn">
+      <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
+      <button color="accent" mat-raised-button (click)="setVideo()">
+        みんなで再生を始める
+      </button>
     </div>
   </div>
 </div>

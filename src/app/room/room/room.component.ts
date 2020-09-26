@@ -1,7 +1,7 @@
 import { newArray } from '@angular/compiler/src/util';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { bounce, fade, float } from 'src/app/animations';
@@ -78,7 +78,8 @@ export class RoomComponent implements OnInit, OnDestroy {
     private roomService: RoomService,
     private chatsService: ChatsService,
     private route: ActivatedRoute,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.chatsService
       .getLatestMessages(this.channelId)
@@ -182,8 +183,10 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.isSuprise = !this.isSuprise;
   }
 
-  logOut() {
-    this.authService.logout();
+  logout() {
+    this.authService.logout().then(() => {
+      this.router.navigateByUrl('/welcome');
+    });
   }
 
   exitRoom() {
