@@ -1,10 +1,7 @@
 <ng-container *ngIf="resultRoom">
-  <!-- カード 04:18 -->
-  <!-- グリッド 09:31-->
   <div class="grid">
     <ng-container *ngFor="let room of resultRoom">
       <div class="card">
-        <!-- 画像入れる -->
         <figure class="card__cover">
           <ng-container *ngIf="room.snippet.thumbnails.high.url">
             <img
@@ -14,16 +11,25 @@
             />
           </ng-container>
         </figure>
-        <div class="card__title">{{ room.snippet.title }}</div>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="
-            createRoom(room.snippet.channelId, room.snippet.channelTitle)
-          "
-        >
-          ルームに参加する
-        </button>
+        <div class="card__items">
+          <p class="card__title">{{ room.snippet.title }}</p>
+          <div class="border-button">
+            <button
+              mat-raised-button
+              color="primary"
+              (click)="
+                createRoom(
+                  room.snippet.channelId,
+                  room.snippet.channelTitle,
+                  room.snippet.description,
+                  room.snippet.thumbnails.high.url
+                )
+              "
+            >
+              ルームに参加する
+            </button>
+          </div>
+        </div>
       </div>
     </ng-container>
   </div>

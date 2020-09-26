@@ -11,14 +11,14 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$youtube-room-primary: mat-palette($mat-indigo);
-$youtube-room-accent: mat-palette($mat-pink, A200, A100, A400);
+$youtube-room-primary: mat-palette($mat-lime, A200, A100, A400);
+$youtube-room-accent: mat-palette($mat-pink, A200, A100, A200);
 
 // The warn palette is optional (defaults to red).
 $youtube-room-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$youtube-room-theme: mat-light-theme(
+$youtube-room-theme: mat-dark-theme(
   $youtube-room-primary,
   $youtube-room-accent,
   $youtube-room-warn
@@ -44,6 +44,7 @@ body {
 
 body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
+  background: #303030;
 }
 
 a {
@@ -62,7 +63,8 @@ h2,
 h3,
 h4,
 footer,
-figure {
+figure,
+img {
   padding: 0;
   margin: 0;
 }
@@ -115,4 +117,55 @@ figure {
   right: 0;
   bottom: 0;
   margin: auto;
+}
+
+.swiper-pagination-clickable .swiper-pagination-bullet {
+  background: #fff;
+}
+
+.youtube {
+  padding: 24px;
+  &__display {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-top: 56.25%;
+    youtube-player {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100% !important;
+      background: #212121;
+      object-fit: cover !important;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  &__next-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 24px 0;
+  }
+  &__next-item {
+    width: 100%;
+    background: #212121;
+    &:before {
+      content: '';
+      display: block;
+      padding-top: 56.25%;
+    }
+  }
+  &__action {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  &__action-icon {
+    font-size: 24px;
+  }
 }

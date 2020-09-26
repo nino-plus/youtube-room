@@ -4,12 +4,11 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
-import { shareReplay, switchMap, take } from 'rxjs/operators';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Member } from '../interfaces/member';
 import { Room } from '../interfaces/room';
 import { UserData } from '../interfaces/user';
 import { Video } from '../interfaces/video';
-import { AuthService } from './auth.service';
 import { UserService } from './user.service';
 
 @Injectable({
@@ -18,6 +17,7 @@ import { UserService } from './user.service';
 export class RoomService {
   uid: string;
   userName: string;
+  apiKey = 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY';
 
   user$: Observable<UserData> = this.afAuth.authState.pipe(
     switchMap((afUser) => {
@@ -43,11 +43,14 @@ export class RoomService {
     });
   }
 
-  createRoom(id: string, title: string): Promise<void> {
-    const value: Omit<Room, 'videoCount'> = {
+  createRoom(id: string, title: string, description: string, thumbnailURL: string): Promise<void> {
+    const value: Omit<Room, 'allVideosCount'> = {
       id,
       title,
+      description,
+      thumbnailURL,
       initialAction: false,
+      isCreating: false,
     };
     return this.db.doc(`rooms/${id}`).set(value);
   }
@@ -56,7 +59,7 @@ export class RoomService {
     const value: Member = {
       uid,
       avatarId,
-      active: true,
+      isActive: true,
       lastStatusChecked: firestore.Timestamp.now(),
       lastPosted: firestore.Timestamp.now(),
       name: this.userName,
@@ -71,8 +74,18 @@ export class RoomService {
       .valueChanges();
   }
 
+  getMember(channelId: string, uid: string): Observable<Member> {
+    return this.db
+      .doc<Member>(`rooms/${channelId}/member/${uid}`)
+      .valueChanges();
+  }
+
   getRooms(): Observable<Room[]> {
     return this.db.collection<Room>('rooms').valueChanges();
+  }
+
+  getRoom(channelId: string): Observable<Room> {
+    return this.db.doc<Room>(`rooms/${channelId}`).valueChanges();
   }
 
   getChannelVideos(channelId: string) {
@@ -81,7 +94,7 @@ export class RoomService {
         params: new HttpParams({
           fromObject: {
             part: 'snippet',
-            key: 'AIzaSyDpo9fQ3cNDd1CbowNBaWRx57MwhfHucVY',
+            key: this.apiKey,
             maxResults: '10',
             type: 'video',
             order: 'viewCount',
@@ -93,7 +106,49 @@ export class RoomService {
       .toPromise();
   }
 
-  setChannelFirstVideos(channelId: string, video: Video): Promise<void> {
-    return this.db.doc(`rooms/${channelId}/videos/${video.videoId}`).set(video);
+  getVideoItem(id: string): Promise<object> {
+    return this.http
+      .get('https://www.googleapis.com/youtube/v3/videos', {
+        params: new HttpParams({
+          fromObject: {
+            part: 'contentDetails',
+            key: this.apiKey,
+            id,
+          },
+        }),
+      })
+      .pipe(take(1))
+      .toPromise();
+  }
+
+  getRandomVideoId(channelId: string, randomNumber: number): Observable<Video> {
+    return this.db
+      .collection<Video>(`rooms/${channelId}/videos`, (ref) =>
+        ref.where('random', '>=', randomNumber).limit(1)
+      )
+      .valueChanges()
+      .pipe(
+        map((videos) => {
+          if (videos.length) {
+            return videos[0];
+          } else {
+            return null;
+          }
+        })
+      );
+  }
+
+  collectionVideos(channelId: string) {
+    this.db.collection(`rooms/${channelId}/videos`).valueChanges();
+  }
+
+  setPlayVideo(channelId: string, videoId: string): Promise<void> {
+    return this.db.doc(`rooms/${channelId}/playVideo/video`).set({ videoId });
+  }
+
+  getPlayVideo(channelId: string): Observable<Video> {
+    return this.db
+      .doc<Video>(`rooms/${channelId}/playVideo/video`)
+      .valueChanges();
   }
 }

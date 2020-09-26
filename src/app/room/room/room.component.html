@@ -1,119 +1,167 @@
+<mat-toolbar>
+  <a routerLink="/top" class="header__logo" mat-button>YOUTUBEROOM</a>
+  <span class="spacer"></span>
+  <button class="logout" mat-button (click)="logout()">ログアウト</button>
+</mat-toolbar>
+
 <div class="wrapper">
   <div class="grid">
     <div class="users">
-      <ng-container @fade *ngFor="let member of members$ | async">
-        <div *ngIf="user$ | async as user" class="users__user" cdkDrag>
-          <div class="users__head">
-            <img
-              class="users__avatar"
-              src="/assets/images/char_{{ member.avatarId }}.png"
-              alt=""
-            />
-            <p class="users__name">{{ member.name }}</p>
-          </div>
-          <div class="users__body">
-            <div class="baloon" *ngFor="let message of messages[member.uid]">
-              <div class="users__comment">{{ message }}</div>
-            </div>
+      <div
+        @fade
+        @bounce
+        *ngFor="let member of members$ | async"
+        class="users__user"
+        cdkDrag
+      >
+        <div class="users__head" *ngIf="member.isActive">
+          <img
+            class="users__avatar"
+            src="/assets/images/char_{{ member.avatarId }}.png"
+            alt=""
+          />
+          <p class="users__name">{{ member.name }}</p>
+        </div>
+        <div class="users__message" *ngIf="messages">
+          <div class="balloon" *ngFor="let message of messages[member.uid]">
+            <div class="balloon__inner">{{ message }}</div>
           </div>
         </div>
-      </ng-container>
+      </div>
     </div>
-
-    <div class="room">
-      <div class="container">
-        <div class="room__display" cdkDrag>
-          <ng-container *ngIf="id">
+    <ng-container *ngIf="room$ | async as room">
+      <div *ngIf="!room.isCreating; else nowLoading">
+        <div class="youtube">
+          <div class="youtube__display">
             <youtube-player
               width="100%"
-              height="100%"
+              hight="100%"
               [videoId]="id"
               (ready)="savePlayer($event)"
               [playerVars]="playerVars"
+              allowfullscreen
             >
             </youtube-player>
-          </ng-container>
+          </div>
           <div class="action">
-            <p
-              class="action__icon action__icon--g"
-              @fade
-              @bounce
-              *ngIf="isGood"
-            >
+            <p class="action__icon action__icon--g" @fade @float *ngIf="isGood">
               😍
             </p>
-            <p class="action__icon action__icon--b" @fade @bounce *ngIf="isBad">
+            <p class="action__icon action__icon--b" @fade @float *ngIf="isBad">
               😤
             </p>
-            <p class="action__icon action__icon--c" @fade @bounce *ngIf="isCry">
+            <p class="action__icon action__icon--c" @fade @float *ngIf="isCry">
               😭
             </p>
-            <p
-              class="action__icon action__icon--l"
-              @fade
-              @bounce
-              *ngIf="isLagh"
-            >
+            <p class="action__icon action__icon--l" @fade @float *ngIf="isLagh">
               🤣
             </p>
             <p
               class="action__icon action__icon--s"
               @fade
-              @bounce
+              @float
               *ngIf="isSuprise"
             >
               😲
             </p>
           </div>
         </div>
+      </div>
+      <ng-template #nowLoading>
+        <mat-spinner
+          *ngIf="loadingService.loading"
+          class="loading"
+          diameter="56"
+          strokeWidth="2"
+        ></mat-spinner>
+        <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+      </ng-template>
+      <div class="youtube__action">
+        <button
+          mat-fab
+          class="youtube__action-icon"
+          type="button"
+          (click)="good()"
+        >
+          😍
+        </button>
+        <button
+          mat-fab
+          class="youtube__action-icon"
+          type="button"
+          (click)="bad()"
+        >
+          😤
+        </button>
+        <button
+          mat-fab
+          class="youtube__action-icon"
+          type="button"
+          (click)="cry()"
+        >
+          😭
+        </button>
+        <button
+          mat-fab
+          class="youtube__action-icon"
+          type="button"
+          (click)="lagh()"
+        >
+          🤣
+        </button>
+        <button
+          mat-fab
+          class="youtube__action-icon"
+          type="button"
+          (click)="surprise()"
+        >
+          😲
+        </button>
+      </div>
+    </ng-container>
 
-        <div class="room__next-grid">
-          <div class="room__next-item" *ngFor="let item of items"></div>
+    <div class="right">
+      <div class="channel" *ngIf="room$ | async as room">
+        <div class="channel__header">
+          <figure class="channel__logo">
+            <img [src]="room.thumbnailURL" alt="" />
+          </figure>
+          <h2 class="channel__name">{{ room.title }}</h2>
         </div>
-
-        <div class="room__action">
-          <button
-            mat-fab
-            class="room__action-icon"
-            type="button"
-            (click)="good()"
-          >
-            😍
-          </button>
-          <button
-            mat-fab
-            class="room__action-icon"
-            type="button"
-            (click)="bad()"
-          >
-            😤
-          </button>
-          <button
-            mat-fab
-            class="room__action-icon"
-            type="button"
-            (click)="cry()"
-          >
-            😭
-          </button>
-          <button
-            mat-fab
-            class="room__action-icon"
-            type="button"
-            (click)="lagh()"
-          >
-            🤣
-          </button>
-          <button
-            mat-fab
-            class="room__action-icon"
-            type="button"
-            (click)="surprise()"
-          >
-            😲
-          </button>
+        <div class="channel__body">
+          <div class="channel__description">
+            <p *ngIf="room.description.length !== 0; else blank">
+              {{ room.description }}
+            </p>
+            <p #blank>このチャンネルの概要はありません。</p>
+          </div>
         </div>
+      </div>
 
+      <div class="chat">
+        <div class="chat-line" *ngIf="user$ | async as user">
+          <ng-container @fade *ngFor="let member of members$ | async">
+            <div
+              class="chat-line__body"
+              *ngFor="let message of allMessages$ | async"
+            >
+              <div class="chat-line__head">
+                <img
+                  class="chat-line__avatar"
+                  src="/assets/images/char_{{ message.avatarId }}.png"
+                  alt=""
+                />
+                <div class="chat-line__name">{{ message.userName }}</div>
+                <div class="chat-line__date">
+                  {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
+                </div>
+              </div>
+              <div class="chat-line__comment">{{ message.comments }}</div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="actions-btn">
+        </div>
         <div class="comment">
           <form
             class="comment__form"
@@ -153,57 +201,16 @@
         </div>
       </div>
     </div>
-
-    <div class="right">
-      <div class="channel">
-        <div class="channel__header">
-          <figure class="channel__logo">
-            <img [src]="" alt="" />
-          </figure>
-          <h2 class="channel__name">name</h2>
-        </div>
-        <div class="channel__body">
-          <div class="channel__descriotion">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sunt,
-            veniam.Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-            Sunt, veniam.
-          </div>
-        </div>
-      </div>
-
-      <div class="chat-line" *ngIf="user$ | async as user">
-        <ng-container @fade *ngFor="let member of members$ | async">
-          <div
-            class="chat-line__body"
-            *ngFor="let message of allMessages$ | async"
-          >
-            <div class="chat-line__head">
-              <img
-                class="chat-line__avatar"
-                src="/assets/images/char_{{ message.avatarId }}.png"
-                alt=""
-              />
-              <div class="chat-line__name">{{ message.userName }}</div>
-              <div class="chat-line__date">
-                {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
-              </div>
-            </div>
-            <div class="chat-line__comment">{{ message.comments }}</div>
-          </div>
-        </ng-container>
-      </div>
-
-      <div class="actions-btn">
-        <button
-          class="actions-btn__logout"
-          mat-raised-button
-          color="primary"
-          (click)="logOut()"
-        >
-          退室する
-        </button>
-        <a mat-raised-button color="primary" routerLink="/top">トップへ</a>
-      </div>
+    <div class="actions-btn" *ngIf="room$ | async as room">
+      <a mat-raised-button color="primary" routerLink="/top">他の部屋を探す </a>
+      <button
+        color="accent"
+        [disabled]="room.isCreating === true"
+        mat-raised-button
+        (click)="setVideo()"
+      >
+        みんなで再生を始める
+      </button>
     </div>
   </div>
 </div>
