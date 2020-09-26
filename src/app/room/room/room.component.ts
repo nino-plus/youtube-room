@@ -40,18 +40,26 @@ export class RoomComponent implements OnInit, OnDestroy {
   isLagh: boolean;
   isSuprise: boolean;
   messages = {};
+  member: Member;
+  isActive: boolean;
 
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
   );
+
   members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
-  form = this.fb.group({
-    comments: ['', Validators.required],
-  });
+
+  member$: Observable<Member> = this.roomService.getMember(
+    this.channelId,
+    this.uid
+  );
+
   user$: Observable<UserData> = this.authService.user$;
+
   message$: Observable<Message[]> = this.chatsService.getLatestMessages(
     this.channelId
   );
+
   room$: Observable<Room> = this.roomService.getRoom(this.channelId);
 
   firstVideos: any;
@@ -60,6 +68,10 @@ export class RoomComponent implements OnInit, OnDestroy {
   videoTime: number;
   videoCount: number;
   videoId$: Observable<Video> = this.roomService.getPlayVideo(this.channelId);
+
+  form = this.fb.group({
+    comments: ['', Validators.required],
+  });
 
   constructor(
     private authService: AuthService,
@@ -85,6 +97,10 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.messages[message.uid].pop();
         }, 5000);
       });
+
+    this.member$.subscribe((member) => {
+      this.member = member;
+    });
   }
 
   async ngOnInit(): Promise<void> {
@@ -171,6 +187,10 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.authService.logout().then(() => {
       this.router.navigateByUrl('/welcome');
     });
+  }
+
+  exitRoom() {
+    this.member.isActive = false;
   }
 
   sendMessage() {

@@ -6,7 +6,7 @@ import { take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class SearchRoomService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getChannelItems(q: string) {
     return this.http

@@ -1,4 +1,11 @@
-@import "~@angular/material/theming";
+@import '~@angular/material/theming';
+
+.wrap {
+  text-align: center;
+  padding: 24px;
+  height: 100vh;
+  background: url(../../../assets/images/bg2_2.jpg) no-repeat center/cover;
+}
 
 h2 {
   text-align: center;
