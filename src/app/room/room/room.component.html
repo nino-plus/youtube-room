@@ -5,11 +5,9 @@
   <button color="accent" mat-raised-button (click)="setVideo()">
     みんなで再生を始める
   </button>
-  <!-- メニュー開始 -->
   <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
     <mat-icon>exit_to_app</mat-icon>
   </button>
-  <!-- メニューの中身 -->
   <mat-menu #menu="matMenu">
     <button class="logout" mat-button (click)="logout()">
       <mat-icon>delete_outline</mat-icon>
@@ -26,8 +24,6 @@
 
 <div class="wrapper">
   <div class="grid">
-
-    <!-- アバター -->
     <div class="users">
       <div @fade @bounce *ngFor="let member of members$ | async" class="users__user" cdkDrag>
         <div class="users__head" *ngIf="member || member.isActive">
@@ -41,14 +37,12 @@
         </div>
       </div>
     </div>
-    <!-- アバター終了 -->
 
     <ng-template #nowLoading>
       <mat-spinner class="loading" diameter="56" strokeWidth="2"></mat-spinner>
       <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
     </ng-template>
 
-    <!-- 動画 -->
     <ng-container *ngIf="room$ | async as room">
       <div *ngIf="!room.isCreating === false; else nowLoading">
         <div class="youtube">
@@ -94,10 +88,7 @@
         </div>
       </div>
     </ng-container>
-    <!-- 動画 -->
 
-
-    <!-- 右寄せ -->
     <div class="right">
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
@@ -132,7 +123,6 @@
             </mat-form-field>
           </form>
         </div>
-        <!-- チャット開始 -->
         <div class="chat-line" *ngIf="user$ | async as user">
           <ng-container @fade *ngFor="let member of members$ | async">
             <div class="chat-line__body" *ngFor="let message of allMessages$ | async">
@@ -149,6 +139,5 @@
         </div>
       </div>
     </div>
-    <!-- 右寄せ終了 -->
   </div>
 </div>
