@@ -56,7 +56,7 @@ export class RoomService {
     const value: Member = {
       uid,
       avatarId,
-      active: true,
+      isActive: true,
       lastStatusChecked: firestore.Timestamp.now(),
       lastPosted: firestore.Timestamp.now(),
       name: this.userName,
@@ -68,6 +68,12 @@ export class RoomService {
     return this.db
       .doc(`rooms/${channelId}`)
       .collection<Member>('members')
+      .valueChanges();
+  }
+
+  getMember(channelId: string, uid: string): Observable<Member> {
+    return this.db
+      .doc<Member>(`rooms/${channelId}/member/${uid}`)
       .valueChanges();
   }
 

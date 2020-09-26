@@ -8,7 +8,7 @@
         class="users__user"
         cdkDrag
       >
-        <div class="users__head">
+        <div class="users__head" *ngIf="member && member.isActive">
           <img
             class="users__avatar"
             src="/assets/images/char_{{ member.avatarId }}.png"
@@ -184,7 +184,11 @@
       </div>
 
       <div class="actions-btn">
-        <a mat-raised-button color="primary" routerLink="/top"
+        <a
+          mat-raised-button
+          color="primary"
+          routerLink="/top"
+          (click)="exitRoom()"
           >他の部屋を探す</a
         >
       </div>
