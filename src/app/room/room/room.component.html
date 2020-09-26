@@ -23,40 +23,49 @@
         </div>
       </div>
     </div>
-    <div class="youtube">
-      <div class="youtube__display">
-          <youtube-player
-            [videoId]="id"
-            (ready)="savePlayer($event)"
-            [playerVars]="playerVars"
-          >
-          </youtube-player>
-        <div class="action">
-          <p class="action__icon action__icon--g" @fade @float *ngIf="isGood">
-            😍
-          </p>
-          <p class="action__icon action__icon--b" @fade @float *ngIf="isBad">
-            😤
-          </p>
-          <p class="action__icon action__icon--c" @fade @float *ngIf="isCry">
-            😭
-          </p>
-          <p class="action__icon action__icon--l" @fade @float *ngIf="isLagh">
-            🤣
-          </p>
-          <p
-            class="action__icon action__icon--s"
-            @fade
-            @float
-            *ngIf="isSuprise"
-          >
-            😲
-          </p>
+    <ng-container *ngIf="room$ | async as room">
+      <div *ngIf="room.isCreating === true; else nowLoading">
+        <div class="youtube">
+          <div class="youtube__display">
+            <youtube-player
+              [videoId]="id"
+              (ready)="savePlayer($event)"
+              [playerVars]="playerVars"
+            >
+            </youtube-player>
+          </div>
+          <div class="action">
+            <p class="action__icon action__icon--g" @fade @float *ngIf="isGood">
+              😍
+            </p>
+            <p class="action__icon action__icon--b" @fade @float *ngIf="isBad">
+              😤
+            </p>
+            <p class="action__icon action__icon--c" @fade @float *ngIf="isCry">
+              😭
+            </p>
+            <p class="action__icon action__icon--l" @fade @float *ngIf="isLagh">
+              🤣
+            </p>
+            <p
+              class="action__icon action__icon--s"
+              @fade
+              @float
+              *ngIf="isSuprise"
+            >
+              😲
+            </p>
+          </div>
         </div>
       </div>
-      <div class="youtube__next-grid">
-        <div class="youtube__next-item" *ngFor="let item of items"></div>
-      </div>
+      <ng-template #nowLoading>
+        <mat-spinner
+          class="loading"
+          diameter="56"
+          strokeWidth="2"
+        ></mat-spinner>
+        <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+      </ng-template>
       <div class="youtube__action">
         <button
           mat-fab
@@ -134,7 +143,7 @@
           </mat-form-field>
         </form>
       </div>
-    </div>
+    </ng-container>
     <div class="right">
       <div class="channel" *ngIf="room$ | async as room">
         <div class="channel__header">
@@ -175,19 +184,11 @@
         </ng-container>
       </div>
       <div class="actions-btn">
-        <a
-          mat-raised-button
-          color="primary"
-          routerLink="/top"
+        <a mat-raised-button color="primary" routerLink="/top"
           >他の部屋を探す
         </a>
-        <button (click)="setVideoLoop()">テスト</button>
+        <button (click)="setVideo()">テスト</button>
       </div>
     </div>
   </div>
 </div>
-
-
-
-
-
