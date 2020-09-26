@@ -10,6 +10,7 @@ import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
 import { Room } from 'src/app/interfaces/room';
 import { UserData } from 'src/app/interfaces/user';
+import { Video } from 'src/app/interfaces/video';
 import { AuthService } from 'src/app/services/auth.service';
 import { RoomService } from 'src/app/services/room.service';
 
@@ -55,7 +56,10 @@ export class RoomComponent implements OnInit, OnDestroy {
 
   firstVideos: any;
   videoIds = [];
-  id;
+  id: string;
+  videoTime: number;
+  videoCount: number;
+  videoId$: Observable<Video> = this.roomService.getPlayVideo(this.channelId);
 
   constructor(
     private authService: AuthService,
@@ -82,7 +86,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.subscriptions.add(
       this.authService.user$.subscribe((user) => {
         this.uid = user?.uid;
@@ -90,25 +94,61 @@ export class RoomComponent implements OnInit, OnDestroy {
         this.avatarId = user?.avatarId;
       })
     );
-    // this.setChannelFirstVideos().then(() => {
-    //   for (let i = this.videoIds.length - 1; i > 0; i--) {
-    //     const j = Math.floor(Math.random)
+
+    await this.setVideo();
+
+    // setInterval(async () => {
+    //   const seekTime = Math.round(this.player.getCurrentTime());
+    //   console.log(seekTime);
+    //   if (this.videoTime - seekTime <= 10) {
+    //     const randomNumber = Math.floor(Math.random() * this.videoCount);
+    //     this.roomService.setNextVideo(this.channelId, randomNumber).subscribe(async (video) => {
+    //       this.id = video.videoId;
+    //       console.log(video.videoId);
+    //       console.log(this.id);
+    //       await this.roomService.getVideoItem(video.videoId).then((id) => {
+    //         this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
+    //       });
+    //     });
     //   }
-    //   // this.videoIds.forEach((videoid) => {
-    //   //   setTimeout(this.id = videoid, 5000);
-    //   // });
-    // });
+    // }, 100000000000);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 
-  savePlayer(player) {
-    this.player = player;
+  setVideoLoop() {
+    this.videoId$.subscribe(doc => {
+      if (doc.videoId) {
+        console.log(doc?.videoId);
+        console.log('if');
+        this.player.loadVideoById(doc?.videoId);
+      } else {
+        console.log('else');
+        return this.setVideoLoop();
+      }
+    });
   }
 
-  addComment() {}
+  async setVideo() {
+    this.subscriptions.add(
+      this.roomService.getRoom(this.channelId).subscribe((count) => {
+        console.log(count);
+        this.videoCount = count.allVideosCount;
+        const randomNumber = Math.floor(Math.random() * this.videoCount);
+        this.roomService.getRandomVideoId(this.channelId, randomNumber).subscribe(async (video) => {
+          this.roomService.setPlayVideo(this.channelId, video.videoId);
+        });
+      })
+    );
+  }
+
+  savePlayer(player) {
+    this.player = player;
+    this.player.playVideo();
+    this.player.mute();
+  }
 
   good() {
     this.isGood = !this.isGood;
@@ -143,15 +183,5 @@ export class RoomComponent implements OnInit, OnDestroy {
       this.avatarId
     );
     this.form.reset();
-  }
-
-  async setChannelFirstVideos() {
-    const response: any = await this.roomService.getChannelVideos(
-      this.channelId
-    );
-    const items = response.items;
-    await items.forEach((item) => {
-      this.videoIds.push(item.id.videoId);
-    });
   }
 }

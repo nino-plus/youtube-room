@@ -1,10 +1,7 @@
 <ng-container *ngIf="resultRoom">
-  <!-- カード 04:18 -->
-  <!-- グリッド 09:31-->
   <div class="grid">
     <ng-container *ngFor="let room of resultRoom">
       <div class="card">
-        <!-- 画像入れる -->
         <figure class="card__cover">
           <ng-container *ngIf="room.snippet.thumbnails.high.url">
             <img
