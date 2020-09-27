@@ -60,10 +60,7 @@ export class TopComponent implements OnInit {
     if (channelItems.items.length === 0){
       this.snackbar.open('検索できませんでした');
     }
-    console.log(channelItems.items);
     this.resultRoom = channelItems.items;
-    console.log(this.resultRoom);
-
   }
 
   ngOnInit(): void {
@@ -72,7 +69,6 @@ export class TopComponent implements OnInit {
       this.userName = user?.userName;
       this.avatarId = user?.avatarId;
     });
-    console.log(this.avatarId);
   }
 
   submit() {

@@ -61,10 +61,6 @@ export class CreateComponent implements OnInit {
   submit() {
     const userName = this.form.value.name;
     const avatarId = this.selectedId + 1;
-    console.log('check');
-    console.log(this.selectedId);
-    console.log(this.uid);
-    console.log(userName);
 
     this.userService
       .createUser(this.uid, userName, avatarId)

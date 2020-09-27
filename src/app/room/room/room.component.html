@@ -4,7 +4,7 @@
   <div class="actions-btn" *ngIf="room$ | async as room">
     <button
       color="accent"
-      [disabled]="room.isCreating === true"
+      [disabled]="room.isCreating"
       mat-raised-button
       (click)="setVideo()"
     >
@@ -95,7 +95,7 @@
       </ng-template>
 
       <ng-container *ngIf="room$ | async as room">
-        <div *ngIf="room.isCreating; else nowLoading">
+        <div *ngIf="!room.isCreating; else nowLoading">
           <div class="youtube">
             <div class="youtube__display">
               <youtube-player
@@ -103,7 +103,6 @@
                 hight="100%"
                 [videoId]="id"
                 (ready)="savePlayer($event)"
-                [playerVars]="playerVars"
                 allowfullscreen
               >
               </youtube-player>
