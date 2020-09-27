@@ -14,8 +14,8 @@
 .head {
   max-width: 80%;
   height: 40%;
-  padding: 80px 24px;
-  margin: 48px 20% 80px 40%;
+  padding: 80px 0;
+  margin: 48px 20% 48px 40%;
   color: #fff;
   @include sp {
     max-width: 100%;
@@ -38,9 +38,14 @@
 }
 
 .intro {
-  font-size: 48px;
+  font-size: 40px;
   letter-spacing: 8px;
-  text-indent: 48px;
+  text-indent: 40px;
+  @include tab {
+    font-size: 32px;
+    letter-spacing: 4px;
+    text-indent: 32px;
+  }
   @include sp {
     max-width: 100%;
     font-size: 30px;
@@ -148,5 +153,6 @@
 }
 
 .copyright {
+  padding-top: 32px;
   color: #fff;
 }
