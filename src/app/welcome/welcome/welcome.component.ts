@@ -15,25 +15,42 @@ export class WelcomeComponent implements OnInit {
     Validators.required,
     Validators.maxLength(10),
   ]);
+  userAvatar: number;
 
   constructor(
     private authService: AuthService,
     private router: Router,
     private matDialog: MatDialog
-  ) {}
+  ) {
+    this.authService.user$.subscribe((user) => {
+      this.userAvatar = user?.avatarId;
+    });
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   googleLogin() {
     this.authService
       .googlelogin()
-      .then(() => this.router.navigateByUrl('/top'));
+      .then(() => {
+        if (this.userAvatar) {
+          this.router.navigateByUrl('/top');
+        } else {
+          this.router.navigateByUrl('/top/create');
+        }
+      });
   }
 
   twitterLogin() {
     this.authService
       .twitterlogin()
-      .then(() => this.router.navigateByUrl('/top'));
+      .then(() => {
+        if (this.userAvatar) {
+          this.router.navigateByUrl('/top');
+        } else {
+          this.router.navigateByUrl('/top/create');
+        }
+      });
   }
 
   openSignUpDialog() {
