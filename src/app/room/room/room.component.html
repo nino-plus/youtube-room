@@ -42,31 +42,36 @@
         </div>
         <div class="channel__body">
           <div class="channel__description">
-            <p *ngIf="room.description.length !== 0; else blank">
-              {{ room.description }}
-            </p>
-            <p #blank>このチャンネルの概要はありません。</p>
+            <ng-container *ngIf="room.description.length; else blank">
+              <p>
+                {{ room.description }}
+              </p>
+            </ng-container>
+
+            <ng-template #blank>
+              <p>このチャンネルの概要はありません。</p>
+            </ng-template>
           </div>
         </div>
       </div>
 
-      <div class="users">
+      <div class="premier" *ngIf="members$ | async as members">
         <div
           @fade
           @bounce
-          *ngFor="let member of members$ | async"
-          class="users__user"
+          *ngFor="let member of members | slice: 0:6; index as i"
+          class="premier__user"
           cdkDrag
         >
-          <div class="users__head" *ngIf="member.isActive">
+          <div class="premier__head" *ngIf="member.isActive">
             <img
-              class="users__avatar"
+              class="premier__avatar"
               src="/assets/images/char_{{ member.avatarId }}.png"
               alt=""
             />
-            <p class="users__name">{{ member.name }}</p>
+            <p class="premier__name">{{ member.name }}</p>
           </div>
-          <div class="users__message" *ngIf="messages">
+          <div class="premier__message" *ngIf="messages">
             <div class="balloon" *ngFor="let message of messages[member.uid]">
               <div class="balloon__inner">{{ message }}</div>
             </div>
@@ -99,45 +104,17 @@
               >
               </youtube-player>
             </div>
+
             <div class="action">
-              <p
-                class="action__icon action__icon--g"
-                @fade
-                @float
-                *ngIf="isGood"
-              >
+              <p class="action__icon action__icon--g" @fade *ngIf="isGood">
                 😍
               </p>
-              <p
-                class="action__icon action__icon--b"
-                @fade
-                @float
-                *ngIf="isBad"
-              >
-                😤
-              </p>
-              <p
-                class="action__icon action__icon--c"
-                @fade
-                @float
-                *ngIf="isCry"
-              >
-                😭
-              </p>
-              <p
-                class="action__icon action__icon--l"
-                @fade
-                @float
-                *ngIf="isLagh"
-              >
+              <p class="action__icon action__icon--b" @fade *ngIf="isBad">😤</p>
+              <p class="action__icon action__icon--c" @fade *ngIf="isCry">😭</p>
+              <p class="action__icon action__icon--l" @fade *ngIf="isLagh">
                 🤣
               </p>
-              <p
-                class="action__icon action__icon--s"
-                @fade
-                @float
-                *ngIf="isSuprise"
-              >
+              <p class="action__icon action__icon--s" @fade *ngIf="isSuprise">
                 😲
               </p>
               <div class="youtube__action">
@@ -181,6 +158,33 @@
                 >
                   😲
                 </button>
+              </div>
+            </div>
+
+            <div class="users" *ngIf="members$ | async as members">
+              <div
+                @fade
+                @bounce
+                *ngFor="let member of members | slice: 7; index as i"
+                class="users__user"
+                cdkDrag
+              >
+                <div class="users__head" *ngIf="member.isActive">
+                  <img
+                    class="users__avatar"
+                    src="/assets/images/char_{{ member.avatarId }}.png"
+                    alt=""
+                  />
+                  <p class="users__name">{{ member.name }}</p>
+                </div>
+                <div class="users__message" *ngIf="messages">
+                  <div
+                    class="balloon"
+                    *ngFor="let message of messages[member.uid]"
+                  >
+                    <div class="balloon__inner">{{ message }}</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

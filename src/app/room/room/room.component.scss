@@ -18,7 +18,8 @@
   gap: 10px;
   grid-template-columns: 1fr 4fr 1fr;
 }
-.users {
+
+.premier {
   height: 100px;
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -27,8 +28,8 @@
     text-align: center;
   }
   &__avatar {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     animation: shake 1s linear 0s infinite;
     cursor: grab;
     &:active {
@@ -44,6 +45,34 @@
     position: relative;
   }
 }
+
+.users {
+  height: 100px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  padding-top: 24px;
+  &__head {
+    text-align: center;
+  }
+  &__avatar {
+    width: 80px;
+    height: 80px;
+    animation: shake 1s linear 0s infinite;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  &__name {
+    width: 100%;
+    margin: 0 auto;
+    color: rgba(#fff, 0.8);
+  }
+  &__message {
+    position: relative;
+  }
+}
+
 @keyframes shake {
   0% {
     transform: scale(1, 1) translate(0%, 0%);
@@ -117,6 +146,7 @@
   }
 }
 .youtube {
+  position: relative;
   padding: 24px;
   &__display {
     width: 100%;
@@ -233,43 +263,54 @@
     width: 32px;
     height: 32px;
     font-size: 32px;
-    animation: fluffy 1s linear 0s infinite;
+    animation: fluffy 3s linear 0s infinite;
     &--g {
-      bottom: 16px;
+      bottom: 120px;
+      left: 24px;
     }
     &--b {
-      bottom: 48px;
+      bottom: 120px;
+      left: 72px;
     }
     &--c {
-      bottom: 80px;
+      bottom: 120px;
+      left: 120px;
     }
     &--l {
-      bottom: 112px;
+      bottom: 120px;
+      left: 168px;
     }
     &--s {
-      bottom: 144px;
+      bottom: 120px;
+      left: 216px;
     }
   }
 }
 
 @keyframes fluffy {
   0% {
-    transform: scale(1, 1) translate(0%, 0%);
+    transform: scale(1) translate(0%, 0%);
+    opacity: 0;
   }
   20% {
-    transform: scale(1, 1.02) translate(-5%, -3%);
+    transform: scale(1.3) translate(-5%, -3%);
+    opacity: 0.3;
   }
   50% {
-    transform: scale(1, 0.98) translate(5%, 3%);
+    transform: scale(1.5) translate(5%, 3%);
+    opacity: 0.5;
   }
   65% {
-    transform: scale(1, 1.02) translate(5%, -2%);
+    transform: scale(1.7) translate(5%, -2%);
+    opacity: 1;
   }
   80% {
-    transform: scale(1, 0.98) translate(-5%, 1%);
+    transform: scale(1.5) translate(-5%, 1%);
+    opacity: 0.5;
   }
   100% {
-    transform: scale(1, 1) translate(0%, 0%);
+    transform: scale(1) translate(0%, 0%);
+    opacity: 0;
   }
 }
 
