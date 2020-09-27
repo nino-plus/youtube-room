@@ -14,7 +14,7 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./create.component.scss'],
 })
 export class CreateComponent implements OnInit {
-  avatarIdArray = [...Array(10)].map((_, i) => i + 1);
+  avatarIdArray = [...Array(30)].map((_, i) => i + 1);
   config: SwiperConfigInterface = {
     loop: true,
     observer: true,
@@ -24,7 +24,7 @@ export class CreateComponent implements OnInit {
       clickable: true,
     },
     centeredSlides: true,
-    slidesPerView: 3,
+    slidesPerView: 5,
   };
   selectedId = 1;
 
@@ -44,7 +44,7 @@ export class CreateComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.user$
