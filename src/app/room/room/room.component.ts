@@ -33,8 +33,6 @@ export class RoomComponent implements OnInit, OnDestroy {
     controls: 0,
   };
   isProcessing: boolean;
-  items = newArray(4);
-  users = newArray(20);
   isGood: boolean;
   isBad: boolean;
   isCry: boolean;
@@ -208,12 +206,11 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.authService.logout().then(() => {
       this.router.navigateByUrl('/');
     });
-    this.roomService.updateRoomMemberIsActive(this.channelId);
-    this.member.isActive = false;
+    this.roomService.updateRoomMemberIsNotActive(this.channelId);
   }
 
   exitRoom() {
-    this.roomService.updateRoomMemberIsActive(this.channelId);
+    this.roomService.updateRoomMemberIsNotActive(this.channelId);
   }
 
   sendMessage() {
