@@ -326,4 +326,20 @@
 }
 .center {
   min-width: 240px;
+  text-align: center;
+  .spinner {
+    padding: 24px;
+    .loading--text {
+      margin-bottom: 16px;
+    }
+    .spinner-inner {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 200px;
+    }
+  }
+  .spacer {
+    text-align: center;
+  }
 }
