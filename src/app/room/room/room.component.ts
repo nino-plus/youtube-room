@@ -136,27 +136,6 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
-  a() {
-    if (this.loadingService.loading === true) {
-      this.setVideo();
-      console.log('if');
-      return;
-    } else {
-      console.log('else');
-      return this.a();
-    }
-  }
-
-  // setVideoLoop() {
-  //   if (this.player) {
-  //     this.videoId$.subscribe((doc) => {
-  //       return this.player.loadVideoById(doc?.videoId);
-  //     });
-  //   } else {
-  //     this.setVideoLoop();
-  //   }
-  // }
-
   isCreatingRoom() {
     setInterval(() => {
       this.room$.pipe(
