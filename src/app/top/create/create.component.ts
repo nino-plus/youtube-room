@@ -24,7 +24,7 @@ export class CreateComponent implements OnInit {
       clickable: true,
     },
     centeredSlides: true,
-    slidesPerView: 5,
+    slidesPerView: 3,
   };
   selectedId = 1;
 
