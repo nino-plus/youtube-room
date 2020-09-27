@@ -7,14 +7,14 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  Router
+  Router,
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { map, take, tap } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthGuard implements CanActivate, CanLoad {
   constructor(private authService: AuthService, private router: Router) {}
@@ -26,18 +26,18 @@ export class AuthGuard implements CanActivate, CanLoad {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    return this.authService.afUser$.pipe(map(user => !!user));
+    return this.authService.afUser$.pipe(map((user) => !!user));
   }
   canLoad(
     route: Route,
     segments: UrlSegment[]
   ): Observable<boolean> | Promise<boolean> | boolean {
     return this.authService.afUser$.pipe(
-      map(user => !!user),
+      map((user) => !!user),
       take(1),
-      tap(isLoggedIn => {
+      tap((isLoggedIn) => {
         if (!isLoggedIn) {
-          this.router.navigateByUrl('');
+          this.router.navigateByUrl('/');
         }
       })
     );
