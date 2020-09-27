@@ -60,7 +60,7 @@ export class RoomService {
     return this.db.doc(`rooms/${id}`).set(value);
   }
 
-  updateRoomMemberIsActive(channelId: string): Promise<void> {
+  updateRoomMemberIsNotActive(channelId: string): Promise<void> {
     const value: Omit<
       Member,
       'avatarId' | 'lastStatusChecked' | 'lastPosted' | 'name'
@@ -68,6 +68,21 @@ export class RoomService {
       uid: this.uid,
       isActive: false,
     };
+
+    return this.db
+      .doc<Member>(`rooms/${channelId}/members/${this.uid}`)
+      .update(value);
+  }
+
+  updateRoomMemberIsActive(channelId: string): Promise<void> {
+    const value: Omit<
+      Member,
+      'avatarId' | 'lastStatusChecked' | 'lastPosted' | 'name'
+    > = {
+      uid: this.uid,
+      isActive: true,
+    };
+
     return this.db
       .doc<Member>(`rooms/${channelId}/members/${this.uid}`)
       .update(value);

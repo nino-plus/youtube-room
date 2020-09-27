@@ -26,7 +26,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
     private authService: AuthService,
     private router: Router,
     private snackber: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -46,7 +46,12 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  createRoom(channelId: string, title: string, description: string, thumbnailURL: string) {
+  createRoom(
+    channelId: string,
+    title: string,
+    description: string,
+    thumbnailURL: string
+  ) {
     const roomId = this.rooms.find((room) => channelId === room.id);
     if (roomId) {
       this.roomService
@@ -57,6 +62,7 @@ export class SearchResultsRoomsComponent implements OnInit, OnDestroy {
         .then(() => {
           this.snackber.open('入室しました！');
         });
+      this.roomService.updateRoomMemberIsActive(channelId);
     } else {
       this.roomService.createRoom(channelId, title, description, thumbnailURL);
       this.roomService
