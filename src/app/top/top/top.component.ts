@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SwiperConfigInterface } from 'ngx-swiper-wrapper';
 import { Observable } from 'rxjs';
 import { UserData } from 'src/app/interfaces/user';
@@ -32,6 +33,7 @@ export class TopComponent implements OnInit {
   };
   selectedId = 1;
 
+
   form = this.fb.group({
     name: ['', [Validators.required, Validators.maxLength(40)]],
   });
@@ -42,17 +44,23 @@ export class TopComponent implements OnInit {
     return this.form.get('name') as FormControl;
   }
 
+
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService,
-    private searchRoomService: SearchRoomService
-  ) {}
+    private searchRoomService: SearchRoomService,
+    private snackbar: MatSnackBar
+  ) { }
 
   async searchRoom() {
     const channelItems: any = await this.searchRoomService.getChannelItems(
       this.searchTextForm.value
     );
+    if (channelItems.items.length === 0){
+      this.snackbar.open('検索できませんでした');
+    }
+    console.log(channelItems.items);
     this.resultRoom = channelItems.items;
   }
 
@@ -62,6 +70,7 @@ export class TopComponent implements OnInit {
       this.userName = user?.userName;
       this.avatarId = user?.avatarId;
     });
+    console.log(this.avatarId);
   }
 
   submit() {
