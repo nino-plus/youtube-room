@@ -1,5 +1,5 @@
 import { newArray } from '@angular/compiler/src/util';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ import { RoomService } from 'src/app/services/room.service';
   styleUrls: ['./room.component.scss'],
   animations: [fade, bounce, float],
 })
-export class RoomComponent implements OnInit, OnDestroy {
+export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
   private uid = this.authService.uid;
   private userName = this.authService.userName;
   private avatarId: number;
@@ -44,32 +44,25 @@ export class RoomComponent implements OnInit, OnDestroy {
   member: Member;
   isActive: boolean;
   interval;
-
   allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
   );
-
   members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
-
   member$: Observable<Member> = this.roomService.getMember(
     this.channelId,
     this.uid
   );
-
   user$: Observable<UserData> = this.authService.user$;
-
   message$: Observable<Message[]> = this.chatsService.getLatestMessages(
     this.channelId
   );
-
   room$: Observable<Room> = this.roomService.getRoom(this.channelId);
-
-  firstVideos: any;
-  videoIds = [];
+  videoId$: Observable<string> = this.roomService.getPlayVideo(this.channelId).pipe(
+    map(doc => doc && doc.videoId)
+  );
   id: string;
   videoTime: number;
   videoCount: number;
-  videoId$: Observable<Video> = this.roomService.getPlayVideo(this.channelId);
 
   form = this.fb.group({
     comments: ['', Validators.required],
@@ -117,10 +110,7 @@ export class RoomComponent implements OnInit, OnDestroy {
       })
     );
 
-    this.interval = this.isCreatingRoom();
-    clearInterval(this.interval);
-
-    // await this.setVideo();
+    await this.setVideo();
 
     // setInterval(async () => {
     //   const seekTime = Math.round(this.player.getCurrentTime());
@@ -140,11 +130,34 @@ export class RoomComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  setVideoLoop() {
-    this.videoId$.subscribe((doc) => {
-      this.player.loadVideoById(doc?.videoId);
+  ngAfterViewInit(): void {
+    this.videoId$.subscribe((videoId) => {
+      if (this.player) {
+        this.player.loadVideoById(videoId);
+      }
     });
   }
+
+  a() {
+    if (this.loadingService.loading === true) {
+      this.setVideo();
+      console.log('if');
+      return;
+    } else {
+      console.log('else');
+      return this.a();
+    }
+  }
+
+  // setVideoLoop() {
+  //   if (this.player) {
+  //     this.videoId$.subscribe((doc) => {
+  //       return this.player.loadVideoById(doc?.videoId);
+  //     });
+  //   } else {
+  //     this.setVideoLoop();
+  //   }
+  // }
 
   isCreatingRoom() {
     setInterval(() => {
@@ -170,9 +183,6 @@ export class RoomComponent implements OnInit, OnDestroy {
           });
       })
     );
-    this.videoId$.subscribe((doc) => {
-      this.player.loadVideoById(doc?.videoId);
-    });
   }
 
   savePlayer(player) {
