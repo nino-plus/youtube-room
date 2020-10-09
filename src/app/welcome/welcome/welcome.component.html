@@ -19,8 +19,123 @@
     </button>
   </div>
 
+  <span class="seek"></span>
+</div>
+
+<section class="description">
+  <div class="message-box message-box--desc">
+    <div class="description__image">
+      <img src="./assets/images/youtube_logo.png" alt="" />
+    </div>
+    <h2 class="description__title">What is YouTube Room?</h2>
+    <p class="description__body">
+      YouTubeで好きなチャンネルを見ようと思ったけど、<br />
+      「なんか一人で見るのもな…」<br />
+      そう思うことはありませんか？<br />
+      <br />
+      YouTube Roomなら好きなユーチューバーの部屋で、<br />
+      みんなで同じ動画を見ながら、<br />
+      チャットも使って楽しむことができます。
+    </p>
+    <div class="description__char">
+      <img src="./assets/images/char_24.png" alt="" />
+    </div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature">
+    <div class="message-box message-box--feat1">
+      <div class="feature__num">
+        <img src="./assets/images/num_1.png" alt="" />
+      </div>
+      <h3 class="feature__heading">YouTubeストリーム</h3>
+      <p class="feature__body">
+        好きなチャンネルの動画をランダムでDJ。<br />
+        チャンネル連動型のルームだから<br />
+        好きなYouTuberの部屋は、たった1つです。<br />
+        <br />
+        「あのチャンネルで待ち合わせしよう！」<br />
+        なんてこともできるでしょう。
+      </p>
+    </div>
+    <figure class="feature__image">
+      <img src="./assets/images/feature1.png" alt="" />
+    </figure>
+  </div>
+
+  <div class="feature">
+    <div class="message-box message-box--feat2">
+      <div class="feature__num">
+        <img src="./assets/images/num_2.png" alt="" />
+      </div>
+      <h3 class="feature__heading">チャットでワイワイ</h3>
+      <p class="feature__body">
+        同じ部屋にログインしているユーザーと<br />
+        リアルタイムチャットで<br />
+        コミュニケーションを取りながら楽しめます。
+      </p>
+    </div>
+    <figure class="feature__image">
+      <img src="./assets/images/feature2.png" alt="" />
+      <span class="feature__face feature__face--good">😍</span>
+      <span class="feature__face feature__face--lagh">🤣</span>
+      <span class="feature__face feature__face--cry">😭</span>
+      <span class="feature__face feature__face--bad">😩</span>
+      <span class="feature__face feature__face--shock">😱</span>
+    </figure>
+  </div>
+  <div class="feature">
+    <div class="message-box message-box--feat3">
+      <div class="feature__num">
+        <img src="./assets/images/num_3.png" alt="" />
+      </div>
+      <h3 class="feature__heading">動くアバター</h3>
+      <p class="feature__body">
+        各部屋で表示される自分のアバターは、<br />
+        100種類以上の個性的なキャラクターから選べます。<br />
+        部屋の中をドラッグアンドドロップで動き回って、<br />
+        ファン同士、気軽に交流しましょう。
+      </p>
+    </div>
+    <figure class="feature__image">
+      <img src="./assets/images/feature3.png" alt="" />
+    </figure>
+  </div>
+</section>
+
+<section class="end-copy">
+  <div class="message-box message-box--end">
+    <h2 class="end-copy__heading">プレミアムメンバーの魅力</h2>
+    <p class="end-copy__body">
+      プレミアムメンバーになるとポイントに応じて<br />
+      特別席でチャンネルを視聴することができます。<br />
+      好きなYouTuberにあなたのことを認識してもらえる<br />
+      可能性もあります。
+    </p>
+  </div>
+  <div class="end-copy__char">
+    <img src="./assets/images/char_13.png" alt="" />
+  </div>
+  <div class="end-copy__char--2">
+    <img src="./assets/images/char_15.png" alt="" />
+  </div>
+</section>
+
+<section class="action">
+  <div class="action__heading">
+    <h2>面白いは共有しよう。</h2>
+  </div>
+  <div class="action__btn">
+    <button class="login-nav__btn" (click)="openSignUpDialog()">
+      アカウントを登録する
+    </button>
+    <button class="login-nav__btn" (click)="anonymouslyLogin()">
+      匿名でログイン
+    </button>
+  </div>
+  <span class="seek seek--footer"></span>
   <footer>
     <p class="copyright">&copy; 2020 YoutubeRoom Inc</p>
   </footer>
-  <span class="seek"></span>
-</div>
+</section>
