@@ -27,36 +27,38 @@ export class WelcomeComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   googleLogin() {
-    this.authService
-      .googlelogin()
-      .then(() => {
-        if (this.userAvatar) {
-          this.router.navigateByUrl('/top');
-        } else {
-          this.router.navigateByUrl('/top/create');
-        }
-      });
+    this.authService.googlelogin().then(() => {
+      if (this.userAvatar) {
+        this.router.navigateByUrl('/top');
+      } else {
+        this.router.navigateByUrl('/top/create');
+      }
+    });
   }
 
   twitterLogin() {
-    this.authService
-      .twitterlogin()
-      .then(() => {
-        if (this.userAvatar) {
-          this.router.navigateByUrl('/top');
-        } else {
-          this.router.navigateByUrl('/top/create');
-        }
-      });
+    this.authService.twitterlogin().then(() => {
+      if (this.userAvatar) {
+        this.router.navigateByUrl('/top');
+      } else {
+        this.router.navigateByUrl('/top/create');
+      }
+    });
   }
 
   openSignUpDialog() {
     this.matDialog.open(SignUpDialogComponent, {
       autoFocus: false,
       restoreFocus: false,
+    });
+  }
+
+  anonymouslyLogin() {
+    this.authService.anonymouslylogin().then(() => {
+      this.router.navigateByUrl('/top/create');
     });
   }
 }

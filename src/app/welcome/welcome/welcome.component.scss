@@ -1,4 +1,5 @@
 @import 'mixins';
+@import '~@angular/material/theming';
 
 .wrap {
   text-align: center;
@@ -119,6 +120,9 @@
   position: absolute;
   bottom: 5%;
   margin: 0 auto;
+  &--footer {
+    left: 1%;
+  }
   @include sp {
     width: 90%;
     height: 4px;
@@ -155,4 +159,229 @@
 .copyright {
   padding-top: 32px;
   color: #fff;
+}
+
+.description {
+  width: 100%;
+  height: 80vh;
+  background: url(../../../assets/images/bg3.png) center/cover no-repeat;
+  position: relative;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  &__title {
+    font-size: 32px;
+    margin-bottom: 32px;
+  }
+  &__image {
+    width: 120px;
+    margin: 0 auto;
+  }
+  &__char {
+    width: 160px;
+    margin: 0 auto;
+    position: absolute;
+    top: -56px;
+    right: -56px;
+  }
+}
+
+.message-box {
+  width: 40%;
+  height: 80%;
+  border-radius: 6px;
+  background: rgba(#fff, 0.3);
+  position: relative;
+  display: grid;
+  place-content: center;
+  margin: 48px;
+  &--desc {
+    width: 50%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  &--feat1,
+  &--feat2,
+  &--feat3 {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    span {
+      display: block;
+      font-size: 48px;
+      color: #d81b60;
+    }
+  }
+  &--feat1,
+  &--feat3 {
+    background: #212121;
+    color: #eee;
+  }
+  &--end {
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    text-align: center;
+    background: linear-gradient(60deg, #ec407a, #d81b60);
+    color: #eee;
+  }
+}
+
+.feature {
+  width: 100%;
+  height: 80vh;
+  background: linear-gradient(60deg, #424242, #303030);
+  position: relative;
+  padding: 80px;
+  display: flex;
+  place-content: center;
+  align-items: center;
+  &:nth-of-type(2) {
+    background: red;
+    grid-row: reverse;
+  }
+  &__num {
+    width: 160px;
+    margin: 0 auto;
+    position: absolute;
+    top: -56px;
+    left: -56px;
+  }
+  &__heading {
+    font-size: 32px;
+    margin-bottom: 48px;
+  }
+  &__body {
+    line-height: 2;
+  }
+  &__image {
+    width: 50%;
+    &:nth-of-type(2) {
+      max-width: 100%;
+    }
+  }
+  &:nth-of-type(2) {
+    background: #eee;
+    flex-direction: row-reverse;
+  }
+  &:nth-of-type(3) {
+    background: linear-gradient(60deg, #424242, #303030);
+  }
+  figure {
+    position: relative;
+  }
+  &__face {
+    font-size: 56px;
+    &--good {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+    }
+    &--lagh {
+      position: absolute;
+      top: 0;
+      right: 16px;
+    }
+    &--cry {
+      position: absolute;
+      top: 160px;
+      left: 240px;
+    }
+    &--bad {
+      position: absolute;
+      top: 240px;
+      right: 80px;
+    }
+    &--shock {
+      position: absolute;
+      top: 320px;
+      left: 160px;
+    }
+  }
+}
+
+.end-copy {
+  width: 100%;
+  height: 80vh;
+  background: linear-gradient(60deg, #ec407a, #d81b60);
+  position: relative;
+  &__heading {
+    margin-bottom: 48px;
+  }
+  &__char {
+    width: 160px;
+    margin: 0 auto;
+    position: absolute;
+    top: 120px;
+    right: 120px;
+    animation: shake 1s linear 0s infinite;
+  }
+  &__char--2 {
+    width: 160px;
+    margin: 0 auto;
+    position: absolute;
+    bottom: 96px;
+    left: 120px;
+    animation: shake 1s linear 0s infinite;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+  20% {
+    transform: scale(1, 1.01) translate(-2%, -1%);
+  }
+  50% {
+    transform: scale(1, 0.99) translate(2%, 1%);
+  }
+  65% {
+    transform: scale(1, 1.01) translate(2%, -1%);
+  }
+  80% {
+    transform: scale(1, 0.99) translate(-2%, 1%);
+  }
+  100% {
+    transform: scale(1, 1) translate(0%, 0%);
+  }
+}
+
+.action {
+  width: 100%;
+  height: 80vh;
+  background: url(../../../assets/images/bg4.png) no-repeat center/cover;
+  position: relative;
+  display: grid;
+  place-content: center;
+  &__heading {
+    max-width: 80%;
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: 10px;
+    text-indent: 48px;
+    color: #fafafa;
+    margin: 0 auto 120px;
+  }
+  &__btn {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  button {
+    margin-left: 24px;
+  }
+}
+
+footer {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
 }
