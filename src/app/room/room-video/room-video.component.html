@@ -1,1 +1,7 @@
-<p>room-video works!</p>
+<div class="youtube">
+  <div class="youtube__display">
+    <youtube-player (ready)="savePlayer($event)" allowfullscreen>
+    </youtube-player>
+  </div>
+  <app-video-actions-btn></app-video-actions-btn>
+</div>
