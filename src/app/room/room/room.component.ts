@@ -86,8 +86,9 @@ export class RoomComponent implements OnInit, OnDestroy {
           .subscribe(async (video) => {
             if (video.videoId) {
               await this.roomService.setPlayVideo(this.channelId, video.videoId);
+            } else {
+              return;
             }
-            return;
           });
       })
     );
