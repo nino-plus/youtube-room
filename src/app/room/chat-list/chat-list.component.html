@@ -1,1 +1,47 @@
-<p>chat-list works!</p>
+<div class="chat">
+  <div class="chat-line" *ngIf="allMessages$">
+    <div class="chat-line__body" *ngFor="let message of allMessages$ | async">
+      <div class="chat-line__head">
+        <img
+          class="chat-line__avatar"
+          src="/assets/images/char_{{ message.avatarId }}.png"
+          alt=""
+        />
+        <div class="chat-line__name">{{ message.userName }}</div>
+        <div class="chat-line__date">
+          {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
+        </div>
+      </div>
+      <div class="chat-line__comment">{{ message.comments }}</div>
+    </div>
+  </div>
+</div>
+
+<div class="comment">
+  <form
+    class="comment__form"
+    *ngIf="user$ | async as user"
+    [formGroup]="form"
+    (ngSubmit)="sendMessage()"
+  >
+    <mat-form-field>
+      <mat-label>チャット</mat-label>
+      <input
+        type="text"
+        formControlName="comments"
+        matInput
+        autofocus
+        autocomplete="off"
+        required
+        #body
+      />
+      <button matSuffix mat-icon-button>
+        <mat-icon>send</mat-icon>
+      </button>
+      <mat-error *ngIf="form.hasError('maxlength')"
+        >最大文字数を超えています</mat-error
+      >
+      <mat-hint align="end">{{ body.value.length }}/140文字まで</mat-hint>
+    </mat-form-field>
+  </form>
+</div>
