@@ -1,0 +1,31 @@
+.channel {
+  overflow: scroll;
+  width: 100%;
+  max-height: 200px;
+  background: #212121;
+  margin: 24px 24px 24px 0;
+  padding: 16px;
+  &__header {
+    display: flex;
+    align-items: center;
+  }
+  &__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #424242;
+    margin: 0 8px 8px 0;
+    overflow: hidden;
+  }
+  &__name {
+    color: rgba(#fff, 0.8);
+    font-size: 16px;
+    line-height: 16px;
+  }
+  &__body {
+    width: 100%;
+  }
+  &__description {
+    color: rgba(#fff, 0.8);
+  }
+}

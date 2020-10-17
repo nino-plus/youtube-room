@@ -1,1 +1,21 @@
-<p>channel-description works!</p>
+<div class="channel" *ngIf="room$ | async as room">
+  <div class="channel__header">
+    <figure class="channel__logo">
+      <img [src]="room.thumbnailURL" alt="" />
+    </figure>
+    <h2 class="channel__name">{{ room.title }}</h2>
+  </div>
+  <div class="channel__body">
+    <div class="channel__description">
+      <ng-container *ngIf="room.description.length; else blank">
+        <p>
+          {{ room.description }}
+        </p>
+      </ng-container>
+
+      <ng-template #blank>
+        <p>このチャンネルの概要はありません。</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

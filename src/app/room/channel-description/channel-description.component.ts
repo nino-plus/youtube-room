@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Room } from 'src/app/interfaces/room';
 
 @Component({
   selector: 'app-channel-description',
@@ -6,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./channel-description.component.scss']
 })
 export class ChannelDescriptionComponent implements OnInit {
+  @Input() room$: Observable<Room>;
 
   constructor() { }
 
