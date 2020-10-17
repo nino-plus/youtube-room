@@ -1,1 +1,26 @@
-<p>room-users works!</p>
+<div class="users" *ngIf="members$ | async as members">
+  <div
+    @fade
+    @bounce
+    *ngFor="let member of members | slice: 7; index as i"
+    class="users__user"
+    cdkDrag
+  >
+    <div class="users__head" *ngIf="member.isActive">
+      <img
+        class="users__avatar"
+        src="/assets/images/char_{{ member.avatarId }}.png"
+        alt=""
+      />
+      <p class="users__name">{{ member.name }}</p>
+    </div>
+    <div class="users__message" *ngIf="messages">
+      <div
+        class="user-comment-balloon"
+        *ngFor="let message of messages[member.uid]"
+      >
+        <div class="user-comment-balloon__inner">{{ message }}</div>
+      </div>
+    </div>
+  </div>
+</div>

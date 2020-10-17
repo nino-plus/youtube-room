@@ -1,0 +1,26 @@
+.users {
+  height: 100px;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  padding-top: 24px;
+  &__head {
+    text-align: center;
+  }
+  &__avatar {
+    width: 80px;
+    height: 80px;
+    animation: shake 1s linear 0s infinite;
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+  &__name {
+    width: 100%;
+    margin: 0 auto;
+    color: rgba(#fff, 0.8);
+  }
+  &__message {
+    position: relative;
+  }
+}
