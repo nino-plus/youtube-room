@@ -18,9 +18,10 @@ import { ChannelDescriptionComponent } from './channel-description/channel-descr
 import { RoomUsersComponent } from './room-users/room-users.component';
 import { RoomVideoComponent } from './room-video/room-video.component';
 import { VideoActionsBtnComponent } from './video-actions-btn/video-actions-btn.component';
+import { PremierUsersComponent } from './premier-users/premier-users.component';
 
 @NgModule({
-  declarations: [RoomComponent, ChatListComponent, ChannelDescriptionComponent, RoomUsersComponent, RoomVideoComponent, VideoActionsBtnComponent],
+  declarations: [RoomComponent, ChatListComponent, ChannelDescriptionComponent, RoomUsersComponent, RoomVideoComponent, VideoActionsBtnComponent, PremierUsersComponent],
   imports: [
     CommonModule,
     RoomRoutingModule,
