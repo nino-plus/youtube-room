@@ -1,14 +1,12 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map, skip } from 'rxjs/operators';
+import { skip } from 'rxjs/operators';
 import { bounce, fade, float } from 'src/app/animations';
 import { ChatsService } from 'src/app/chats.service';
 import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
 import { Room } from 'src/app/interfaces/room';
-import { UserData } from 'src/app/interfaces/user';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { RoomService } from 'src/app/services/room.service';
@@ -19,61 +17,34 @@ import { RoomService } from 'src/app/services/room.service';
   styleUrls: ['./room.component.scss'],
   animations: [fade, bounce, float],
 })
-export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
-  private uid = this.authService.uid;
-  private userName = this.authService.userName;
-  private avatarId: number;
-  private channelId = this.route.snapshot.paramMap.get('id');
-  private subscriptions: Subscription = new Subscription();
+export class RoomComponent implements OnInit, OnDestroy {
 
-  player: YT.Player;
-  playerVars = {
-    controls: 0,
-  };
-  isProcessing: boolean;
-  isGood: boolean;
-  isBad: boolean;
-  isCry: boolean;
-  isLagh: boolean;
-  isSuprise: boolean;
-  messages = {};
-  member: Member;
-  isActive: boolean;
-  interval;
-  allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
-    this.channelId
-  );
-  members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
-  member$: Observable<Member> = this.roomService.getMember(
-    this.channelId,
-    this.uid
-  );
-  user$: Observable<UserData> = this.authService.user$;
-  message$: Observable<Message[]> = this.chatsService.getLatestMessages(
+  readonly channelId = this.route.snapshot.paramMap.get('id');
+  readonly messages = {};
+  readonly members$: Observable<Member[]> = this.roomService.getMembers(this.channelId);
+  readonly allMessages$: Observable<Message[]> = this.chatsService.getAllMessages(
     this.channelId
   );
   room$: Observable<Room> = this.roomService.getRoom(this.channelId);
-  videoId$: Observable<string> = this.roomService.getPlayVideo(this.channelId).pipe(
-    map(doc => doc && doc.videoId)
-  );
-  id: string;
-  videoTime: number;
+  member: Member;
   videoCount: number;
 
-  form = this.fb.group({
-    comments: ['', Validators.required],
-  });
+  private uid = this.authService.uid;
+  private readonly subscriptions: Subscription = new Subscription();
+  private member$: Observable<Member> = this.roomService.getMember(
+    this.channelId,
+    this.uid
+  );
 
   constructor(
     private authService: AuthService,
     private roomService: RoomService,
     private chatsService: ChatsService,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
     public loadingService: LoadingService,
     private router: Router
   ) {
-    this.chatsService
+    this.subscriptions.add(this.chatsService
       .getLatestMessages(this.channelId)
       .pipe(skip(1))
       .subscribe((messages) => {
@@ -88,49 +59,21 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
         setTimeout(() => {
           this.messages[message.uid].pop();
         }, 5000);
-      });
+      }));
 
     this.loadingService.loading = true;
 
-    this.member$.subscribe((member) => {
+    this.subscriptions.add(this.member$.subscribe((member) => {
       this.member = member;
-    });
+    }));
   }
 
-  async ngOnInit(): Promise<void> {
-    this.subscriptions.add(
-      this.authService.user$.subscribe((user) => {
-        this.uid = user?.uid;
-        this.userName = user?.userName;
-        this.avatarId = user?.avatarId;
-      })
-    );
-
-    await this.setVideo();
+  ngOnInit(): void {
+    this.setVideo();
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  ngAfterViewInit(): void {
-    this.videoId$.subscribe((videoId) => {
-      if (this.player) {
-        this.player.loadVideoById(videoId);
-      }
-    });
-  }
-
-  isCreatingRoom() {
-    setInterval(() => {
-      this.room$.pipe(
-        map((create) => {
-          if (create.isCreating === false) {
-            this.setVideo();
-          }
-        })
-      );
-    }, 10000);
   }
 
   async setVideo() {
@@ -141,35 +84,13 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
         this.roomService
           .getRandomVideoId(this.channelId, randomNumber)
           .subscribe(async (video) => {
-            await this.roomService.setPlayVideo(this.channelId, video.videoId);
+            if (video.videoId) {
+              await this.roomService.setPlayVideo(this.channelId, video.videoId);
+            }
+            return;
           });
       })
     );
-  }
-
-  savePlayer(player) {
-    this.player = player;
-    this.player.playVideo();
-  }
-
-  good() {
-    this.isGood = !this.isGood;
-  }
-
-  bad() {
-    this.isBad = !this.isBad;
-  }
-
-  cry() {
-    this.isCry = !this.isCry;
-  }
-
-  lagh() {
-    this.isLagh = !this.isLagh;
-  }
-
-  surprise() {
-    this.isSuprise = !this.isSuprise;
   }
 
   logout() {
@@ -181,16 +102,5 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
 
   exitRoom() {
     this.roomService.updateRoomMemberIsNotActive(this.channelId);
-  }
-
-  sendMessage() {
-    this.chatsService.sendMessage(
-      this.channelId,
-      this.form.value.comments,
-      this.uid,
-      this.userName,
-      this.avatarId
-    );
-    this.form.reset();
   }
 }
