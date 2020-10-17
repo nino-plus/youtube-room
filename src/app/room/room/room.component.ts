@@ -1,4 +1,3 @@
-import { newArray } from '@angular/compiler/src/util';
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +9,6 @@ import { Member } from 'src/app/interfaces/member';
 import { Message } from 'src/app/interfaces/message';
 import { Room } from 'src/app/interfaces/room';
 import { UserData } from 'src/app/interfaces/user';
-import { Video } from 'src/app/interfaces/video';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { RoomService } from 'src/app/services/room.service';
@@ -109,19 +107,6 @@ export class RoomComponent implements OnInit, OnDestroy, AfterViewInit {
     );
 
     await this.setVideo();
-
-    // setInterval(async () => {
-    //   const seekTime = Math.round(this.player.getCurrentTime());
-    //   if (this.videoTime - seekTime <= 10) {
-    //     const randomNumber = Math.floor(Math.random() * this.videoCount);
-    //     this.roomService.setNextVideo(this.channelId, randomNumber).subscribe(async (video) => {
-    //       this.id = video.videoId;
-    //       await this.roomService.getVideoItem(video.videoId).then((id) => {
-    //         this.videoTime = toSeconds(parse(Object.values(id)[2][0].contentDetails.duration));
-    //       });
-    //     });
-    //   }
-    // }, 100000000000);
   }
 
   ngOnDestroy(): void {
