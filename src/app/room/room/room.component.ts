@@ -43,7 +43,25 @@ export class RoomComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     public loadingService: LoadingService,
     private router: Router
-  ) {
+  ) { }
+
+  ngOnInit(): void {
+    this.getLatestMessages();
+
+    this.setVideo();
+
+    this.loadingService.loading = true;
+
+    this.subscriptions.add(this.member$.subscribe((member) => {
+      this.member = member;
+    }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  private getLatestMessages() {
     this.subscriptions.add(this.chatsService
       .getLatestMessages(this.channelId)
       .pipe(skip(1))
@@ -60,20 +78,6 @@ export class RoomComponent implements OnInit, OnDestroy {
           this.messages[message.uid].pop();
         }, 5000);
       }));
-
-    this.loadingService.loading = true;
-
-    this.subscriptions.add(this.member$.subscribe((member) => {
-      this.member = member;
-    }));
-  }
-
-  ngOnInit(): void {
-    this.setVideo();
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptions.unsubscribe();
   }
 
   async setVideo() {
