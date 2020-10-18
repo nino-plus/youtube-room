@@ -1,0 +1,29 @@
+<div class="action">
+  <p class="action__icon action__icon--g" @fade *ngIf="isGood">😍</p>
+  <p class="action__icon action__icon--b" @fade *ngIf="isBad">😤</p>
+  <p class="action__icon action__icon--c" @fade *ngIf="isCry">😭</p>
+  <p class="action__icon action__icon--l" @fade *ngIf="isLagh">🤣</p>
+  <p class="action__icon action__icon--s" @fade *ngIf="isSuprise">😲</p>
+  <div class="youtube__action">
+    <button mat-fab class="youtube__action-icon" type="button" (click)="good()">
+      😍
+    </button>
+    <button mat-fab class="youtube__action-icon" type="button" (click)="bad()">
+      😤
+    </button>
+    <button mat-fab class="youtube__action-icon" type="button" (click)="cry()">
+      😭
+    </button>
+    <button mat-fab class="youtube__action-icon" type="button" (click)="lagh()">
+      🤣
+    </button>
+    <button
+      mat-fab
+      class="youtube__action-icon"
+      type="button"
+      (click)="surprise()"
+    >
+      😲
+    </button>
+  </div>
+</div>

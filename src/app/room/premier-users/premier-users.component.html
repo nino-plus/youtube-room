@@ -1,0 +1,26 @@
+<div class="premier" *ngIf="members$ | async as members">
+  <div
+    @fade
+    @bounce
+    *ngFor="let member of members | slice: 0:6; index as i"
+    class="premier__user"
+    cdkDrag
+  >
+    <div class="premier__head" *ngIf="member.isActive">
+      <img
+        class="premier__avatar"
+        src="/assets/images/char_{{ member.avatarId }}.png"
+        alt=""
+      />
+      <p class="premier__name">{{ member.name }}</p>
+    </div>
+    <div class="premier__message" *ngIf="messages">
+      <div
+        class="user-comment-balloon"
+        *ngFor="let message of messages[member.uid]"
+      >
+        <div class="user-comment-balloon__inner">{{ message }}</div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -13,9 +13,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
+import { ChatListComponent } from './chat-list/chat-list.component';
+import { ChannelDescriptionComponent } from './channel-description/channel-description.component';
+import { RoomUsersComponent } from './room-users/room-users.component';
+import { RoomVideoComponent } from './room-video/room-video.component';
+import { VideoActionsBtnComponent } from './video-actions-btn/video-actions-btn.component';
+import { PremierUsersComponent } from './premier-users/premier-users.component';
 
 @NgModule({
-  declarations: [RoomComponent],
+  declarations: [RoomComponent, ChatListComponent, ChannelDescriptionComponent, RoomUsersComponent, RoomVideoComponent, VideoActionsBtnComponent, PremierUsersComponent],
   imports: [
     CommonModule,
     RoomRoutingModule,

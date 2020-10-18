@@ -1,0 +1,30 @@
+.action {
+  &__icon {
+    position: absolute;
+    bottom: 16px;
+    width: 32px;
+    height: 32px;
+    font-size: 32px;
+    animation: fluffy 3s linear 0s infinite;
+    &--g {
+      bottom: 120px;
+      left: 24px;
+    }
+    &--b {
+      bottom: 120px;
+      left: 72px;
+    }
+    &--c {
+      bottom: 120px;
+      left: 120px;
+    }
+    &--l {
+      bottom: 120px;
+      left: 168px;
+    }
+    &--s {
+      bottom: 120px;
+      left: 216px;
+    }
+  }
+}

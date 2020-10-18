@@ -33,226 +33,43 @@
 <div class="wrapper">
   <div class="grid">
     <div class="left">
-      <div class="channel" *ngIf="room$ | async as room">
-        <div class="channel__header">
-          <figure class="channel__logo">
-            <img [src]="room.thumbnailURL" alt="" />
-          </figure>
-          <h2 class="channel__name">{{ room.title }}</h2>
-        </div>
-        <div class="channel__body">
-          <div class="channel__description">
-            <ng-container *ngIf="room.description.length; else blank">
-              <p>
-                {{ room.description }}
-              </p>
-            </ng-container>
-
-            <ng-template #blank>
-              <p>このチャンネルの概要はありません。</p>
-            </ng-template>
-          </div>
-        </div>
-      </div>
-
-      <div class="premier" *ngIf="members$ | async as members">
-        <div
-          @fade
-          @bounce
-          *ngFor="let member of members | slice: 0:6; index as i"
-          class="premier__user"
-          cdkDrag
-        >
-          <div class="premier__head" *ngIf="member.isActive">
-            <img
-              class="premier__avatar"
-              src="/assets/images/char_{{ member.avatarId }}.png"
-              alt=""
-            />
-            <p class="premier__name">{{ member.name }}</p>
-          </div>
-          <div class="premier__message" *ngIf="messages">
-            <div class="balloon" *ngFor="let message of messages[member.uid]">
-              <div class="balloon__inner">{{ message }}</div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <app-channel-description [room$]="room$"></app-channel-description>
+      <app-premier-users
+        [members$]="members$"
+        [messages]="messages"
+      ></app-premier-users>
     </div>
 
     <div class="center">
       <ng-template #nowLoading>
         <div class="spinner">
-            <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
-            <div class="spinner-inner">
-                <mat-spinner
-                class="loading"
-                diameter="56"
-                strokeWidth="2"
-              ></mat-spinner>
-            </div>
+          <p class="loading__text">動画取得中です。しばらくお待ち下さい。</p>
+          <div class="spinner-inner">
+            <mat-spinner
+              class="loading"
+              diameter="56"
+              strokeWidth="2"
+            ></mat-spinner>
+          </div>
         </div>
       </ng-template>
 
       <ng-container *ngIf="room$ | async as room">
         <div *ngIf="!room.isCreating; else nowLoading">
-          <div class="youtube">
-            <div class="youtube__display">
-              <youtube-player
-                width="100%"
-                hight="100%"
-                [videoId]="id"
-                (ready)="savePlayer($event)"
-                allowfullscreen
-              >
-              </youtube-player>
-            </div>
-
-            <div class="action">
-              <p class="action__icon action__icon--g" @fade *ngIf="isGood">
-                😍
-              </p>
-              <p class="action__icon action__icon--b" @fade *ngIf="isBad">😤</p>
-              <p class="action__icon action__icon--c" @fade *ngIf="isCry">😭</p>
-              <p class="action__icon action__icon--l" @fade *ngIf="isLagh">
-                🤣
-              </p>
-              <p class="action__icon action__icon--s" @fade *ngIf="isSuprise">
-                😲
-              </p>
-              <div class="youtube__action">
-                <button
-                  mat-fab
-                  class="youtube__action-icon"
-                  type="button"
-                  (click)="good()"
-                >
-                  😍
-                </button>
-                <button
-                  mat-fab
-                  class="youtube__action-icon"
-                  type="button"
-                  (click)="bad()"
-                >
-                  😤
-                </button>
-                <button
-                  mat-fab
-                  class="youtube__action-icon"
-                  type="button"
-                  (click)="cry()"
-                >
-                  😭
-                </button>
-                <button
-                  mat-fab
-                  class="youtube__action-icon"
-                  type="button"
-                  (click)="lagh()"
-                >
-                  🤣
-                </button>
-                <button
-                  mat-fab
-                  class="youtube__action-icon"
-                  type="button"
-                  (click)="surprise()"
-                >
-                  😲
-                </button>
-              </div>
-            </div>
-
-            <div class="users" *ngIf="members$ | async as members">
-              <div
-                @fade
-                @bounce
-                *ngFor="let member of members | slice: 7; index as i"
-                class="users__user"
-                cdkDrag
-              >
-                <div class="users__head" *ngIf="member.isActive">
-                  <img
-                    class="users__avatar"
-                    src="/assets/images/char_{{ member.avatarId }}.png"
-                    alt=""
-                  />
-                  <p class="users__name">{{ member.name }}</p>
-                </div>
-                <div class="users__message" *ngIf="messages">
-                  <div
-                    class="balloon"
-                    *ngFor="let message of messages[member.uid]"
-                  >
-                    <div class="balloon__inner">{{ message }}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <app-room-video [channelId]="channelId"></app-room-video>
+          <app-room-users
+            [members$]="members$"
+            [messages]="messages"
+          ></app-room-users>
         </div>
       </ng-container>
     </div>
 
     <div class="right">
-      <div class="chat">
-        <div class="chat-line" *ngIf="allMessages$">
-          <div
-            class="chat-line__body"
-            *ngFor="let message of allMessages$ | async"
-          >
-            <div class="chat-line__head">
-              <img
-                class="chat-line__avatar"
-                src="/assets/images/char_{{ message.avatarId }}.png"
-                alt=""
-              />
-              <div class="chat-line__name">{{ message.userName }}</div>
-              <div class="chat-line__date">
-                {{ message.createdAt.toDate() | date: 'M/d HH:mm:ss' }}
-              </div>
-            </div>
-            <div class="chat-line__comment">{{ message.comments }}</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="comment">
-        <form
-          class="comment__form"
-          *ngIf="user$ | async as user"
-          [formGroup]="form"
-          (ngSubmit)="sendMessage()"
-        >
-          <mat-form-field>
-            <mat-label>チャット</mat-label>
-            <input
-              type="text"
-              formControlName="comments"
-              matInput
-              autofocus
-              autocomplete="off"
-              required
-              #body
-            />
-            <button
-              matSuffix
-              mat-icon-button
-              [disabled]="form.invalid || form.pristine"
-            >
-              <mat-icon>send</mat-icon>
-            </button>
-            <mat-error *ngIf="form.hasError('required')"
-              >必須入力です</mat-error
-            >
-            <mat-error *ngIf="form.hasError('maxlength')"
-              >最大文字数を超えています</mat-error
-            >
-            <mat-hint align="end">{{ body.value.length }}/140文字まで</mat-hint>
-          </mat-form-field>
-        </form>
-      </div>
+      <app-chat-list
+        [allMessages$]="allMessages$"
+        [channelId]="channelId"
+      ></app-chat-list>
     </div>
   </div>
 </div>

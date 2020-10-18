@@ -35,7 +35,7 @@ export class ChatsService {
   getAllMessages(cannelId: string): Observable<Message[]> {
     return this.db
       .doc(`rooms/${cannelId}`)
-      .collection<Message>('messages', ref => ref.orderBy('createdAt', 'desc').limit(30))
+      .collection<Message>('messages', ref => ref.orderBy('createdAt', 'desc').limit(50))
       .valueChanges();
   }
 }
